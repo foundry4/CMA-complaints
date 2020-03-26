@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { body, validationResult } = require('express-validator')
+const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
 var {devices, expertise, resources} = require('../lib/constants');
