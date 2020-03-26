@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block header %}
+{% endblock %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <h1 class="govuk-heading-xl">
+            Register form
+        </h1>
+
+        {{ govukInput({
+            label: {
+                text: "Event name"
+            },
+            id: "event-name",
+            name: "event-name"
+        }) }}
+
+        <p class="govuk-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+            ut aliquip ex ea commodo consequat.
+        </p>
+
+        {{ govukDateInput({
+            id: "passport-issued",
+            namePrefix: "passport-issued",
+            fieldset: {
+                legend: {
+                text: "When was your passport issued?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+                }
+            },
+            hint: {
+                text: "For example, 12 11 2007"
+            }
+        }) }}
+
+        {{ govukRadios({
+            classes: "govuk-radios--inline",
+            idPrefix: "changed-name",
+            name: "changed-name",
+            fieldset: {
+                legend: {
+                text: "Have you changed your name?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+                }
+            },
+            hint: {
+                text: "This includes changing your last name or spelling your name differently."
+            },
+            items: [
+                {
+                value: "yes",
+                text: "Yes"
+                },
+                {
+                value: "no",
+                text: "No"
+                }
+            ]
+        }) }}
+
+    </div>
+    <div class="govuk-grid-column-full">
+
+        {{ govukButton({
+            text: "Save and continue"
+        }) }}
+
+    </div>
+
+</div>
+
+{% endblock %}

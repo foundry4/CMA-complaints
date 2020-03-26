@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+
+{% block header %}
+{% endblock %}
+
+{% set pageTitle = "Readiness to supply ventilators and ventilator components" %}
+{% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {% if errorSummary.length > 0 %}
+    {{ govukErrorSummary({
+    titleText: "There is a problem",
+    errorList: errorSummary
+    }) }}
+    {% endif %}
+    <h1 class="govuk-heading-xl">
+      Readiness to supply ventilators and ventilator components
+    </h1>
+
+    <p class="govuk-body">The Department for Business, Energy and Industrial Strategy is looking for organisations who
+      can support in the
+      supply of ventilators and ventilator components across the United Kingdom as part of the Government's response to
+      COVID-19. These questions aim to identify the suitability and readiness of organisations to be involved in the
+      initiative.
+
+    </p>
+
+    <p class="govuk-body">There are three main sections</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Basic details and contact</li>
+      <li>Supply chain experience</li>
+      <li>Business capabilities</li>
+
+    </ul>
+
+  </div>
+  <div class="govuk-grid-column-full">
+    <form id="" action="/" method="post" class="form">
+
+      <div class="govuk-form-group">
+
+        {% include "includes/form_basic.html" %}
+
+        {% include "includes/form_experience.html" %}
+
+        {% include "includes/form_capability.html" %}
+    
+  
+        <br />
+        <br />
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body">By submitting this form, you agree to the information you share about your
+              organisation being used by
+              BEIS and any other Government departments and their delivery partners in relation to this initiative,
+              and to our <a href="privacy">privacy notice</a>.</p>
+            <br />
+            <button class="govuk-button" data-module="govuk-button">
+              Submit
+            </button>
+          </div>
+        </div>
+
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+
+</div>
+
+{% endblock %}

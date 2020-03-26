@@ -1,0 +1,45 @@
+
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+Server Error
+{% endblock %}
+
+{% block header %}
+<!-- Blank header with no service name for the start page -->
+{{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+{{ super() }}
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+<!-- 
+<div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+        <li class="govuk-breadcrumbs__list-item">
+            <a class="govuk-breadcrumbs__link" href="https://www.gov.uk">Home</a>
+        </li>
+         ass="govuk-breadcrumbs__link">Subsection</a>
+      </li> 
+    </ol>
+</div>-->
+{% endblock %}
+
+
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        Sorry this service is unavailable
+      </h1>
+
+      <p class="govuk-body">
+        There has been an error while loading this page.
+      </p>
+
+    </div>
+
+  </div>
+
+{% endblock %}

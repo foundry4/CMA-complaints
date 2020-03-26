@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block pageTitle %}
+Thank you
+{% endblock %}
+
+{% block header %}
+{{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <div class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title">Thank you</h1>
+        <div class="govuk-panel__body">
+        </div>
+      </div>
+
+      <p class="govuk-body">
+        Thank you for submitting this form. Your application to offer support will be reviewed and we will respond to you using the contact details you've provided.
+      </p>
+
+    </div>
+  </div>
+
+{% endblock %}
