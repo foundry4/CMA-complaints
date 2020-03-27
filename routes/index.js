@@ -24,14 +24,18 @@ router.get('/confirm/:id',function (req, res) {
 
 router.post('/',
     [
-        // test name to fail and check refresh of other questions
-        body('primary-contact')
-            .exists()
-            .not().isEmpty().withMessage('Enter the name of the primary contact'),
         // Q1
         body('report_reason')
            .exists()
-           .not().isEmpty().withMessage('Enter the reason for your report')
+           .not().isEmpty().withMessage('Enter the reason for your report'),
+        // Q2
+        body('company-location')
+            .exists()
+            .not().isEmpty().withMessage('Please indicate the location of the company the complaint is about.'),
+        // Q4
+        body('company-sector')
+            .exists()
+            .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.')
     ],
     async (request, response) => {
         try {

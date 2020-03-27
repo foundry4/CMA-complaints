@@ -10,6 +10,7 @@
 
 
 {% block content %}
+{% set orgNameClass = "govuk-input--width-20" %}
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -40,12 +41,10 @@
     <form id="" action="/" method="post" class="form">
 
       <div class="govuk-form-group">
-
-        {% include "includes/question1.html" %}
-        {% include "includes/form_basic.html" %}
-
-
-
+        {% include "includes/q1.html" %}
+        {% include "includes/q2.html" %}
+        {% include "includes/q3.html" %}
+        {% include "includes/Q4.html" %}
         <br />
         <br />
         <div class="govuk-grid-row">
