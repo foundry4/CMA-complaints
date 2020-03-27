@@ -1,11 +1,12 @@
 --Table structure for the new table
-CREATE TABLE {{TABLE_NAME}} (
+CREATE TABLE cma_responses_1 (
     id serial PRIMARY KEY,
     reference_number VARCHAR (200),
     info JSON,
     contact_name VARCHAR (200),
     contact_phone VARCHAR (200),
     contact_email VARCHAR (200),
+    company_location VARCHAR (200);
     created_at TIMESTAMP DEFAULT now()
 );
 
