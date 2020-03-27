@@ -1,0 +1,51 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="company-sector-hint">
+        {{ govukRadios({
+        idPrefix: "company-sector",
+        name: "company-sector",
+        fieldset: {
+        legend: {
+        text: "4. Where is the business you are reporting based?",
+        isPageHeading: false,
+        classes: "govuk-body-l"
+        }
+        },
+        items: [
+        {
+        value: "pharmaceuticals",
+        text: "Pharmaceuticals",
+        checked: values["company-sector"] == "pharmaceuticals"
+        },
+        {
+        value: "food_drink",
+        text: "Food and drink",
+        checked: values["company-sector"] == "food_drink"
+        },
+        {
+        value: "hospitality",
+        text: "Hospitality",
+        checked: values["company-sector"] == "hospitality"
+        },
+        {
+        value: "other",
+        text: "Other (please provide the sector below)",
+        checked: values["company-sector"] == "other"
+        }
+        ],
+        errorMessage: errors["company-sector"]
+
+        }) }}
+    </fieldset>
+    <fieldset class="govuk-fieldset" aria-describedby="company-name-hint">
+        {{ govukInput({
+        classes: "govuk-input--width-20",
+        label: {
+        text: "If you selected other, what is the sector of the business that you are reporting?"
+        },
+        id: "company-sector-detail",
+        name: "company-sector-detail",
+        value: values["company-sector-detail"],
+        errorMessage: errors["company-sector-detail"]
+        }) }}
+    </fieldset>
+</div>

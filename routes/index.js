@@ -22,7 +22,9 @@ router.get('/confirm/:id',function (req, res) {
 })
 
 router.post('/',
-    [],
+    [body('company-sector')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))

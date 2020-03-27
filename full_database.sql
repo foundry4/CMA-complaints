@@ -9,7 +9,9 @@ CREATE TABLE {{TABLE_NAME}} (
 );
 --Update to add created_at
 ALTER TABLE {{TABLE_NAME}}
-ADD created_at TIMESTAMP DEFAULT now();
+ADD created_at TIMESTAMP DEFAULT now()
+ADD company_sector VARCHAR (200)
+ADD company_sector_detail VARCHAR (200)
 
 --To restart the sequence from a specified number (useful when changing between databases) use the following command
 SELECT setval('cma_responses_id_seq', 21, true);
