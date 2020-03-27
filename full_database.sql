@@ -9,21 +9,11 @@ CREATE TABLE {{TABLE_NAME}} (
 );
 --Update to add created_at
 ALTER TABLE {{TABLE_NAME}}
-<<<<<<< HEAD
-ADD company_location VARCHAR (200);
-ALTER TABLE {{TABLE_NAME}}
-ADD compay_name VARCHAR (200);
-ALTER TABLE {{TABLE_NAME}}
+ADD company_location VARCHAR (200),
+ADD compay_name VARCHAR (200),
+ADD company_sector VARCHAR (200),
+ADD company_sector_detail VARCHAR (200),
 ADD created_at TIMESTAMP DEFAULT now();
-=======
-ADD created_at TIMESTAMP DEFAULT now()
-ADD company_sector VARCHAR (200)
-ADD company_sector_detail VARCHAR (200)
->>>>>>> 5dfeff3c15302e1ba93569e8fcdb3b2cbd1882c6
 
-
-
-ALTER TABLE {{TABLE_NAME}}
-ADD company_name  VARCHAR (200);
 --To restart the sequence from a specified number (useful when changing between databases) use the following command
 SELECT setval('cma_responses_id_seq', 21, true);
