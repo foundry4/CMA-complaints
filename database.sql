@@ -16,6 +16,7 @@ CREATE TABLE cma_responses_234 (
     company_sector VARCHAR (200),
     company_sector_detail VARCHAR (200),
     description TEXT,
+    company_address VARCHAR (200),
     created_at TIMESTAMP DEFAULT now()
 );
 
