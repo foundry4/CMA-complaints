@@ -48,9 +48,8 @@ router.post('/',
             .exists()
             .not().isEmpty().withMessage('Please indicate if there is evidence of the issue.'),
         // Q9
-        body('contact-email')
-            .exists()
-            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
+        body('contact-email').if(body('contact-email').notEmpty())
+            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com'),
     ],
     async (request, response) => {
         try {
