@@ -5,7 +5,7 @@ CREATE TABLE {{TABLE_NAME}} (
     info JSON,
     contact_name VARCHAR (200),
     contact_phone VARCHAR (200),
-    contact_email VARCHAR (200),
+    contact_email VARCHAR (200)
 );
 --Update to add created_at
 ALTER TABLE {{TABLE_NAME}}
@@ -18,10 +18,8 @@ ADD COLUMN report_business_pricing BOOLEAN DEFAULT FALSE,
 ADD COLUMN report_market_advantage BOOLEAN DEFAULT FALSE,
 ADD COLUMN report_misleading_claims BOOLEAN DEFAULT FALSE,
 ADD COLUMN report_cancellation BOOLEAN DEFAULT FALSE,
-ADD COLUMN report_reason_other VARCHAR (200),
 ADD COLUMN description TEXT,
-ADD created_at TIMESTAMP DEFAULT now();
-
+ADD COLUMN report_other VARCHAR (200),
 ADD created_at TIMESTAMP DEFAULT now();
 
 --To restart the sequence from a specified number (useful when changing between databases) use the following command
