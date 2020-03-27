@@ -2,10 +2,7 @@
 CREATE TABLE {{TABLE_NAME}} (
     id serial PRIMARY KEY,
     reference_number VARCHAR (200),
-    info JSON,
-    contact_name VARCHAR (200),
-    contact_phone VARCHAR (200),
-    contact_email VARCHAR (200)
+    info JSON
 );
 --Update to add created_at
 ALTER TABLE {{TABLE_NAME}}
