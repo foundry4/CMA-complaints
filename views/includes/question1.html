@@ -1,42 +1,42 @@
-{% set orgNameClass = "govuk-input--width-20" %}
+
+    <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="report-hint">
+   
+          <span id="report-hint" class="govuk-hint">
+            1.What do you want to report? (Required)
+          </span>
+          <div class="govuk-checkboxes">
+            {% for item in reports %}
+              {{ govukCheckboxes({
+              idPrefix: 'report-'+loop.index,
+              name: "report",
+              items: [
+                {
+                  value: item.name,
+                  html: item.text,
+                  checked: values["report"]|length and item.name in values["report"]
+                }
+              ],
+              errorMessage: errors["report"]
+              }) }}
+            {% endfor %}
+          </div>
+          <br />
+        {{ govukInput({
+            label: {
+                text: "If you answered Other, please provide further details."
+            },
+            classes: "govuk-input--width-20",
+            id: "report",
+            name: "report",
+            value: values["report-other"],
+            errorMessage: errors["report-other"]
+          }) }}
+  
+        </fieldset>
+      </div>
 
 
-QUSETION !
-<fieldset class="govuk-fieldset" aria-describedby="basic-hint basic-error">
 
-  {{ govukInput({
-    label: {
-    text: "Primary contact full name"
-    },
-    classes: "govuk-input--width-20",
-    id: "primary-contact",
-    name: "primary-contact",
-    value: values["primary-contact"],
-    errorMessage: errors["primary-contact"]
-  }) }}
-
-  {{ govukInput({
-    label: {
-    text: "Primary contact telephone number"
-    },
-    classes: "govuk-input--width-20",
-    id: "phone",
-    name: "phone",
-    value: values["phone"],
-    errorMessage: errors["phone"]
-  }) }}
-  {{ govukInput({
-    label: {
-    text: "Primary contact email address"
-    },
-    classes: "govuk-input--width-20",
-    id: "email",
-    name: "email",
-    pattern: "^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$",
-    value: values["email"],
-    errorMessage: errors["email"]
-  }) }}
-
-</fieldset>
 
 <br />
