@@ -11,5 +11,7 @@ CREATE TABLE {{TABLE_NAME}} (
 ALTER TABLE {{TABLE_NAME}}
 ADD created_at TIMESTAMP DEFAULT now();
 
+ALTER TABLE {{TABLE_NAME}}
+ADD company_name  VARCHAR (200);
 --To restart the sequence from a specified number (useful when changing between databases) use the following command
 SELECT setval('cma_responses_id_seq', 21, true);
