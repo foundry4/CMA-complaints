@@ -13,6 +13,7 @@ ADD company_location VARCHAR (200),
 ADD compay_name VARCHAR (200),
 ADD company_sector VARCHAR (200),
 ADD company_sector_detail VARCHAR (200),
+ADD COLUMN description TEXT;
 ADD created_at TIMESTAMP DEFAULT now();
 
 --To restart the sequence from a specified number (useful when changing between databases) use the following command
