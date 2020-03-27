@@ -6,6 +6,8 @@ CREATE TABLE {{TABLE_NAME}} (
     contact_name VARCHAR (200),
     contact_phone VARCHAR (200),
     contact_email VARCHAR (200),
+    company_sector VARCHAR (200),
+    company_sector_detail VARCHAR (200),
     created_at TIMESTAMP DEFAULT now()
 );
 
