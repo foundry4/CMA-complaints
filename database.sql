@@ -1,4 +1,4 @@
-CREATE TABLE responses (
+CREATE TABLE cma_responses (
     id serial PRIMARY KEY,
     Info JSON,
     contact_name VARCHAR (200),
