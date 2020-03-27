@@ -1,0 +1,30 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="evidence-hint">
+        {{ govukRadios({
+        idPrefix: "evidence",
+        name: "evidence",
+        fieldset: {
+        legend: {
+        text: "9.Do you have evidence or supporting documents for this issue? (required)",
+        isPageHeading: false,
+        classes: "govuk-body-l"
+        }
+        },
+        items: [
+            {
+        value: true,
+        text: "Yes",
+        checked: values["evidence"] == 'true'
+        },
+        {
+        value: false,
+        text: "No",
+        checked: values["evidence"] == 'false'
+        }
+        ],
+        errorMessage: errors["evidence"]
+
+        }) }}
+
+    </fieldset>
+</div>

@@ -42,7 +42,11 @@ router.post('/',
         // Q6
         body('description')
             .exists()
-            .not().isEmpty().withMessage('Please give a full description of the issue.')
+            .not().isEmpty().withMessage('Please give a full description of the issue.'),
+        // Q9
+        body('evidence')
+            .exists()
+            .not().isEmpty().withMessage('Please indicate if there is evidence of the issue.')
     ],
     async (request, response) => {
         try {
