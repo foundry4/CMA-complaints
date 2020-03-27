@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 
-
 {% block header %}
 {% endblock %}
 
@@ -13,64 +12,66 @@
 {% set orgNameClass = "govuk-input--width-20" %}
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    {% if errorSummary.length > 0 %}
-    {{ govukErrorSummary({
-    titleText: "There is a problem",
-    errorList: errorSummary
-    }) }}
-    {% endif %}
-    <h1 class="govuk-heading-xl">
-      Tell us about a business you think is acting unfairly during the Coronavirus outbreak
-    </h1>
+    <div class="govuk-grid-column-two-thirds">
+        {% if errorSummary.length > 0 %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorSummary
+        }) }}
+        {% endif %}
+        <h1 class="govuk-heading-xl">
+            Tell us about a business you think is acting unfairly during the Coronavirus outbreak
+        </h1>
 
-    <p class="govuk-body">
-      Use this form to report a business you think is acting unfairly during the Coronavirus / COVID-19 outbreak.
-    </p>
-    <p class="govuk-body">
-      We can’t respond to individual reports directly but we’re monitoring all the information provided closely and will
-      take action where appropriate.
-      We’ll also publish updates online as required.
+        <p class="govuk-body">
+            Use this form to report a business you think is acting unfairly during the Coronavirus / COVID-19 outbreak.
+        </p>
+        <p class="govuk-body">
+            We can’t respond to individual reports directly but we’re monitoring all the information provided closely
+            and will
+            take action where appropriate.
+            We’ll also publish updates online as required.
+        </p>
 
-    </p>
+    </div>
+    <div class="govuk-grid-column-full">
+        <form id="" action="/" method="post" class="form">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="govuk-form-group">
+                    {% include "includes/q1.html" %}
+                    {% include "includes/q2.html" %}
+                    {% include "includes/q3.html" %}
+                    {% include "includes/q4.html" %}
+                    {% include "includes/q5.html" %}
+                    {% include "includes/q6.html" %}
+                    {% include "includes/q7.html" %}
+                    {% include "includes/q8.html" %}
+                    {% include "includes/q9.html" %}
+                    {% include "includes/q10.html" %}
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <p class="govuk-body">By submitting this form, you agree to the information you share about your
+                        organisation being used by
+                        BEIS and any other Government departments and their delivery partners in relation to this
+                        initiative,
+                        and to our <a href="privacy">privacy notice</a>.</p>
+                    <br/>
+                    <button class="govuk-button" data-module="govuk-button">
+                        Submit
+                    </button>
+                </div>
+            </div>
 
-  </div>
-  <div class="govuk-grid-column-full">
-    <form id="" action="/" method="post" class="form">
 
-      <div class="govuk-form-group">
-        {% include "includes/q1.html" %}
-        {% include "includes/q2.html" %}
-        {% include "includes/q3.html" %}
-        {% include "includes/q4.html" %}
-        {% include "includes/q5.html" %}
-        {% include "includes/q6.html" %}
-        {% include "includes/q7.html" %}
-        {% include "includes/q8.html" %}
-        {% include "includes/q9.html" %}
-        {% include "includes/q10.html" %}
-        <br />
-        <br />
-        <div class="govuk-grid-row">
-          <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">By submitting this form, you agree to the information you share about your
-              organisation being used by
-              BEIS and any other Government departments and their delivery partners in relation to this initiative,
-              and to our <a href="privacy">privacy notice</a>.</p>
-            <br />
-            <button class="govuk-button" data-module="govuk-button">
-              Submit
-            </button>
-          </div>
-        </div>
-
-
-      </div>
+    </div>
 
     </form>
 
-  </div>
-
+</div>
 
 
 </div>
