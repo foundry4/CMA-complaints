@@ -18,7 +18,7 @@ ADD COLUMN report_business_pricing BOOLEAN DEFAULT FALSE,
 ADD COLUMN report_market_advantage BOOLEAN DEFAULT FALSE,
 ADD COLUMN report_misleading_claims BOOLEAN DEFAULT FALSE,
 ADD COLUMN report_cancellation BOOLEAN DEFAULT FALSE,
-ADD COLUMN report_reason_other VARCHAR (200),
+ADD COLUMN report_other VARCHAR (200),
 ADD created_at TIMESTAMP DEFAULT now();
 
 ADD created_at TIMESTAMP DEFAULT now();

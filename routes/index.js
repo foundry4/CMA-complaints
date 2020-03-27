@@ -4,12 +4,13 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-var {devices, expertise, resources} = require('../lib/constants');
+var {reports} = require('../lib/constants');
 
 
 // GET home page
 router.get('/', function (req, res, next) {
   res.render('index', {
+    reports
   });
 });
 
@@ -22,12 +23,20 @@ router.get('/confirm/:id',function (req, res) {
 })
 
 router.post('/',
-    [body('company-location')
-        .exists()
-        .not().isEmpty().withMessage('Please indicate the location of the company the complaint is about.'),
-    body('company-sector')
-        .exists()
-        .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.')],
+    [
+        // Q1
+        body('report_reason')
+           .exists()
+           .not().isEmpty().withMessage('Enter the reason for your report'),
+        // Q2
+        body('company-location')
+            .exists()
+            .not().isEmpty().withMessage('Please indicate the location of the company the complaint is about.'),
+        // Q4
+        body('company-sector')
+            .exists()
+            .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.')
+    ],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
@@ -47,9 +56,7 @@ router.post('/',
                 console.log('found errors in validation');
                 try {
                     response.render('index', {
-                        devices: devices,
-                        expertise: expertise,
-                        resources: resources,
+                        reports,
                         errors,
                         errorSummary,
                         values: request.body, // In production this should sanitized.

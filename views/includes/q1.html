@@ -1,0 +1,42 @@
+
+    <div class="govuk-form-group">
+        <fieldset class="govuk-fieldset" aria-describedby="report-hint">
+   
+          <span id="report-hint" class="govuk-hint">
+            1.What do you want to report?
+          </span>
+          <div class="govuk-checkboxes">
+            {% for item in reports %}
+              {{ govukCheckboxes({
+              idPrefix: 'report_reason-'+loop.index,
+              name: "report_reason",
+              items: [
+                {
+                  value: item.name,
+                  html: item.text,
+                  checked: values["report_reason"]|length and item.name in values["report_reason"]
+                }
+              ],
+              errorMessage: errors["report_reason"]
+              }) }}
+            {% endfor %}
+          </div>
+          <br />
+        {{ govukInput({
+            label: {
+                text: "If you answered Other, please provide further details."
+            },
+            classes: "govuk-input--width-20",
+            id: "report_other",
+            name: "report_other",
+            value: values["report_other"],
+            errorMessage: errors["report_other"]
+          }) }}
+  
+        </fieldset>
+      </div>
+
+
+
+
+<br />
