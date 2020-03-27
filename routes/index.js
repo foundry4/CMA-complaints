@@ -64,6 +64,8 @@ router.post('/',
             }
             else {
                 let errorSummary = Object.values(errors);
+                console.log(errors);
+                
                 console.log('found errors in validation');
                 try {
                     response.render('index', {

@@ -1,12 +1,30 @@
+{% set formGroupClass = "govuk-form-group" %}
 
-    <div class="govuk-form-group">
+{% if errors["report_reason"] %}
+{% set formGroupClass = formGroupClass + " govuk-form-group--error" %}
+{% endif %}
+
+    <div class="{{formGroupClass}}">
         <fieldset class="govuk-fieldset" aria-describedby="report_reason-hint">
 
           <span id="report_reason-hint" class="govuk-hint">
-          <span id="report-hint" class="govuk-body-l">
-            1.What do you want to report?
           </span>
-          <div class="govuk-checkboxes">
+          <span id="nationality-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ errors["report_reason"].text }}
+          </span>
+
+          {% call govukFieldset({
+            legend: {
+              text: "1.What do you want to report?",
+              classes: "govuk-body-l",
+              isPageHeading: false
+            },
+            errorMessage: {
+              text:  errors["report_reason"].text
+            }
+          }) %}
+      
+
             {% for item in reports %}
               {{ govukCheckboxes({
               idPrefix: 'report_reason-'+loop.index,
@@ -17,12 +35,10 @@
                   html: item.text,
                   checked: values["report_reason"]|length and item.name in values["report_reason"]
                 }
-              ],
-              errorMessage: errors["report_reason"]
+              ]
               }) }}
             {% endfor %}
-          </div>
-          <br />
+
         {{ govukInput({
             label: {
                 text: "If you answered Other, please provide further details."
@@ -34,7 +50,8 @@
             errorMessage: errors["report_other"]
           }) }}
   
-        </fieldset>
+          {% endcall %}
+
       </div>
 
 
