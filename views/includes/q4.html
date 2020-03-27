@@ -37,8 +37,10 @@
         }) }}
     </fieldset>
     <fieldset class="govuk-fieldset" aria-describedby="company-name-hint">
-        {{ govukInput({
+        {{ govukCharacterCount({
         classes: "govuk-input--width-20",
+        maxlength: 200,
+        rows: 1,
         label: {
         text: "If you selected other, what is the sector of the business that you are reporting?"
         },
