@@ -13,33 +13,28 @@ Server Error
 {% block beforeContent %}
 {{ super() }}
 <a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
-<!-- 
-<div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-        <li class="govuk-breadcrumbs__list-item">
-            <a class="govuk-breadcrumbs__link" href="https://www.gov.uk">Home</a>
-        </li>
-         ass="govuk-breadcrumbs__link">Subsection</a>
-      </li> 
-    </ol>
-</div>-->
 {% endblock %}
 
 
-
 {% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
-        Sorry this service is unavailable
-      </h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
 
-      <p class="govuk-body">
-        There has been an error while loading this page.
-      </p>
-
-    </div>
-
+    <p class="govuk-body">Try again later.</p>
+    <p class="govuk-body">We have not saved your answers. When the service is available, you will have to start again.</p>
+    <p class="govuk-body">Contact the CMA if you have any questions.</p>
+    <p class="govuk-body"><b>Telephone:</b><br>020 3738 6000</p>
+    <p class="govuk-body"><b>Email:</b><br><a href="mailto:general.enquiries@cma.gov.uk?Subject=Coronavirus%20/%20COVID-19%20outbreak%20-%20unfair%20business">general.enquiries@cma.gov.uk</a></p>
+    <p class="govuk-body"><b>Postal address:</b><br>
+      Complaints Manager<br>
+      Contacts Team<br>
+      Competition and Markets Authority<br>
+      The Cabot,<br>
+      25 Cabot Square,<br>
+      London<br>
+      E14 4QZ
+    </p>
   </div>
-
+</div>
 {% endblock %}
