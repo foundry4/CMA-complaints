@@ -24,7 +24,10 @@ router.get('/confirm/:id',function (req, res) {
 router.post('/',
     [body('company-location')
         .exists()
-        .not().isEmpty().withMessage('Please indicate the location of the company the complaint is about.')],
+        .not().isEmpty().withMessage('Please indicate the location of the company the complaint is about.'),
+    body('company-sector')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))

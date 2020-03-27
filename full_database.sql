@@ -9,11 +9,17 @@ CREATE TABLE {{TABLE_NAME}} (
 );
 --Update to add created_at
 ALTER TABLE {{TABLE_NAME}}
+<<<<<<< HEAD
 ADD company_location VARCHAR (200);
 ALTER TABLE {{TABLE_NAME}}
 ADD compay_name VARCHAR (200);
 ALTER TABLE {{TABLE_NAME}}
 ADD created_at TIMESTAMP DEFAULT now();
+=======
+ADD created_at TIMESTAMP DEFAULT now()
+ADD company_sector VARCHAR (200)
+ADD company_sector_detail VARCHAR (200)
+>>>>>>> 5dfeff3c15302e1ba93569e8fcdb3b2cbd1882c6
 
 
 
