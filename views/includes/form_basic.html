@@ -6,27 +6,6 @@
 
   {{ govukInput({
     label: {
-    text: "1. Add the name and contact details for your company."
-    },
-    classes: orgNameClass,
-    id: "organisation-name",
-    name: "organisation-name",
-    value: values["organisation-name"],
-    errorMessage: errors["organisation-name"]
-  }) }}
-  
-  {{ govukInput({
-    label: {
-      text: "Company number (optional)"
-    },
-    classes: "govuk-input--width-20",
-    id: "company-number",
-    name: "company-number",
-    value: values["company-number"]
-  }) }}
-
-  {{ govukInput({
-    label: {
     text: "Primary contact full name"
     },
     classes: "govuk-input--width-20",
@@ -34,17 +13,6 @@
     name: "primary-contact",
     value: values["primary-contact"],
     errorMessage: errors["primary-contact"]
-  }) }}
-
-  {{ govukInput({
-    label: {
-    text: "Primary contact role at organisation"
-    },
-    classes: "govuk-input--width-20",
-    id: "primary-contact-role",
-    name: "primary-contact-role",
-    value: values["primary-contact-role"],
-    errorMessage: errors["primary-contact-role"]
   }) }}
 
   {{ govukInput({
