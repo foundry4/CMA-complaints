@@ -1,0 +1,36 @@
+
+{{ govukCheckboxes({
+"name": "with-conditional-items",
+"idPrefix": "how-contacted",
+"fieldset": {
+"legend": {
+"text": "How do you want to be contacted?"
+}
+},
+"items": [
+{
+"value": "email",
+"text": "Email",
+"conditional": {
+"html": "<label class=\"govuk-label\" for=\"current_price\">Current Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"current_price\" type=\"text\" id=\"current_price\">\n
+<label class=\"govuk-label\" for=\"expected_price\">Expected Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"expected_price\" type=\"text\" id=\"expected_price\">\n"
+}
+},
+{
+"value": "phone",
+"text": "Phone",
+"conditional": {
+"html": "<label class=\"govuk-label\" for=\"contact-phone\">Phone number</label>\n<input class=\"govuk-input govuk-!-width-one-third\" name=\"contact-phone\" type=\"text\" id=\"contact-phone\">\n"
+}
+},
+{
+"value": "text",
+"text": "Text message",
+"conditional": {
+"html": "<label class=\"govuk-label\" for=\"contact-text-message\">Mobile phone number</label>\n<input class=\"govuk-input govuk-!-width-one-third\" name=\"contact-text-message\" type=\"text\" id=\"contact-text-message\">\n"
+}
+}
+]
+}) }}
