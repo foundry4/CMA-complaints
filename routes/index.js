@@ -51,7 +51,6 @@ router.post('/',
         body('contact-email')
             .exists()
             .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
-            .not().isEmpty().withMessage('Enter your email address')
     ],
     async (request, response) => {
         try {
