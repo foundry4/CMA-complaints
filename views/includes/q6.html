@@ -1,0 +1,14 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="description-hint">
+        {{ govukTextarea({
+            label: {
+              text: "6.Please provide a description of the issue. (required)"
+            },
+            rows: 5,
+            id: "description",
+            name: "description",
+            value: values["description"],
+            errorMessage: errors["description"]
+          }) }}
+    </fieldset>
+</div>
