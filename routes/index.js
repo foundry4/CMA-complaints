@@ -35,6 +35,10 @@ router.post('/',
         body('company-sector')
             .exists()
             .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.'),
+        // Q5
+        body('product')
+            .exists()
+            .not().isEmpty().withMessage('Please give the name of the product.'),
         // Q6
         body('description')
             .exists()

@@ -1,5 +1,5 @@
 --Table structure for the new table
-CREATE TABLE cma_responses_7 (
+CREATE TABLE cma_responses_8 (
     id serial PRIMARY KEY,
     reference_number VARCHAR (200),
     info JSON,
@@ -16,6 +16,7 @@ CREATE TABLE cma_responses_7 (
     product VARCHAR (200),
     description TEXT,
     company_address VARCHAR (200),
+    company_postcode VARCHAR (200),
     created_at TIMESTAMP DEFAULT now()
 );
 
