@@ -1,7 +1,9 @@
 <div class="govuk-form-group">
     <fieldset class="govuk-fieldset" aria-describedby="description-hint">
-        {{ govukTextarea({
-            label: {
+        {{ govukCharacterCount({
+        maxlength: 500,
+        threshold: 50,
+        label: {
               text: "6. Please provide a description of the issue."
             },
             rows: 5,
