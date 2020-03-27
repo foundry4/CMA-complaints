@@ -17,6 +17,9 @@ CREATE TABLE cma_responses_8 (
     description TEXT,
     company_address VARCHAR (200),
     company_postcode VARCHAR (200),
+    contact_name VARCHAR (200),
+    contact_number VARCHAR (200),
+    contact_email VARCHAR (200),
     created_at TIMESTAMP DEFAULT now()
 );
 

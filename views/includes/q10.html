@@ -1,0 +1,40 @@
+
+<p class="govuk-body">10. If you would be happy for us to get in touch to follow up on your answers, or ask for more information, please share your contact details below.</p>
+<fieldset class="govuk-fieldset" aria-describedby="basic-hint basic-error">
+
+  {{ govukInput({
+    label: {
+    text: "Contact name"
+    },
+    classes: "govuk-input--width-20",
+    id: "contact-name",
+    name: "contact-name",
+    value: values["contact-name"],
+    errorMessage: errors["contact-name"]
+  }) }}
+  
+  {{ govukInput({
+    label: {
+    text: "Telephone number"
+    },
+    classes: "govuk-input--width-20",
+    id: "contact-number",
+    name: "contact-number",
+    value: values["contact-number"],
+    errorMessage: errors["contact-number"]
+  }) }}
+  {{ govukInput({
+    label: {
+    text: "Email address"
+    },
+    classes: "govuk-input--width-20",
+    id: "contact-email",
+    name: "contact-email",
+    pattern: "^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$",
+    value: values["contact-email"],
+    errorMessage: errors["contact-email"]
+  }) }}
+
+</fieldset>
+
+<br />
