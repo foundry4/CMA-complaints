@@ -13,25 +13,27 @@ Thank you
 {% endblock %}
 
 
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
 {% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {{ govukPanel({
+    titleText: "Report complete",
+    html: "Your reference number<br><strong>"+id+"</strong>"
+    }) }}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m">What happens next</h2>
 
-      <div class="govuk-panel govuk-panel--confirmation">
-        <h1 class="govuk-panel__title">Reference Number: {{id}}</h1>
-        <div class="govuk-panel__body">
-        </div>
-      </div>
-
-      <p class="govuk-body">
-        Thank you for submitting this form.
-      </p>
-      <p class="govuk-body">
-        We can’t respond to individual reports directly but we’re monitoring all the information provided closely and will take action where appropriate. Updates will be published <a href="https://www.gov.uk/government/organisations/competition-and-markets-authority">here</a>
-      </p>
-
-    </div>
+    <p class="govuk-body">
+      We’ve sent your report to the Competition and Markets Authority. They will not respond to individual reports but are monitoring all the information provided and will take actions where appropriate.
+    </p>
+    <p class="govuk-body">
+      Updates will be published <a href ="https://www.gov.uk/government/organisations/competition-and-markets-authority">here</a>
+    </p>
   </div>
-
+</div>
 {% endblock %}
+
