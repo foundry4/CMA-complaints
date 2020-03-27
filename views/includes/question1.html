@@ -8,16 +8,16 @@
           <div class="govuk-checkboxes">
             {% for item in reports %}
               {{ govukCheckboxes({
-              idPrefix: 'report-'+loop.index,
-              name: "report",
+              idPrefix: 'report_reason-'+loop.index,
+              name: "report_reason",
               items: [
                 {
                   value: item.name,
                   html: item.text,
-                  checked: values["report"]|length and item.name in values["report"]
+                  checked: values["report_reason"]|length and item.name in values["report_reason"]
                 }
               ],
-              errorMessage: errors["report"]
+              errorMessage: errors["report_reason"]
               }) }}
             {% endfor %}
           </div>
@@ -27,10 +27,10 @@
                 text: "If you answered Other, please provide further details."
             },
             classes: "govuk-input--width-20",
-            id: "report",
-            name: "report",
-            value: values["report-other"],
-            errorMessage: errors["report-other"]
+            id: "report_other",
+            name: "report_other",
+            value: values["report_other"],
+            errorMessage: errors["report_other"]
           }) }}
   
         </fieldset>

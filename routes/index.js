@@ -24,7 +24,12 @@ router.get('/confirm/:id',function (req, res) {
 
 router.post('/',
     [
-        body('report')
+        // test name to fail and check refresh of other questions
+        body('primary-contact')
+            .exists()
+            .not().isEmpty().withMessage('Enter the name of the primary contact'),
+        // Q1
+        body('report_reason')
            .exists()
            .not().isEmpty().withMessage('Enter the reason for your report')
     ],
