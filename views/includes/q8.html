@@ -1,0 +1,14 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="company_postcode-hint">
+    {{ govukInput({
+        label: {
+            text: "8. If you know it, please provide the postcode of the business you are reporting below (not applicable if the business is online only) (Optional)"
+        },
+        classes: "govuk-input--width-20",
+        id: "company_postcode",
+        name: "company_postcode",
+        value: values["company_postcode"],
+        errorMessage: errors["company_postcode"]
+    }) }}
+    </fieldset>
+</div>
