@@ -1,0 +1,239 @@
+{% set formGroupClass = "govuk-form-group" %}
+
+{% if errors["product"] %}
+{% set formGroupClass = formGroupClass + " govuk-form-group--error" %}
+{% endif %}
+<div class="{{formGroupClass}}">
+
+    <p class="govuk-body">8. Please select the product(s) in question from the list below</p>
+    <div>
+        <p class="govuk-body"><b>Food products</b></p>
+        {% for item in food_products %}
+
+        {% set itemClass = "govuk-form-group" %}
+        {% set errorMessage = " " %}
+        {% set errorClass = "" %}
+        {% if errors["pasta_pack_size"] %}
+        {% set itemClass = itemClass + " govuk-form-group--error" %}
+        {% set errorClass = errorClass + "  govuk-input--error" %}
+        {% set errorMessage = "<span id=\"event-name-error\" class=\"govuk-error-message\"><span class=\"govuk-visually-hidden\">Error:</span> Enter a valid size</span>" %}
+        {% endif %}
+            {{ govukCheckboxes({
+                idPrefix: 'product-'+loop.index,
+                name: "product",
+                items: [
+                    {
+                        value: item.name,
+                        checked: values["product"]|length and item.name in values["product"],
+                        text: item.text,
+                        "conditional": {
+                            "html": "
+                                <div class=\"govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"50\">
+                                    <div class=\"govuk-form-group\">
+                                        <label class=\"govuk-label\" for=\""+item.name+"_product_type\">
+                                            Product type
+                                        </label>
+                                        <textarea class=\"govuk-textarea govuk-js-character-count\" id=\""+item.name+"_product_type\" name=\""+item.name+"_product_type\" rows=\"1\" aria-describedby=\""+item.name+"_product_type-info\"></textarea>
+                                    </div>
+                                    <span id=\""+item.name+"_product_type-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\">
+                                        You can enter up to 50 characters
+                                    </span>
+                                </div>\n
+
+                                <div class=\"govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"50\">
+                                    <div class=\"govuk-form-group\">
+                                        <label class=\"govuk-label\" for=\""+item.name+"_product_brand\">
+                                            Product brand
+                                        </label>
+                                        <textarea class=\"govuk-textarea govuk-js-character-count\" id=\""+item.name+"_product_brand\" name=\""+item.name+"_product_brand\" rows=\"1\" aria-describedby=\""+item.name+"_product_brand-info\"></textarea>
+                                    </div>
+                                    <span id=\""+item.name+"_product_brand-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\">
+                                    You can enter up to 50 characters
+                                    </span>
+                                </div>
+
+                            <div class=\"govuk-form-group "+itemClass+"\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_pack_size\">
+                                    Pack size
+                                </label>
+                                <span id=\""+item.name+"_pack_size-hint\" class=\"govuk-hint\">
+                                    Must be a valid integer
+                                </span>"+errorMessage+"
+
+                                <input class=\"govuk-input "+errorClass+"\" id=\""+item.name+"_pack_size\" name=\""+item.name+"_pack_size\" type=\"text\">
+
+                            </div>
+
+
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_current_price\">
+                                    Current Price (£)
+                                </label>
+                                <span id=\""+item.name+"_current_price-hint\" class=\"govuk-hint\">
+                                    Must be a valid price excluding the currency symbol e.g. 1.99
+                                </span>
+                                <input class=\"govuk-input\" id=\""+item.name+"_current_price\" name=\""+item.name+"_current_price\" type=\"text\" pattern=\"^\\d*(\\.\\d{2}$)?\"  title=\"CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional\">
+                            </div>
+
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_expected_price\">
+                                    Expected Price (£)
+                                </label>
+                                <span id=\""+item.name+"_expected_price-hint\" class=\"govuk-hint\">
+                                Must be a valid price excluding the currency symbol e.g. 1.99
+                              </span>
+                                <input class=\"govuk-input\" id=\""+item.name+"_expected_price\" name=\""+item.name+"_expected_price\" type=\"text\" pattern=\"^\\d*(\\.\\d{2}$)?\"  title=\"CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional\">
+                            </div>"
+                        }
+                    }
+                ]
+            }) }}
+        {% endfor %}
+    </div>
+
+    <div>
+        <p class="govuk-body"><b>Hygiene & personal care products</b></p>
+        {% for item in hygiene_products %}
+            {{ govukCheckboxes({
+                idPrefix: 'product-'+loop.index,
+                name: "product",
+                items: [
+                    {
+                    value: item.name,
+                    checked: values["product"]|length and item.name in values["product"],
+                    text: item.text,
+                    "conditional": {
+                    "html": "
+                        <div class=\"govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"50\">
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_product_type\">
+                                    Product type
+                                </label>
+                                <textarea class=\"govuk-textarea govuk-js-character-count\" id=\""+item.name+"_product_type\" name=\""+item.name+"_product_type\" rows=\"1\" aria-describedby=\""+item.name+"_product_type-info\"></textarea>
+                            </div>
+                            <span id=\""+item.name+"_product_type-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\">
+                            You can enter up to 50 characters
+                            </span>
+                        </div>\n
+
+                        <div class=\"govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"50\">
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_product_brand\">
+                                    Product brand
+                                </label>
+                                <textarea class=\"govuk-textarea govuk-js-character-count\" id=\""+item.name+"_product_brand\" name=\""+item.name+"_product_brand\" rows=\"1\" aria-describedby=\""+item.name+"_product_brand-info\"></textarea>
+                            </div>
+                            <span id=\""+item.name+"_product_brand-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\">
+                            You can enter up to 50 characters
+                            </span>
+                        </div>
+
+                        <div class=\"govuk-form-group\">
+                            <label class=\"govuk-label\" for=\""+item.name+"_pack_size\">
+                                Pack size
+                            </label>
+                            <span id=\""+item.name+"_pack_size-hint\" class=\"govuk-hint\">
+                                                Must be a valid integer
+                                            </span>
+                            <input class=\"govuk-input\" id=\""+item.name+"_pack_size\" name=\""+item.name+"_pack_size\" type=\"text\">
+                        </div>
+
+                        <div class=\"govuk-form-group\">
+                            <label class=\"govuk-label\" for=\""+item.name+"_current_price\">
+                                Current Price (£)
+                            </label>
+                            <span id=\""+item.name+"_current_price-hint\" class=\"govuk-hint\">
+                                               CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional
+                                            </span>
+                            <input class=\"govuk-input\" id=\""+item.name+"_current_price\" name=\""+item.name+"_current_price\" type=\"text\" pattern=\"^\\d*(\\.\\d{2}$)?\"  title=\"CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional\">
+                        </div>
+
+                        <div class=\"govuk-form-group\">
+                            <label class=\"govuk-label\" for=\""+item.name+"_expected_price\">
+                                Expected Price (£)
+                            </label>
+                            <span id=\""+item.name+"_expected_price-hint\" class=\"govuk-hint\">
+                                CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional
+                              </span>
+                            <input class=\"govuk-input\" id=\""+item.name+"_expected_price\" name=\""+item.name+"_expected_price\" type=\"text\" pattern=\"^\\d*(\\.\\d{2}$)?\"  title=\"CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional\">
+                        </div>"
+                        }
+                    }
+                ]
+            }) }}
+        {% endfor %}
+    </div>
+
+    <div>
+        <p class="govuk-body"><b>Medical products</b></p>
+        {% for item in medical_products %}
+            {{ govukCheckboxes({
+                idPrefix: 'product-'+loop.index,
+                name: "product",
+                items: [
+                    {
+                        value: item.name,
+                        checked: values["product"]|length and item.name in values["product"],
+                        text: item.text,
+                        "conditional": {
+                            "html": "
+                            <div class=\"govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"50\">
+                                <div class=\"govuk-form-group\">
+                                    <label class=\"govuk-label\" for=\""+item.name+"_product_type\">
+                                        Product type
+                                    </label>
+                                    <textarea class=\"govuk-textarea govuk-js-character-count\" id=\""+item.name+"_product_type\" name=\""+item.name+"_product_type\" rows=\"1\" aria-describedby=\""+item.name+"_product_type-info\"></textarea>
+                                </div>
+                                <span id=\""+item.name+"_product_type-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\">
+                                You can enter up to 50 characters
+                                </span>
+                            </div>\n
+
+                            <div class=\"govuk-character-count\" data-module=\"govuk-character-count\" data-maxlength=\"50\">
+                                <div class=\"govuk-form-group\">
+                                    <label class=\"govuk-label\" for=\""+item.name+"_product_brand\">
+                                        Product brand
+                                    </label>
+                                    <textarea class=\"govuk-textarea govuk-js-character-count\" id=\""+item.name+"_product_brand\" name=\""+item.name+"_product_brand\" rows=\"1\" aria-describedby=\""+item.name+"_product_brand-info\"></textarea>
+                                </div>
+                                <span id=\""+item.name+"_product_brand-info\" class=\"govuk-hint govuk-character-count__message\" aria-live=\"polite\">
+                                You can enter up to 50 characters
+                                </span>
+                            </div>
+
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_pack_size\">
+                                    Pack size
+                                </label>
+                                <span id=\""+item.name+"_pack_size-hint\" class=\"govuk-hint\">
+                                                        Must be a valid integer
+                                                    </span>
+                                <input class=\"govuk-input\" id=\""+item.name+"_pack_size\" name=\""+item.name+"_pack_size\" type=\"text\" pattern=\"[0-9]*\">
+                            </div>
+
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_current_price\">
+                                    Current Price (£)
+                                </label>
+                                <span id=\""+item.name+"_current_price-hint\" class=\"govuk-hint\">
+                                                        CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional
+                                                    </span>
+                                <input class=\"govuk-input\" id=\""+item.name+"_current_price\" name=\""+item.name+"_current_price\" type=\"text\" pattern=\"^\\d*(\\.\\d{2}$)?\"  title=\"CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional\">
+                            </div>
+
+                            <div class=\"govuk-form-group\">
+                                <label class=\"govuk-label\" for=\""+item.name+"_expected_price\">
+                                    Expected Price (£)
+                                </label>
+                                <span id=\""+item.name+"_expected_price-hint\" class=\"govuk-hint\">
+                                                    CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional
+                                                  </span>
+                                <input class=\"govuk-input\" id=\""+item.name+"_expected_price\" name=\""+item.name+"_expected_price\" type=\"text\" pattern=\"^\\d*(\\.\\d{2}$)?\"  title=\"CDA Currency Format - no dollar sign and no comma(s) - cents (.##) are optional\">
+                            </div>"
+                        }
+                    }
+                ]
+            }) }}
+        {% endfor %}
+    </div>
+</div>

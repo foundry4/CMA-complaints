@@ -1,0 +1,30 @@
+{% set formGroupClass = "govuk-form-group" %}
+
+{% if errors["product"] %}
+{% set formGroupClass = formGroupClass + " govuk-form-group--error" %}
+{% endif %}
+
+<div class="{{formGroupClass}}">
+
+    <p class="govuk-body">8. Please select the product(s) in question from the list below</p>
+    <div>
+        <p class="govuk-body"><b>Food products</b></p>
+        {% for item in food_products %}
+            {% include "./hidden_product.html" %}
+        {% endfor %}
+    </div>
+
+    <div>
+        <p class="govuk-body"><b>Hygiene & personal care products</b></p>
+        {% for item in hygiene_products %}
+            {% include "./hidden_product.html" %}
+        {% endfor %}
+    </div>
+
+    <div>
+        <p class="govuk-body"><b>Medical products</b></p>
+        {% for item in medical_products %}
+            {% include "./hidden_product.html" %}
+        {% endfor %}
+    </div>
+</div>

@@ -24,6 +24,21 @@ ADD COLUMN evidence VARCHAR (200),
 ADD COLUMN contact_name VARCHAR (200),
 ADD COLUMN contact_number VARCHAR (200),
 ADD COLUMN contact_email VARCHAR (200),
+ADD COLUMN long_life_milk_current_price NUMERIC(10, 2),
+ADD COLUMN long_life_milk_expected_price NUMERIC(10, 2),
+ADD COLUMN pasta_current_price NUMERIC(10, 2),
+ADD COLUMN pasta_expected_price NUMERIC(10, 2),
+ADD COLUMN pasta_product BOOLEAN DEFAULT FALSE,
+ADD COLUMN toilet_roll_product BOOLEAN DEFAULT FALSE,
+ADD COLUMN antiseptic_product BOOLEAN DEFAULT FALSE,
+
+ADD COLUMN long_life_milk_product BOOLEAN DEFAULT FALSE,
+add COLUMN long_life_milk_product_type VARCHAR (50),
+add COLUMN long_life_milk_product_brand VARCHAR (50),
+add COLUMN long_life_milk_pack_size INT,
+add COLUMN long_life_milk_current_price NUMERIC(10,2),
+add COLUMN long_life_milk_expected_price NUMERIC(10,2),
+
 ADD created_at TIMESTAMP DEFAULT now();
 
 --To restart the sequence from a specified number (useful when changing between databases) use the following command

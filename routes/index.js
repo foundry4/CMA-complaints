@@ -4,14 +4,20 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-var {reports} = require('../lib/constants');
+var {reports,food_products,hygiene_products,medical_products} = require('../lib/constants');
 
 
 // GET home page
 router.get('/', function (req, res, next) {
-  res.render('index', {
-    reports
-  });
+  try {
+      res.render('index', {
+          reports,
+          food_products,
+          hygiene_products,
+          medical_products
+      });
+  }
+  catch(err){console.log(err.toString())}
 });
 
 router.get('/privacy', function (req, res) {
@@ -35,10 +41,10 @@ router.post('/',
         body('company-sector')
             .exists()
             .not().isEmpty().withMessage('Please indicate the sector of the company the complaint is about.'),
-        // Q5
-        body('product')
-            .exists()
-            .not().isEmpty().withMessage('Please give the name of the product.'),
+        body('product').exists()
+            .not().isEmpty().withMessage('Please indicate at least one product which the complaint is about.'),
+        body('pasta_pack_size').if(body('pasta_pack_size').notEmpty())
+            .isInt().withMessage('Please enter a valid pack size'),
         // Q6
         body('description')
             .exists()
@@ -53,6 +59,7 @@ router.post('/',
     ],
     async (request, response) => {
         try {
+            console.log('json body = ', request.body);
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
                 console.log('no errors in validation');
@@ -73,6 +80,9 @@ router.post('/',
                 try {
                     response.render('index', {
                         reports,
+                        food_products,
+                        hygiene_products,
+                        medical_products,
                         errors,
                         errorSummary,
                         values: request.body, // In production this should sanitized.
