@@ -6,7 +6,7 @@ const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
 
 const {reports,food_products,hygiene_products,medical_products} = require('../lib/constants');
-
+const products = [...food_products,...hygiene_products,...medical_products];
 
 // GET home page
 router.get('/', function (req, res, next) {
@@ -31,26 +31,26 @@ router.get('/confirm/:id',function (req, res) {
 
 const validate_pack_sizes =(body)=>{
     const array = [];
-    for (index in food_products){
-        const name = food_products[index].name+'_pack_size';
+    for (index in products){
+        const name = products[index].name+'_pack_size';
         array.push(body(name)
             .if(body(name).notEmpty())
-            .isInt().withMessage('Enter a valid pack size'));
+            .isInt().withMessage('Enter a valid pack size for '+products[index].text));
     }
     return array;
 }
 
 const validate_expected_price =(body)=>{
     const array = [];
-    for (index in food_products){
-        const current_name = food_products[index].name+'_current_price';
+    for (index in products){
+        const current_name = products[index].name+'_current_price';
         array.push(body(current_name)
             .if(body(current_name).notEmpty())
-            .isNumeric().withMessage('Enter a valid curent price'));
-        const expected_name = food_products[index].name+'_expected_price';
+            .isNumeric().withMessage('Enter a valid curent price for '+products[index].text));
+        const expected_name = products[index].name+'_expected_price';
         array.push(body(expected_name)
             .if(body(expected_name).notEmpty())
-            .isNumeric().withMessage('Enter a valid expected price'));
+            .isNumeric().withMessage('Enter a valid expected price for '+products[index].text));
     }
     return array;
 }
