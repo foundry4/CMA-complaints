@@ -1,4 +1,4 @@
-
+<!--Prepare the hidden boxes-->
 {% set textHtml %}
     {{ govukCharacterCount({
         classes: "govuk-input--width-20",
@@ -70,25 +70,18 @@
 
 {% endset -%}
 
-{% set itemClass = "govuk-form-group" %}
-{% set errorMessage = " " %}
-{% set errorClass = "" %}
-{% if errors["pasta_pack_size"] %}
-{% set itemClass = itemClass + " govuk-form-group--error" %}
-{% set errorClass = errorClass + "  govuk-input--error" %}
-{% set errorMessage = "<span id=\"event-name-error\" class=\"govuk-error-message\"><span class=\"govuk-visually-hidden\">Error:</span> Enter a valid size</span>" %}
-{% endif %}
+<!--Render the main checkbox-->
 {{ govukCheckboxes({
-idPrefix: 'product-'+loop.index,
-name: "product",
-items: [
-{
-value: item.name,
-checked: values["product"]|length and item.name in values["product"],
-text: item.text,
-"conditional": {
-"html": textHtml
-}
-}
-]
+    idPrefix: 'product-'+loop.index,
+    name: "product",
+    items: [
+        {
+            value: item.name,
+            checked: values["product"]|length and item.name in values["product"],
+            text: item.text,
+            "conditional": {
+                "html": textHtml
+            }
+        }
+    ]
 }) }}

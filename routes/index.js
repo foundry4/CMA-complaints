@@ -4,7 +4,8 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-var {reports,food_products,hygiene_products,medical_products} = require('../lib/constants');
+
+const {reports,food_products,hygiene_products,medical_products} = require('../lib/constants');
 
 
 // GET home page
@@ -27,6 +28,32 @@ router.get('/privacy', function (req, res) {
 router.get('/confirm/:id',function (req, res) {
   res.render("confirm",{id:req.params.id});
 })
+
+const validate_pack_sizes =(body)=>{
+    const array = [];
+    for (index in food_products){
+        const name = food_products[index].name+'_pack_size';
+        array.push(body(name)
+            .if(body(name).notEmpty())
+            .isInt().withMessage('Enter a valid pack size'));
+    }
+    return array;
+}
+
+const validate_expected_price =(body)=>{
+    const array = [];
+    for (index in food_products){
+        const current_name = food_products[index].name+'_current_price';
+        array.push(body(current_name)
+            .if(body(current_name).notEmpty())
+            .isNumeric().withMessage('Enter a valid curent price'));
+        const expected_name = food_products[index].name+'_expected_price';
+        array.push(body(expected_name)
+            .if(body(expected_name).notEmpty())
+            .isNumeric().withMessage('Enter a valid expected price'));
+    }
+    return array;
+}
 
 router.post('/',
     [   // Q1
@@ -56,6 +83,9 @@ router.post('/',
         // Q10
         body('contact-email').if(body('contact-email').notEmpty())
             .isEmail().withMessage('Enter an email address in the correct format, like name@example.com'),
+        // new q8
+        ...validate_pack_sizes(body),
+        ... validate_expected_price(body)
     ],
     async (request, response) => {
         try {
