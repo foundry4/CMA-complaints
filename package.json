@@ -16,7 +16,10 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.1",
-    "pg": "^7.18.2"
+    "pg": "^7.18.2",
+    "redis": "latest",
+    "express-session": "latest",
+    "connect-redis": "latest"
   },
   "devDependencies": {
     "connect-livereload": "^0.6.1",

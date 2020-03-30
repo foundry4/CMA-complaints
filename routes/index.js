@@ -16,13 +16,29 @@ router.get('/', function (req, res, next) {
 
 router.get('/what_behaviour', function (req, res) {
     res.render('what_behaviour', {
-        reports
+        reports,
+        values: req.session.data
     });
 });
+router.post('/what_behaviour', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('what_behaviour');
+});
+
 router.get('/what_happened', function (req, res) {
+    console.log('what happened')
     res.render('what_happened', {
-        reports
+        reports,
+        values: req.session.data
     });
+});
+router.post('/what_happened', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('what_happened');
+});
+router.post('/summary', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    console.log('final data = ',req.session.data);
 });
 
 router.get('/which_products', function (req, res) {
@@ -36,24 +52,46 @@ router.get('/where_was_behaviour', function (req, res) {
 });
 router.get('/more_information', function (req, res) {
     res.render('more_information', {});
+    
 });
 router.get('/evidence', function (req, res) {
-    res.render('evidence', {});
+    res.render('evidence', {values: req.session.data});
 });
+router.post('/evidence', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('evidence');
+});
+
 router.get('/when_behaviour', function (req, res) {
-    res.render('when_behaviour', {});
+    console.log('when',req.session)
+    res.render('when_behaviour', {values: req.session.data});
+});
+router.post('/when_behaviour', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('when_behaviour');
 });
 
+
+router.post('/contact_details', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('contact_details');
+});
 router.get('/contact_details', function (req, res) {
-    res.render('contact_details', {});
+    console.log('contact',req.session)
+    res.render('contact_details', {values: req.session.data});
 });
 
+router.post('/where_is_business', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('/where_is_business');
+});
 router.get('/where_is_business', function (req, res) {
-  res.render('where_is_business', {});
+    console.log('where is business',req.session)
+    res.render('where_is_business', {values: req.session.data});
 });
 
 router.get('/privacy', function (req, res) {
-  res.render('privacy', {});
+  res.render('privacy', {values: req.session.data});
 });
 
 router.get('/confirm/:id',function (req, res) {
@@ -91,6 +129,7 @@ router.post('/',
     ],
     async (request, response) => {
         try {
+            request.session.data = {...request.session.data,...request.body};
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
                 console.log('no errors in validation');

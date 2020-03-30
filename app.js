@@ -19,6 +19,42 @@ var app = express();
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+/*
+const redis = require('redis');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
+var client = redis.createClient();
+// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+app.use(session({
+  secret: 'keyboard cat',
+  // create new redis store.
+  store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
+  saveUninitialized: true,
+  resave: false
+}));
+
+*/
+
+var url = require('url');
+// var redis = require('redis');
+
+var redisURL = url.parse(process.env.REDISTOGO_URL);
+const redis = require('redis');
+var session = require('express-session');
+var redisStore = require('connect-redis')(session);
+var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+client.auth(redisURL.auth.split(":")[1]);
+
+const redis_config = { host: redisURL.hostname?redisURL.hostname:'localhost', port: redisURL.port?redisURL.port:6379, client: client,ttl :  260};
+app.use(session({
+  secret: 'keyboard cat',
+  // create new redis store.
+  store: new redisStore(redis_config),
+  saveUninitialized: true,
+  resave: false
+}));
+
+
 // only load refresh libs in devt
 if (process.env.NODE_ENV === 'development') {
   connectLivereload = require("connect-livereload");
