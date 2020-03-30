@@ -8,6 +8,7 @@ var livereload;
 const nunjucks = require('nunjucks');
 const redis = require('redis');
 const env = (process.env.NODE_ENV || 'development').toLowerCase();
+const utils = require('./lib/utils.js')
 
 console.log('NODE_ENV', process.env.NODE_ENV);
 console.log('env', env);
@@ -29,16 +30,15 @@ if (process.env.NODE_ENV === 'development') {
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
 var client = redis.createClient();
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
+// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.use(session({
   secret: 'keyboard cat',
   // create new redis store.
   store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-  saveUninitialized: false,
+  saveUninitialized: true,
   resave: false
 }));
-
-
+app.use(utils.autoStoreData);
 
 // view engine setup
 let appViews = [
@@ -51,7 +51,9 @@ let nunjucksConfig = {
   express: app
 }
 // set up nunjucjs
-nunjucks.configure(appViews, nunjucksConfig) 
+var nunjucksAppEnv = nunjucks.configure(appViews, nunjucksConfig)
+utils.addCheckedFunction(nunjucksAppEnv)
+
 app.set('view engine', 'html')
 
 app.use(logger('dev'));

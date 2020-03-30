@@ -11,6 +11,7 @@ const products = [...food_products,...hygiene_products,...medical_products];
 // GET home page
 router.get('/', function (req, res, next) {
   try {
+      req.session.key="test";
       res.render('index', {
           reports,
           food_products,
@@ -89,12 +90,14 @@ router.post('/',
     ],
     async (request, response) => {
         try {
-            console.log('json body = ', request.body);
+            request.session.data = {...request.session.data,...request.body};
+
+            console.log('json body = ', request.session);
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
                 console.log('no errors in validation');
                 try {
-                    const ref = await save_to_cma_db(request.body,request);
+                    const ref = await save_to_cma_db(request.session.data,request);
                     response.redirect('/confirm/'+ref);
                 }
                 catch (err){
@@ -105,9 +108,10 @@ router.post('/',
             else {
                 let errorSummary = Object.values(errors);
                 console.log(errors);
-                
+                console.log('session = ',request.session)
                 console.log('found errors in validation');
                 try {
+                    request.session.data = {...request.session.data,...request.body};
                     response.render('index', {
                         reports,
                         food_products,
