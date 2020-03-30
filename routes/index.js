@@ -19,6 +19,11 @@ router.get('/what_behaviour', function (req, res) {
     reports
   });
 });
+router.get('/contact_details', function (req, res) {
+  res.render('contact_details', {
+    reports
+  });
+});
 
 router.get('/privacy', function (req, res) {
   res.render('privacy', {});

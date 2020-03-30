@@ -1,17 +1,41 @@
 <div class="govuk-form-group">
 
-<p class="govuk-body">10. If you would be happy for us to get in touch to follow up on your answers, or ask for more information, please share your contact details below. (Optional)</p>
-<fieldset class="govuk-fieldset" aria-describedby="basic-hint basic-error">
+  {% call govukFieldset({
+    legend: {
+      text: "What are your contact details?",
+      classes: "govuk-fieldset__legend--xl",
+      isPageHeading: true
+    }
+  }) %}
 
   {{ govukInput({
+    fieldset: {
+      legend: {
+        text: "What are your contact details?",
+        isPageHeading: true,
+        classes: "govuk-fieldset__legend--xl"
+      }
+    },
     label: {
-    text: "Contact name"
+    text: "Full name"
     },
     classes: "govuk-input--width-20",
     id: "contact-name",
     name: "contact-name",
     value: values["contact-name"],
     errorMessage: errors["contact-name"]
+  }) }}
+  
+  {{ govukInput({
+    label: {
+      text: "Email address"
+    },
+    classes: "govuk-input--width-20",
+    id: "contact-email",
+    name: "contact-email",
+    pattern: "^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$",
+    value: values["contact-email"],
+    errorMessage: errors["contact-email"]
   }) }}
   
   {{ govukInput({
@@ -24,18 +48,7 @@
     value: values["contact-number"],
     errorMessage: errors["contact-number"]
   }) }}
-  {{ govukInput({
-    label: {
-    text: "Email address"
-    },
-    classes: "govuk-input--width-20",
-    id: "contact-email",
-    name: "contact-email",
-    pattern: "^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$",
-    value: values["contact-email"],
-    errorMessage: errors["contact-email"]
-  }) }}
 
-</fieldset>
+{% endcall %}
 
 </div>
