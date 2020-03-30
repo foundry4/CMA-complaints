@@ -25,6 +25,9 @@ router.get('/what_happened', function (req, res) {
     });
 });
 
+router.get('/evidence', function (req, res) {
+    res.render('evidence', {});
+});
 router.get('/when_behaviour', function (req, res) {
     res.render('when_behaviour', {});
 });
