@@ -14,23 +14,22 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/where_is_business', function (req, res) {
-  res.render('where_is_business', {
-    reports
-  });
-});
 router.get('/what_behaviour', function (req, res) {
-  res.render('what_behaviour', {
-    reports
-  });
+    res.render('what_behaviour', {
+        reports
+    });
 });
+
 router.get('/when_behaviour', function (req, res) {
-  res.render('when_behaviour', {});
+    res.render('when_behaviour', {});
 });
+
 router.get('/contact_details', function (req, res) {
-  res.render('contact_details', {
-    reports
-  });
+    res.render('contact_details', {});
+});
+
+router.get('/where_is_business', function (req, res) {
+  res.render('where_is_business', {});
 });
 
 router.get('/privacy', function (req, res) {
