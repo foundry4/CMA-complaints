@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-var {reports} = require('../lib/constants');
+var {reports, questions} = require('../lib/constants');
 
 
 // GET home page
@@ -36,9 +36,19 @@ router.post('/what_happened', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     res.redirect('what_happened');
 });
+
+router.get('/summary', function (req, res) {
+    var data = Object.keys(req.session.data);
+    var final = Object.keys(req.session.data).map(function (key) { return {name:key, value:req.session.data[key]} });
+    console.log(final);
+    
+    res.render('summary', {final, questions});
+});
+
 router.post('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     console.log('final data = ',req.session.data);
+    res.redirect('summary');
 });
 
 router.get('/which_products', function (req, res) {
