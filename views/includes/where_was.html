@@ -1,0 +1,33 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="is-online-hint">
+        {{ govukRadios({
+        idPrefix: "is-online",
+        name: "is-online",
+        fieldset: {
+            legend: {
+                text: "Where did you see the unfair behaviour?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+            }
+        },
+        hint: {
+            text: ""
+        },
+        items: [
+            {
+        value: true,
+        text: "Online",
+        checked: values["is-online"] == 'true'
+        },
+        {
+        value: false,
+        text: "In store",
+        checked: values["is-online"] == 'false'
+        }
+        ],
+        errorMessage: errors["is-online"]
+
+        }) }}
+
+    </fieldset>
+</div>

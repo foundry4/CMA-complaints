@@ -25,6 +25,9 @@ router.get('/what_happened', function (req, res) {
     });
 });
 
+router.get('/where_was_behaviour', function (req, res) {
+    res.render('where_was_behaviour', {});
+});
 router.get('/more_information', function (req, res) {
     res.render('more_information', {});
 });
