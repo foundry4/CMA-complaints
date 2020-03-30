@@ -38,7 +38,6 @@ app.use(session({
   saveUninitialized: true,
   resave: false
 }));
-app.use(utils.autoStoreData);
 
 // view engine setup
 let appViews = [
@@ -51,8 +50,7 @@ let nunjucksConfig = {
   express: app
 }
 // set up nunjucjs
-var nunjucksAppEnv = nunjucks.configure(appViews, nunjucksConfig)
-utils.addCheckedFunction(nunjucksAppEnv)
+nunjucks.configure(appViews, nunjucksConfig)
 
 app.set('view engine', 'html')
 
@@ -63,7 +61,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-//app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

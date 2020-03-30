@@ -11,12 +11,14 @@ const products = [...food_products,...hygiene_products,...medical_products];
 // GET home page
 router.get('/', function (req, res, next) {
   try {
-      req.session.key="test";
+      // if we have a session, reuse
+      const values = req.session? req.session.data?req.session.data:{}:{};
       res.render('index', {
           reports,
           food_products,
           hygiene_products,
-          medical_products
+          medical_products,
+          values
       });
   }
   catch(err){console.log(err.toString())}
@@ -119,7 +121,7 @@ router.post('/',
                         medical_products,
                         errors,
                         errorSummary,
-                        values: request.body, // In production this should sanitized.
+                        values: request.session.data, // In production this should sanitized.
                     });
                 } catch (err) {
                     console.log('failed to render page', err.toString())
