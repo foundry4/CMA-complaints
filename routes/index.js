@@ -39,10 +39,28 @@ router.post('/what_happened', function (req, res) {
 
 router.get('/summary', function (req, res) {
     var data = Object.keys(req.session.data);
-    var final = Object.keys(req.session.data).map(function (key) { return {name:key, value:req.session.data[key]} });
+/*     var data =  { description: 'happened',
+    'expiry-day': '28',
+    'expiry-month': '3',
+    'expiry-year': '2020',
+    'contact-name': 'Mr X',
+    'contact-email': 'x@y.com',
+    'contact-number': '01743 875656',
+    'business-name': 'organisation x',
+    'street-name': 'street',
+    'town-name': 'emmerdale',
+    county: '',
+    postcode: 'm13 9pl' };
+     */
+    // loop through the answers and create a row object
+    var final = Object.keys(questions).map(function (key) { 
+        console.log(key);
+        
+        return {name:questions[key].text, value:data[key], url:questions[key].url} 
+    });
     console.log(final);
     
-    res.render('summary', {final, questions});
+    res.render('summary', {final});
 });
 
 router.post('/summary', function (req, res) {
