@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-const {reports,food_products,hygiene_products,medical_products, questions} = require('../lib/constants');
+const {reports,food_products,hygiene_products,medical_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
 const products = [...food_products,...hygiene_products,...medical_products];
 
 
@@ -68,29 +68,70 @@ router.post('/what_happened', function (req, res) {
 router.get('/summary', function (req, res) {
     var data = req.session.data;
     console.log(data);
-    
-/*     var data =  { description: 'happened',
+
+
+
+/*     
+    var data =  { description: ' describe the behaviour you are reporting, such as in what way the business is making misleading claims. Do not include personal or financial information, like your credit card details. ',
     'expiry-day': '28',
     'expiry-month': '3',
     'expiry-year': '2020',
     'contact-name': 'Mr X',
     'contact-email': 'x@y.com',
+    'more-info': true,
     'contact-number': '01743 875656',
     'business-name': 'organisation x',
     'street-name': 'street',
     'town-name': 'emmerdale',
+    'report_reason':'cancellation',
     county: '',
     postcode: 'm13 9pl' };
-     */
-    // loop through the answers and create a row object
-    var final = Object.keys(questions).map(function (key) { 
+      */
+
+    // loop through the business
+    var business = Object.keys(business_section).map(function (key) { 
         console.log(key);
-        
-        return {name:questions[key].text, value:data[key], url:questions[key].url} 
+        return {name:business_section[key].text, value:data[key], url:business_section[key].url} 
     });
-    console.log(final);
+    // loop through the reasons
+    var date = data['expiry-day'] + " "+ data['expiry-month']+ " "+ data['expiry-year'];
+    var reason = Object.keys(business_reason).map(function (key) { 
+        console.log(key);
+        var val = data[key];
+        if (key === 'date'){
+            val = date;
+        }
+        if (key === 'report_reason' ){
+            if(data['reason_other']){
+                val = data[key];
+            }else{   
+
+                for (var i = 0; i < reports.length; i++) {
+                    if (reports[i].name == data[key]) {
+                        val = reports[i].text;
+                    }
+                }
+            }
+
+        }
+        return {name:business_reason[key].text, value:val, url:business_reason[key].url} 
+    });
+
+    // loop through the contacts
+    var contacts = Object.keys(contact_section).map(function (key) { 
+        console.log(key);
+        return {name:contact_section[key].text, value:data[key], url:contact_section[key].url} 
+    });
+
+
     
-    res.render('summary', {final});
+    console.log(contacts);
+    
+    res.render('summary', {
+        business,
+        reason,
+        contacts
+    });
 });
 
 router.post('/summary', function (req, res) {
