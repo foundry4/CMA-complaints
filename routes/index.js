@@ -51,6 +51,10 @@ router.get('/which_products', function (req, res) {
 router.get('/what_is_business_url', function (req, res) {
     res.render('what_is_business_url', {});
 });
+router.post('/where_was_behaviour', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('where_was_behaviour');
+});
 router.get('/where_was_behaviour', function (req, res) {
     res.render('where_was_behaviour', {});
 });
