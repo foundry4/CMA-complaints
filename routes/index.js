@@ -264,10 +264,42 @@ router.get('/when_behaviour', function (req, res) {
     console.log('when',req.session)
     res.render('when_behaviour', {values: req.session.data});
 });
-router.post('/when_behaviour', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('when_behaviour');
-});
+router.post('/when_behaviour',
+    [ body('date-day')
+        .exists()
+        .not().isEmpty().withMessage('Enter the day of the report'),
+        body('date-month')
+            .exists()
+            .not().isEmpty().withMessage('Enter the month of the report'),
+        body('date-year')
+            .exists()
+            .not().isEmpty().withMessage('Enter the year of the report') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/evidence');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('when_behaviour', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 
 router.post('/contact_details', function (req, res) {
