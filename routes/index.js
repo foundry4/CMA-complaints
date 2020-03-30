@@ -14,6 +14,11 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/where_is_business', function (req, res) {
+  res.render('where_is_business', {
+    reports
+  });
+});
 router.get('/what_behaviour', function (req, res) {
   res.render('what_behaviour', {
     reports

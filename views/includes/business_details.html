@@ -1,0 +1,72 @@
+<div class="govuk-form-group">
+
+    <fieldset class="govuk-fieldset" aria-describedby="report_reason-hint">
+        <h1 class="govuk-heading-xl">Where is the business?</h1>
+
+        <span id="report_reason-hint" class="govuk-hint">
+            The store where you saw the unfair behaviour.
+        </span>
+        <span id="nationality-error" class="govuk-error-message">
+          <span class="govuk-visually-hidden">Error:</span> {{ errors["business-location"].text }}
+        </span>
+
+    {{ govukInput({
+        label: {
+        text: "Business name"
+        },
+        classes: "govuk-input--width-20",
+        id: "business-name",
+        name: "business-name",
+        value: values["business-name"],
+        errorMessage: errors["business-name"]
+    }) }}
+
+    {{ govukInput({
+        label: {
+        text: "Street name (optional)"
+        },
+        classes: "govuk-input--width-20",
+        id: "street-name",
+        name: "street-name",
+        value: values["street-name"],
+        errorMessage: errors["street-name"]
+    }) }}
+
+    {{ govukInput({
+        label: {
+        text: "Town or city"
+        },
+        classes: "govuk-input--width-20",
+        id: "town-name",
+        name: "town-name",
+        value: values["town-name"],
+        errorMessage: errors["town-name"]
+    }) }}
+
+    {{ govukInput({
+        label: {
+        text: "County (optional)"
+        },
+        classes: "govuk-input--width-20",
+        id: "county",
+        name: "county",
+        value: values["county"],
+        errorMessage: errors["county"]
+    }) }}
+
+    {{ govukInput({
+        label: {
+        text: "Postcode"
+        },
+        classes: "govuk-input--width-20",
+        id: "postcode",
+        name: "postcode",
+        value: values["postcode"],
+        errorMessage: errors["postcode"]
+    }) }}
+    
+
+
+  </fieldset>
+
+</div>
