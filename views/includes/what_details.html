@@ -1,0 +1,27 @@
+<div class="govuk-form-group">
+    {% call govukFieldset({
+        legend: {
+          text: "What happened?",
+          classes: "govuk-fieldset__legend--xl",
+          isPageHeading: true
+        }
+      }) %}
+
+        {{ govukCharacterCount({
+        maxlength: 500,
+        threshold: 50,
+        label: {
+              text: "Please provide a description of the issue."
+            },
+        hint: {
+              text: "Please describe the behaviour you are reporting, such as in what way the business is making misleading claims. Do not include personal or financial information, like your credit card details."
+            },
+            rows: 5,
+            id: "description",
+            name: "description",
+            value: values["description"],
+            errorMessage: errors["description"]
+          }) }}
+    
+    {% endcall %}
+</div>

@@ -19,6 +19,11 @@ router.get('/what_behaviour', function (req, res) {
         reports
     });
 });
+router.get('/what_happened', function (req, res) {
+    res.render('what_happened', {
+        reports
+    });
+});
 
 router.get('/when_behaviour', function (req, res) {
     res.render('when_behaviour', {});
