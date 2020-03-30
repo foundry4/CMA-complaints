@@ -2,27 +2,20 @@
     For which products is the business raising prices unfairly?
 </h1>
 
-
 <p class="govuk-hint">
     These are the most commonly reported products. For each product, please provide a description of the product, the current raised price, the original price (pre COVID-19 outbreak) and, if you know it, the pack size.
 </p>
 <div>
     <p class="govuk-body"><b>Food products</b></p>
-    {% for item in food_products %}
-    {% include "includes/hidden_item.html" %}
-    {% endfor %}
+    {% include "includes/food_products.html" %}
 </div>
 
 <div>
     <p class="govuk-body"><b>Hygiene & personal care products</b></p>
-    {% for item in hygiene_products %}
-    {% include "includes/hidden_item.html" %}
-    {% endfor %}
+    {% include "includes/hygiene_products.html" %}
 </div>
 
 <div>
     <p class="govuk-body"><b>Medical products</b></p>
-    {% for item in medical_products %}
-    {% include "includes/hidden_item.html" %}
-    {% endfor %}
+    {% include "includes/medical_products.html" %}
 </div>

@@ -1,0 +1,93 @@
+{% for item in food_products %}
+{% include "includes/hidden_item.html" %}
+{% endfor %}
+
+<!--Prepare the hidden boxes-->
+{% set textHtml %}
+{{ govukCharacterCount({
+classes: "govuk-input--width-20",
+maxlength: 50,
+label: {
+text: "Product name"
+},
+rows: 1,
+id: "other_food_product_name",
+name: "other_food_product_name",
+value: values["other_food_product_name"],
+errorMessage: errors["other_food_product_name"]
+}) }}
+
+{{ govukCharacterCount({
+classes: "govuk-input--width-20",
+maxlength: 50,
+label: {
+text: "Description of product"
+},
+rows: 1,
+id: "other_food_product_description",
+name: "other_food_product_description",
+value: values["other_food_product_description"],
+errorMessage: errors["other_food_product_description"]
+}) }}
+
+{{ govukInput({
+label: {
+text: "Raised Price (£)"
+},
+hint: {
+text: "CDA Currency Format - no pound sign and no comma(s) - pence (.) are optional"
+},
+classes: "govuk-input--width-20",
+id: "other_food_current_price",
+name: "other_food_current_price",
+value: values["other_food_current_price"],
+errorMessage: errors["other_food_current_price"]
+}) }}
+
+{{ govukInput({
+label: {
+text: "Original Price (£)"
+},
+hint: {
+text: " CDA Currency Format - no dollar sign and no comma(s) - pence (.) are optional"
+},
+classes: "govuk-input--width-20",
+id: "other_food_expected_price",
+name: "other_food_expected_price",
+value: values["other_food_expected_price"],
+errorMessage: errors["other_food_expected_price"]
+}) }}
+
+
+
+{{ govukInput({
+label: {
+text: "Pack size"
+},
+hint: {
+text: "Must be a valid integer"
+},
+classes: "govuk-input--width-20",
+id: "other_food_pack_size",
+name: "other_food_pack_size",
+value: values["other_food_pack_size"],
+errorMessage: errors["other_food_pack_size"]
+}) }}
+
+{% endset -%}
+
+<!--Render the main checkbox-->
+{{ govukCheckboxes({
+idPrefix: 'product-'+loop.index,
+name: "product",
+items: [
+{
+value: other_food,
+checked: values["product"]|length and other_food in values["product"],
+text: "Other food product",
+"conditional": {
+"html": textHtml
+}
+}
+]
+}) }}

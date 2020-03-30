@@ -19,24 +19,8 @@ var app = express();
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
-/*
-const redis = require('redis');
-var session = require('express-session');
-var redisStore = require('connect-redis')(session);
-var client = redis.createClient();
-// app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
-app.use(session({
-  secret: 'keyboard cat',
-  // create new redis store.
-  store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
-  saveUninitialized: true,
-  resave: false
-}));
-
-*/
 
 var url = require('url');
-// var redis = require('redis');
 
 var redisURL = url.parse(process.env.REDISTOGO_URL);
 const redis = require('redis');

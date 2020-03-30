@@ -1,0 +1,93 @@
+{% for item in hygiene_products %}
+{% include "includes/hidden_item.html" %}
+{% endfor %}
+
+<!--Prepare the hidden boxes-->
+{% set textHtml %}
+{{ govukCharacterCount({
+classes: "govuk-input--width-20",
+maxlength: 50,
+label: {
+text: "Product name"
+},
+rows: 1,
+id: "other_hygiene_product_name",
+name: "other_hygiene_product_name",
+value: values["other_hygiene_product_name"],
+errorMessage: errors["other_hygiene_product_name"]
+}) }}
+
+{{ govukCharacterCount({
+classes: "govuk-input--width-20",
+maxlength: 50,
+label: {
+text: "Description of product"
+},
+rows: 1,
+id: "other_hygiene_product_description",
+name: "other_hygiene_product_description",
+value: values["other_hygiene_product_description"],
+errorMessage: errors["other_hygiene_product_description"]
+}) }}
+
+{{ govukInput({
+label: {
+text: "Raised Price (£)"
+},
+hint: {
+text: "CDA Currency Format - no pound sign and no comma(s) - pence (.) are optional"
+},
+classes: "govuk-input--width-20",
+id: "other_hygiene_current_price",
+name: "other_hygiene_current_price",
+value: values["other_hygiene_current_price"],
+errorMessage: errors["other_hygiene_current_price"]
+}) }}
+
+{{ govukInput({
+label: {
+text: "Original Price (£)"
+},
+hint: {
+text: " CDA Currency Format - no dollar sign and no comma(s) - pence (.) are optional"
+},
+classes: "govuk-input--width-20",
+id: "other_hygiene_expected_price",
+name: "other_hygiene_expected_price",
+value: values["other_hygiene_expected_price"],
+errorMessage: errors["other_hygiene_expected_price"]
+}) }}
+
+
+
+{{ govukInput({
+label: {
+text: "Pack size"
+},
+hint: {
+text: "Must be a valid integer"
+},
+classes: "govuk-input--width-20",
+id: "other_hygiene_pack_size",
+name: "other_hygiene_pack_size",
+value: values["other_hygiene_pack_size"],
+errorMessage: errors["other_hygiene_pack_size"]
+}) }}
+
+{% endset -%}
+
+<!--Render the main checkbox-->
+{{ govukCheckboxes({
+idPrefix: 'product-'+loop.index,
+name: "product",
+items: [
+{
+value: other_hygiene,
+checked: values["product"]|length and other_hygiene in values["product"],
+text: "Other hygiene product",
+"conditional": {
+"html": textHtml
+}
+}
+]
+}) }}
