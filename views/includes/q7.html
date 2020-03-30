@@ -1,52 +1,28 @@
+<h1 class="govuk-heading-xl">
+    For which products is the business raising prices unfairly?
+</h1>
 
-{{ govukCheckboxes({
-"name": "with-conditional-items",
-"idPrefix": "how-contacted",
-"fieldset": {
-    "legend": {
-    "text": "For which products is the business raising prices unfairly?",
-    classes: "govuk-fieldset__legend--xl",
-    isPageHeading: true
-    }
-},
-hint:{
-text:"These are the most commonly reported products. For each product, please provide a description of the product, the current raised price, the original price (pre COVID-19 outbreak) and, if you know it, the pack size."
-},
-"items": [
-{
-"value": "pasta",
-"text": "pasta",
-"conditional": {
-"html": "<label class=\"govuk-label\" for=\"pasta_product_type\">Product type</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_product_type\" type=\"text\" id=\"pasta_product_type\">\n
-<label class=\"govuk-label\" for=\"pasta_product_brand\">Product brand</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_product_brand\" type=\"text\" id=\"pasta_product_brand\">\n
-<label class=\"govuk-label\" for=\"pasta_pack_size\">Pack size</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_pack_size\" type=\"text\" id=\"pasta_pack_size\">\n
-<label class=\"govuk-label\" for=\"pasta_current_price\">Current Price</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_current_price\" type=\"text\" id=\"pasta_current_price\">\n
-<label class=\"govuk-label\" for=\"pasta_expected_price\">Expected Price</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_expected_price\" type=\"text\" id=\"pasta_expected_price\">\n"
-}
-},
-{
-"value": "flour",
-"text": "flour",
-"conditional": {
-"html": "<label class=\"govuk-label\" for=\"current_price\">Current Price</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"current_price\" type=\"text\" id=\"current_price\">\n
-<label class=\"govuk-label\" for=\"expected_price\">Expected Price</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"expected_price\" type=\"text\" id=\"expected_price\">\n"
-}
-},{
-"value": "long-life-milk",
-"text": "long life milk",
-"conditional": {
-"html": "<label class=\"govuk-label\" for=\"current_price\">Current Price</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"current_price\" type=\"text\" id=\"current_price\">\n
-<label class=\"govuk-label\" for=\"expected_price\">Expected Price</label>\n
-<input class=\"govuk-input govuk-!-width-one-third\" name=\"expected_price\" type=\"text\" id=\"expected_price\">\n"
-}
-}
-]
-}) }}
+
+<p class="govuk-hint">
+    These are the most commonly reported products. For each product, please provide a description of the product, the current raised price, the original price (pre COVID-19 outbreak) and, if you know it, the pack size.
+</p>
+<div>
+    <p class="govuk-body"><b>Food products</b></p>
+    {% for item in food_products %}
+    {% include "includes/hidden_item.html" %}
+    {% endfor %}
+</div>
+
+<div>
+    <p class="govuk-body"><b>Hygiene & personal care products</b></p>
+    {% for item in hygiene_products %}
+    {% include "includes/hidden_item.html" %}
+    {% endfor %}
+</div>
+
+<div>
+    <p class="govuk-body"><b>Medical products</b></p>
+    {% for item in medical_products %}
+    {% include "includes/hidden_item.html" %}
+    {% endfor %}
+</div>
