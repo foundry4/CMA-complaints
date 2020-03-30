@@ -37,6 +37,9 @@ const validate_expected_price =(body)=>{
 
 // GET home page
 router.get('/', function (req, res, next) {
+    if (!req.session.data){
+        req.session.data = {};
+    }
   res.render('index', {
     reports
   });
@@ -129,11 +132,7 @@ router.post('/what_happened',
 
 router.get('/summary', function (req, res) {
     var data = req.session.data;
-    console.log(data);
-
-
-
-   
+/*     
     var data =  { 
         description: ' describe the behaviour you are reporting, such as in what way the business is making misleading claims. Do not include personal or financial information, like your credit card details. ',
         'expiry-day': '28',
@@ -156,8 +155,7 @@ router.get('/summary', function (req, res) {
         long_life_milk_product_description: 'long life milk',
         long_life_milk_current_price: '20',
         long_life_milk_expected_price: '2',
-        long_life_milk_pack_size: '1',
-        
+        long_life_milk_pack_size: '1',        
         pasta_product_description: '',
         pasta_current_price: '',
         pasta_expected_price: '',
@@ -213,10 +211,10 @@ router.get('/summary', function (req, res) {
         county: '',
         postcode: 'm13 9pl'
     };
-    
+     */
+    console.log('final data = ', data);
+
     // loop through the business
-    var business = Object.keys(business_section).map(function (key) { 
-        console.log(key);
         //business-email; website
         var val = data[key];
         var url = business_section[key].url;
@@ -235,9 +233,8 @@ router.get('/summary', function (req, res) {
     });
 
     // loop through the reasons
-    var date = data['expiry-day'] + " "+ data['expiry-month']+ " "+ data['expiry-year'];
+    var date = data['date-day'] + " "+ data['date-month']+ " "+ data['date-year'];
     var reason = Object.keys(business_reason).map(function (key) { 
-        console.log(key);
         var val = data[key];
         if (key === 'date'){
             val = date;
@@ -260,13 +257,11 @@ router.get('/summary', function (req, res) {
 
     // loop through the contacts
     var contacts = Object.keys(contact_section).map(function (key) { 
-        console.log(key);
         return {name:contact_section[key].text, value:data[key], url:contact_section[key].url} 
     });
 
     // loop through the products ARRAY
     var product_list =[];
-    console.log('list================');
     
     for (index in products){
         var label = products[index].name;
@@ -294,10 +289,6 @@ router.get('/summary', function (req, res) {
     }
 
 
-
-    
-    console.log(contacts);
-    
     res.render('summary', {
         business,
         reason,
@@ -546,10 +537,35 @@ router.get('/contact_details', function (req, res) {
     console.log('contact',req.session)
     res.render('contact_details', {values: req.session.data});
 });
-router.post('/contact_details', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('summary');
-});
+router.post('/contact_details',
+    [ body('contact-email').if(body('contact-email').notEmpty())
+        .isEmail().withMessage('Enter an email address in the correct format, like name@example.com') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/summary');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('contact_details', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/where_is_business', function (req, res) {
     console.log('where is business',req.session)
