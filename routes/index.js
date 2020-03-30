@@ -20,7 +20,7 @@ router.get('/what_behaviour', function (req, res) {
     });
 });
 router.get('/what_happened', function (req, res) {
-    res.render('what_happened', {
+    res.render('what','what_happened', {
         reports
     });
 });
@@ -29,15 +29,34 @@ router.get('/evidence', function (req, res) {
     res.render('evidence', {});
 });
 router.get('/when_behaviour', function (req, res) {
+    console.log('when',req.session)
     res.render('when_behaviour', {});
 });
 
+router.post('/when_behaviour', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('when_behaviour');
+});
+
+
+router.post('/contact_details', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('contact_details');
+});
+
 router.get('/contact_details', function (req, res) {
+    console.log('contact',req.session)
     res.render('contact_details', {});
 });
 
+router.post('/where_is_business', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('/where_is_business');
+});
+
 router.get('/where_is_business', function (req, res) {
-  res.render('where_is_business', {});
+    console.log('where is business',req.session)
+    res.render('where_is_business', {});
 });
 
 router.get('/privacy', function (req, res) {
@@ -79,6 +98,7 @@ router.post('/',
     ],
     async (request, response) => {
         try {
+            request.session.data = {...request.session.data,...request.body};
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
                 console.log('no errors in validation');
