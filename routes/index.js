@@ -133,28 +133,107 @@ router.get('/summary', function (req, res) {
 
 
 
-/*     
-    var data =  { description: ' describe the behaviour you are reporting, such as in what way the business is making misleading claims. Do not include personal or financial information, like your credit card details. ',
-    'expiry-day': '28',
-    'expiry-month': '3',
-    'expiry-year': '2020',
-    'contact-name': 'Mr X',
-    'contact-email': 'x@y.com',
-    'more-info': true,
-    'contact-number': '01743 875656',
-    'business-name': 'organisation x',
-    'street-name': 'street',
-    'town-name': 'emmerdale',
-    'report_reason':'cancellation',
-    county: '',
-    postcode: 'm13 9pl' };
-      */
-
+   
+    var data =  { 
+        description: ' describe the behaviour you are reporting, such as in what way the business is making misleading claims. Do not include personal or financial information, like your credit card details. ',
+        'expiry-day': '28',
+        'expiry-month': '3',
+        'expiry-year': '2020',
+        'contact-name': 'Mr X',
+        'contact-email': 'x@y.com',
+        'more-info': true,
+        'is-online': true,
+        'contact-number': '01743 875656',
+        'business-name': 'organisation x',
+        'street-name': 'street',
+        'town-name': 'emmerdale',
+        'postcode': 'm13 9pl',
+        'business-email': 'fraud@amazon.com',
+        'website': 'byzantiumjelly.co.uk',
+        'report_reason':'cancellation',
+        'evidence':true,
+        product: 'long_life_milk',
+        long_life_milk_product_description: 'long life milk',
+        long_life_milk_current_price: '20',
+        long_life_milk_expected_price: '2',
+        long_life_milk_pack_size: '1',
+        
+        pasta_product_description: '',
+        pasta_current_price: '',
+        pasta_expected_price: '',
+        pasta_pack_size: '',
+        meat_product_description: '',
+        meat_current_price: '',
+        meat_expected_price: '',
+        meat_pack_size: '',
+        halal_meat_product_description: '',
+        halal_meat_current_price: '',
+        halal_meat_expected_price: '',
+        halal_meat_pack_size: '',
+        eggs_product_description: '',
+        eggs_current_price: '',
+        eggs_expected_price: '',
+        eggs_pack_size: '',
+        flour_product_description: '',
+        flour_current_price: '',
+        flour_expected_price: '',
+        flour_pack_size: '',
+        rice_product_description: '',
+        rice_current_price: '',
+        rice_expected_price: '',
+        rice_pack_size: '',
+        fruit_veg_product_description: '',
+        fruit_veg_current_price: '',
+        fruit_veg_expected_price: '',
+        fruit_veg_pack_size: '',
+        baby_formula_product_description: '',
+        baby_formula_current_price: '',
+        baby_formula_expected_price: '',
+        baby_formula_pack_size: '',
+        hand_sanitizer_product_description: '',
+        hand_sanitizer_current_price: '',
+        hand_sanitizer_expected_price: '',
+        hand_sanitizer_pack_size: '',
+        toilet_roll_product_description: '',
+        toilet_roll_current_price: '',
+        toilet_roll_expected_price: '',
+        toilet_roll_pack_size: '',
+        paracetamol_product_description: '',
+        paracetamol_current_price: '',
+        paracetamol_expected_price: '',
+        paracetamol_pack_size: '',
+        ibuprofen_product_description: '',
+        ibuprofen_current_price: '',
+        ibuprofen_expected_price: '',
+        ibuprofen_pack_size: '',
+        antiseptic_product_description: '',
+        antiseptic_current_price: '',
+        antiseptic_expected_price: '',
+        antiseptic_pack_size: '',
+        county: '',
+        postcode: 'm13 9pl'
+    };
+    
     // loop through the business
     var business = Object.keys(business_section).map(function (key) { 
         console.log(key);
-        return {name:business_section[key].text, value:data[key], url:business_section[key].url} 
+        //business-email; website
+        var val = data[key];
+        var url = business_section[key].url;
+        if(key=='location'){
+            if( data['is-online'] ){
+                val = data['website'] +'<br>' + data['business-email'];
+                // update url
+                url ='/what_is_business_url';
+            }else{
+                val = data['street-name'];
+                val += '<br/>' + data['town-name'];
+                val += '<br/>' + data['postcode'];
+            } 
+        } 
+        return {name:business_section[key].text, value:val, url:url} 
     });
+
     // loop through the reasons
     var date = data['expiry-day'] + " "+ data['expiry-month']+ " "+ data['expiry-year'];
     var reason = Object.keys(business_reason).map(function (key) { 
@@ -185,6 +264,30 @@ router.get('/summary', function (req, res) {
         return {name:contact_section[key].text, value:data[key], url:contact_section[key].url} 
     });
 
+    // loop through the products ARRAY
+    var product_list =[];
+    console.log('list================');
+    
+    for (index in products){
+        var label = products[index].name;
+        console.log(label);
+        var desc = data[label + '_product_description'];
+        var old_price = data[label + '_current_price'];
+        var new_price = data[label + '_expected_price'];
+        var size = data[label + '_pack_size'];
+        var copy = desc + ',<br/>';
+        copy += old_price + ',<br/>';
+        copy += new_price + ',<br/>';
+        copy += size;
+        console.log(data[desc]);
+        
+        product_list.push({name:products[index].text, value:copy, url:'/which_products'} );
+    }
+    /* var product_list = Object.keys(products).map(function (key) { 
+        console.log(key);
+        return {name:products[key].text, value:data[key], url:''} 
+    }); */
+
 
     
     console.log(contacts);
@@ -192,6 +295,7 @@ router.get('/summary', function (req, res) {
     res.render('summary', {
         business,
         reason,
+        product_list,
         contacts
     });
 });
