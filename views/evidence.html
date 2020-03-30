@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 
-{% set pageTitle = "When did you see the unfair behaviour?" %}
+{% set pageTitle = "Do you have any screenshots, photographs or receipts of the behaviour that you can share?" %}
 {% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
 
 
@@ -19,13 +19,13 @@
     </div>
 
     <div class="govuk-grid-column-full">
-        <form id="" action="/" method="post" class="form">
+        <form id="" action="/evidence" method="post" class="form">
             <div class="govuk-grid-column-two-thirds">
                 {% include "includes/q9.html" %}
                 <button class="govuk-button" data-module="govuk-button">
                     Continue
                 </button>
-              </div>
+            </div>
         </form>
     </div>
 

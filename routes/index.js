@@ -61,7 +61,7 @@ router.post('/what_behaviour',
                 const reason = request.session.data.report_reason;
                console.log(request.session.data.report_reason);
                if(reason === 'consumer_pricing'|| reason==='business_pricing'){
-                   response.redirect('/where_was_behaviour');
+                   response.redirect('/which_products');
                }
                else {
                    response.redirect('/what_happened');
@@ -255,10 +255,36 @@ router.get('/more_information', function (req, res) {
 router.get('/evidence', function (req, res) {
     res.render('evidence', {values: req.session.data});
 });
-router.post('/evidence', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('evidence');
-});
+router.post('/evidence',
+    [ body('evidence')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate whether you have evidence to support your report.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/more_information');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('evidence', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/when_behaviour', function (req, res) {
     console.log('when',req.session)
@@ -319,9 +345,9 @@ router.post('/where_is_business',
     [ body('business-name')
         .exists()
         .not().isEmpty().withMessage('Please provide the name of the business.'),
-        body('postcode')
+        body('town-name')
         .exists()
-        .not().isEmpty().withMessage('Please provide the postcode of the business.')  ],
+        .not().isEmpty().withMessage('Please provide the town/city of the business.')  ],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
