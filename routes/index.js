@@ -48,9 +48,6 @@ router.get('/what_behaviour', function (req, res) {
         values: req.session.data
     });
 });
-
-
-
 router.post('/what_behaviour',
     [ body('report_reason')
         .exists()
@@ -68,7 +65,6 @@ router.post('/what_behaviour',
                }
                else {
                    response.redirect('/what_happened');
-
                }
             }
             else {
@@ -110,18 +106,11 @@ router.post('/what_happened',
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
-                console.log(request.session.data.report_reason);
-                // if(reason === 'consumer_pricing'|| reason==='business_pricing'){
-                    response.redirect('/where_was_behaviour');
-                // }
-                // else {
-                //     response.redirect('/what_happened');
-                //
-                // }
+                response.redirect('/where_was_behaviour');
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation');
+                console.log('found errors in validation',errorSummary,errors);
                 try {
                     response.render('what_happened', {
                         errors,
@@ -150,7 +139,6 @@ router.get('/which_products', function (req, res) {
         console.log('liz',err.toString());
     }
 });
-
 router.post('/which_products',
     [ ...validate_pack_sizes(body),  ... validate_expected_price(body) ],
     async (request, response) => {
@@ -186,16 +174,73 @@ router.post('/which_products',
     }
 );
 router.get('/what_is_business_url', function (req, res) {
-    res.render('what_is_business_url', {});
+    res.render('what_is_business_url');
 });
-router.post('/where_was_behaviour', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('where_was_behaviour');
-});
+router.post('/what_is_business_url',
+    [ body('website')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the url for the business in question.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/when_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('what_is_business_url', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 router.get('/where_was_behaviour', function (req, res) {
     console.log(req.session.data);
     res.render('where_was_behaviour', {});
 });
+router.post('/where_was_behaviour',
+    [ body('is-online')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate where the behaviour was observed.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/where_was_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation');
+                try {
+                    response.render('where_was_behaviour', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
+
 router.get('/more_information', function (req, res) {
     res.render('more_information', {});
     
@@ -248,3 +293,24 @@ router.get('/redirect', function (req, res, next) {
 });
 
 module.exports = router;
+
+//
+// [ { id: 'website',
+//     href: '#website',
+//     value: '',
+//     text: 'Please provide the url of the business in question.' } ] errors= { website:
+//         { id: 'website',
+//             href: '#website',
+//             value: '',
+//             text: 'Please provide the url of the business in question.' } }
+//
+//
+// found errors in validation [ { id: 'description',
+//     href: '#description',
+//     value: '',
+//     text: 'Please give a full description of the issue.' } ] { description:
+// { id: 'description',
+//     href: '#description',
+//     value: '',
+//     text: 'Please give a full description of the issue.' } }
+
