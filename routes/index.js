@@ -25,6 +25,9 @@ router.get('/what_happened', function (req, res) {
     });
 });
 
+router.get('/what_is_business_url', function (req, res) {
+    res.render('what_is_business_url', {});
+});
 router.get('/where_was_behaviour', function (req, res) {
     res.render('where_was_behaviour', {});
 });
