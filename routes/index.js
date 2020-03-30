@@ -220,7 +220,14 @@ router.post('/where_was_behaviour',
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
-                response.redirect('/where_was_behaviour');
+                const location = request.session.data['is-online'];
+                if(location==='true') {
+                    response.redirect('/what_is_business_url');
+                }
+                else {
+                    response.redirect('/where_is_business');
+
+                }
             }
             else {
                 let errorSummary = Object.values(errors);
@@ -272,14 +279,43 @@ router.get('/contact_details', function (req, res) {
     res.render('contact_details', {values: req.session.data});
 });
 
-router.post('/where_is_business', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('/where_is_business');
-});
 router.get('/where_is_business', function (req, res) {
     console.log('where is business',req.session)
     res.render('where_is_business', {values: req.session.data});
 });
+router.post('/where_is_business',
+    [ body('business-name')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the name of the business.'),
+        body('postcode')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the postcode of the business.')  ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/when_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('where_is_business', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/privacy', function (req, res) {
   res.render('privacy', {values: req.session.data});
