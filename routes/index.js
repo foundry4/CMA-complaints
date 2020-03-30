@@ -271,22 +271,28 @@ router.get('/summary', function (req, res) {
     for (index in products){
         var label = products[index].name;
         console.log(label);
+
         var desc = data[label + '_product_description'];
+
         var old_price = data[label + '_current_price'];
         var new_price = data[label + '_expected_price'];
-        var size = data[label + '_pack_size'];
+        var pack_size = data[label + '_pack_size'];
         var copy = desc + ',<br/>';
         copy += old_price + ',<br/>';
         copy += new_price + ',<br/>';
-        copy += size;
+        copy += pack_size;
         console.log(data[desc]);
-        
-        product_list.push({name:products[index].text, value:copy, url:'/which_products'} );
+        if(desc!=""){
+            //product_list.push({name:products[index].text, value:copy, url:'/which_products'} );
+            product_list.push({name:products[index].text, desc, old_price, new_price, pack_size, url:'/which_products'} );
+            /* var lines = Object.keys(product_section).map(function (key) { 
+                console.log(key);
+                return {name:product_section[key].text, value:data[key], url:''} 
+            }); */
+
+        }
     }
-    /* var product_list = Object.keys(products).map(function (key) { 
-        console.log(key);
-        return {name:products[key].text, value:data[key], url:''} 
-    }); */
+
 
 
     
