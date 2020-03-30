@@ -1,0 +1,33 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" aria-describedby="more-info-hint">
+        {{ govukRadios({
+        idPrefix: "more-info",
+        name: "more-info",
+        fieldset: {
+            legend: {
+                text: "Are you happy to be contacted for more information?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--xl"
+            }
+        },
+        hint: {
+            text: "You will only be contacted with questions about the unfair behaviour you have reported."
+        },
+        items: [
+            {
+        value: true,
+        text: "Yes",
+        checked: values["more-info"] == 'true'
+        },
+        {
+        value: false,
+        text: "No",
+        checked: values["more-info"] == 'false'
+        }
+        ],
+        errorMessage: errors["more-info"]
+
+        }) }}
+
+    </fieldset>
+</div>

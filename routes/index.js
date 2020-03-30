@@ -25,6 +25,9 @@ router.get('/what_happened', function (req, res) {
     });
 });
 
+router.get('/more_information', function (req, res) {
+    res.render('more_information', {});
+});
 router.get('/evidence', function (req, res) {
     res.render('evidence', {});
 });
