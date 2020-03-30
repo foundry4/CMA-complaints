@@ -1,10 +1,7 @@
 {% extends "layout.html" %}
 
 
-{% block header %}
-{% endblock %}
-
-{% set pageTitle = "Readiness to supply ventilators and ventilator components" %}
+{% set pageTitle = "Please share the details of the website where you saw the unfair behaviour." %}
 {% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
 
 
@@ -19,18 +16,18 @@
         errorList: errorSummary
         }) }}
         {% endif %}
-
-        <form id="" action="/" method="post" class="form">
-            {% include "includes/business_website.html" %}
-            <br />
-            <button class="govuk-button" data-module="govuk-button">
-                Continue
-            </button>
-        </form>
-
     </div>
 
-</div>
+    <div class="govuk-grid-column-full">
+        <form id="" action="/what_is_business_url" method="post" class="form">
+            <div class="govuk-grid-column-two-thirds">
+                {% include "includes/business_website.html" %}
+                <button class="govuk-button" data-module="govuk-button">
+                    Continue
+                </button>
+            </div>
+        </form>
+    </div>
 
 </div>
 

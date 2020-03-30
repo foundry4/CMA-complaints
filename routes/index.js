@@ -48,10 +48,46 @@ router.get('/what_behaviour', function (req, res) {
         values: req.session.data
     });
 });
-router.post('/what_behaviour', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('what_behaviour');
-});
+router.post('/what_behaviour',
+    [ body('report_reason')
+        .exists()
+        .not().isEmpty().withMessage('Enter the reason for your report') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                const reason = request.session.data.report_reason;
+               console.log(request.session.data.report_reason);
+               if(reason === 'consumer_pricing'|| reason==='business_pricing'){
+                   response.redirect('/which_products');
+               }
+               else {
+                   response.redirect('/what_happened');
+               }
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation');
+                try {
+                    response.render('what_behaviour', {
+                        reports,
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
+
+
 
 router.get('/what_happened', function (req, res) {
     console.log('what happened')
@@ -60,10 +96,36 @@ router.get('/what_happened', function (req, res) {
         values: req.session.data
     });
 });
-router.post('/what_happened', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('what_happened');
-});
+router.post('/what_happened',
+    [ body('description')
+        .exists()
+        .not().isEmpty().withMessage('Please give a full description of the issue.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/where_was_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('what_happened', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/summary', function (req, res) {
     var data = req.session.data;
@@ -147,7 +209,6 @@ router.get('/which_products', function (req, res) {
         console.log('liz',err.toString());
     }
 });
-
 router.post('/which_products',
     [ ...validate_pack_sizes(body),  ... validate_expected_price(body) ],
     async (request, response) => {
@@ -183,55 +244,240 @@ router.post('/which_products',
     }
 );
 router.get('/what_is_business_url', function (req, res) {
-    res.render('what_is_business_url', {});
+    res.render('what_is_business_url');
 });
-router.post('/where_was_behaviour', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('where_was_behaviour');
-});
+router.post('/what_is_business_url',
+    [ body('website')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the url for the business in question.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/when_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('what_is_business_url', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 router.get('/where_was_behaviour', function (req, res) {
     console.log(req.session.data);
     res.render('where_was_behaviour', {});
 });
+router.post('/where_was_behaviour',
+    [ body('is-online')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate where the behaviour was observed.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                const location = request.session.data['is-online'];
+                if(location==='true') {
+                    response.redirect('/what_is_business_url');
+                }
+                else {
+                    response.redirect('/where_is_business');
+
+                }
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation');
+                try {
+                    response.render('where_was_behaviour', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
+
 router.get('/more_information', function (req, res) {
     res.render('more_information', {});
-    
 });
+router.post('/more_information',
+    [ body('more-info')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate whether you are happy to provide your contact details.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                const more_info = request.session.data['more-info'];
+                if(more_info === 'true'){
+                    response.redirect('/contact_details');
+                }
+                else {
+                    response.redirect('/summary');
+                }
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('more_information', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 router.get('/evidence', function (req, res) {
     res.render('evidence', {values: req.session.data});
 });
-router.post('/evidence', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('evidence');
-});
+router.post('/evidence',
+    [ body('evidence')
+        .exists()
+        .not().isEmpty().withMessage('Please indicate whether you have evidence to support your report.') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/more_information');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('evidence', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/when_behaviour', function (req, res) {
     console.log('when',req.session)
     res.render('when_behaviour', {values: req.session.data});
 });
-router.post('/when_behaviour', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('when_behaviour');
-});
+router.post('/when_behaviour',
+    [ body('date-day')
+        .exists()
+        .not().isEmpty().withMessage('Enter the day of the report'),
+        body('date-month')
+            .exists()
+            .not().isEmpty().withMessage('Enter the month of the report'),
+        body('date-year')
+            .exists()
+            .not().isEmpty().withMessage('Enter the year of the report') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/evidence');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('when_behaviour', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
-
-router.post('/contact_details', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('contact_details');
-});
 router.get('/contact_details', function (req, res) {
     console.log('contact',req.session)
     res.render('contact_details', {values: req.session.data});
 });
-
-router.post('/where_is_business', function (req, res) {
+router.post('/contact_details', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
-    res.redirect('/where_is_business');
+    res.redirect('summary');
 });
+
 router.get('/where_is_business', function (req, res) {
     console.log('where is business',req.session)
     res.render('where_is_business', {values: req.session.data});
 });
+router.post('/where_is_business',
+    [ body('business-name')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the name of the business.'),
+        body('town-name')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the town/city of the business.')  ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/when_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('where_is_business', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/privacy', function (req, res) {
   res.render('privacy', {values: req.session.data});
@@ -245,3 +491,24 @@ router.get('/redirect', function (req, res, next) {
 });
 
 module.exports = router;
+
+//
+// [ { id: 'website',
+//     href: '#website',
+//     value: '',
+//     text: 'Please provide the url of the business in question.' } ] errors= { website:
+//         { id: 'website',
+//             href: '#website',
+//             value: '',
+//             text: 'Please provide the url of the business in question.' } }
+//
+//
+// found errors in validation [ { id: 'description',
+//     href: '#description',
+//     value: '',
+//     text: 'Please give a full description of the issue.' } ] { description:
+// { id: 'description',
+//     href: '#description',
+//     value: '',
+//     text: 'Please give a full description of the issue.' } }
+
