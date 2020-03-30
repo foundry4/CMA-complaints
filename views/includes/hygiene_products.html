@@ -78,12 +78,12 @@ errorMessage: errors["other_hygiene_pack_size"]
 
 <!--Render the main checkbox-->
 {{ govukCheckboxes({
-idPrefix: 'product-'+loop.index,
+idPrefix: 'other-hygiene',
 name: "product",
 items: [
 {
-value: other_hygiene,
-checked: values["product"]|length and other_hygiene in values["product"],
+value: 'other_hygiene',
+checked: values["product"]|length and 'other_hygiene' in values["product"],
 text: "Other hygiene product",
 "conditional": {
 "html": textHtml
