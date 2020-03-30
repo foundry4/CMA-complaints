@@ -48,10 +48,50 @@ router.get('/what_behaviour', function (req, res) {
         values: req.session.data
     });
 });
-router.post('/what_behaviour', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('what_behaviour');
-});
+
+
+
+router.post('/what_behaviour',
+    [ body('report_reason')
+        .exists()
+        .not().isEmpty().withMessage('Enter the reason for your report') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                const reason = request.session.data.report_reason;
+               console.log(request.session.data.report_reason);
+               if(reason === 'consumer_pricing'|| reason==='business_pricing'){
+                   response.redirect('/where_was_behaviour');
+               }
+               else {
+                   response.redirect('/what_happened');
+
+               }
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation');
+                try {
+                    response.render('what_behaviour', {
+                        reports,
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
+
+
 
 router.get('/what_happened', function (req, res) {
     console.log('what happened')
