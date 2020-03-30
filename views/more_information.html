@@ -5,6 +5,10 @@
 {% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
 
 
+{% block beforeContent %}
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
 {% block content %}
 {% set orgNameClass = "govuk-input--width-20" %}
 
