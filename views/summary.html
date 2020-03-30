@@ -19,9 +19,10 @@ Summary
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    {% for item in questions %}
-        {{ item.name }}, {{item.value}} <br/>
-    {% endfor %}
+    <h1 class="govuk-heading-xl">
+        Report a business behaving unfairly during the COVID-19 outbreak
+    </h1>
+
 
     <dl class="govuk-summary-list">
         {% for item in final %}

@@ -82,7 +82,7 @@ router.get('/summary', function (req, res) {
     county: '',
     postcode: 'm13 9pl' };
      */
-    // loop through the answers and create a row object
+    // loop through the questions (to set the order) and create a row object
     var final = Object.keys(questions).map(function (key) { 
         console.log(key);
         
