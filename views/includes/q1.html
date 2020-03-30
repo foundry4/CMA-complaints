@@ -4,35 +4,19 @@
 {% set formGroupClass = formGroupClass + " govuk-form-group--error" %}
 {% endif %}
 
-    <div class="{{formGroupClass}}">
-        <fieldset class="govuk-fieldset" aria-describedby="report_reason-hint">
-          <h1 class="govuk-heading-xl">What unfair behaviour are you reporting?</h1>
+<div class="{{formGroupClass}}">
+  <fieldset class="govuk-fieldset" aria-describedby="report_reason-hint">
+    <h1 class="govuk-heading-xl">What unfair behaviour are you reporting?</h1>
 
-          <span id="report_reason-hint" class="govuk-hint">
-            If you need to report more than one of these behaviours, please complete the form once for each behaviour type
-          </span>
-          <span id="nationality-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> {{ errors["report_reason"].text }}
-          </span>
+    <span id="report_reason-hint" class="govuk-hint">
+      If you need to report more than one of these behaviours, please complete the form once for each behaviour type
+    </span>
+    <span id="nationality-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> {{ errors["report_reason"].text }}
+    </span>
 
-          {% call govukFieldset({
-            legend: {
-              text: "",
-              classes: "govuk-fieldset__legend--xl",
-              isPageHeading: false
-            },
-            hint: {
-              text: "If you need to report more than one of these behaviours, please complete the form once for each behaviour type"
-            },
-            errorMessage: {
-              text:  errors["report_reason"].text
-            }
-          }) %}
-      
-          <br/>
-
-            {% for item in reports %}
-              {{ govukRadios({
+    {% for item in reports %}
+    {{ govukRadios({
               idPrefix: 'report_reason-'+loop.index,
               name: "report_reason",
               items: [
@@ -43,9 +27,9 @@
                 }
               ]
               }) }}
-            {% endfor %}
+    {% endfor %}
 
-        {{ govukCharacterCount({
+    {{ govukCharacterCount({
             label: {
                 text: "If you answered Other, please provide further details."
             },
@@ -57,12 +41,7 @@
             value: values["report_other"],
             errorMessage: errors["report_other"]
           }) }}
-  
-          {% endcall %}
-
-      </div>
 
 
-
-
-<br />
+  </fieldset>
+</div>
