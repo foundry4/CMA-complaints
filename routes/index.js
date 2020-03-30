@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-var {reports} = require('../lib/constants');
+const {reports,food_products,hygiene_products,medical_products} = require('../lib/constants');
 
 
 // GET home page
@@ -42,7 +42,11 @@ router.post('/summary', function (req, res) {
 });
 
 router.get('/which_products', function (req, res) {
-    res.render('which_products', {});
+    console.log(food_products,medical_products,hygiene_products)
+   try { res.render('which_products', {values: req.session.data, food_products, medical_products, hygiene_products});}
+   catch(err){
+        console.log('liz',err.toString());
+    }
 });
 router.get('/what_is_business_url', function (req, res) {
     res.render('what_is_business_url', {});
