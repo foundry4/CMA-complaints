@@ -14,6 +14,12 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/what_behaviour', function (req, res) {
+  res.render('what_behaviour', {
+    reports
+  });
+});
+
 router.get('/privacy', function (req, res) {
   res.render('privacy', {});
 });
