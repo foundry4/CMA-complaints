@@ -4,45 +4,18 @@
 classes: "govuk-input--width-20",
 maxlength: 50,
 label: {
-text: "Product type"
+text: "Description of product"
 },
 rows: 1,
-id: item.name+"_product_type",
-name: item.name+"_product_type",
-value: values[item.name+"_product_type"],
-errorMessage: errors[item.name+"_product_type"]
-}) }}
-
-{{ govukCharacterCount({
-classes: "govuk-input--width-20",
-maxlength: 50,
-label: {
-text: "Product brand"
-},
-rows: 1,
-id: item.name+"_product_brand",
-name: item.name+"_product_brand",
-value: values[item.name+"_product_brand"],
-errorMessage: errors[item.name+"_product_brand"]
+id: item.name+"_product_description",
+name: item.name+"_product_description",
+value: values[item.name+"_product_description"],
+errorMessage: errors[item.name+"_product_description"]
 }) }}
 
 {{ govukInput({
 label: {
-text: "Pack size"
-},
-hint: {
-text: "Must be a valid integer"
-},
-classes: "govuk-input--width-20",
-id: item.name+"_pack_size",
-name: item.name+"_pack_size",
-value: values[item.name+"_pack_size"],
-errorMessage: errors[item.name+"_pack_size"]
-}) }}
-
-{{ govukInput({
-label: {
-text: "Current Price (£)"
+text: "Raised Price (£)"
 },
 hint: {
 text: "CDA Currency Format - no pound sign and no comma(s) - pence (.) are optional"
@@ -56,7 +29,7 @@ errorMessage: errors[item.name+"_current_price"]
 
 {{ govukInput({
 label: {
-text: "Expected Size (£)"
+text: "Original Price (£)"
 },
 hint: {
 text: " CDA Currency Format - no dollar sign and no comma(s) - pence (.) are optional"
@@ -66,6 +39,22 @@ id: item.name+"_expected_price",
 name: item.name+"_expected_price",
 value: values[item.name+"_expected_price"],
 errorMessage: errors[item.name+"_expected_price"]
+}) }}
+
+
+
+{{ govukInput({
+label: {
+text: "Pack size"
+},
+hint: {
+text: "Must be a valid integer"
+},
+classes: "govuk-input--width-20",
+id: item.name+"_pack_size",
+name: item.name+"_pack_size",
+value: values[item.name+"_pack_size"],
+errorMessage: errors[item.name+"_pack_size"]
 }) }}
 
 {% endset -%}
