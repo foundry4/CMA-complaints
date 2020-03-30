@@ -186,6 +186,19 @@ router.post('/summary', function (req, res) {
     res.redirect('summary');
 });
 
+router.post('/submit', async function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    console.log('final data = ',req.session.data);
+    try {
+        const ref = await save_to_cma_db(req.session.data,req);
+        res.redirect('/confirm/'+ref);
+    }
+    catch (err){
+        console.log('Failed to save to database',err.toString());
+        res.render('error', { content : {error: {message: "Internal server error"}}});
+    }
+});
+
 router.get('/which_products', function (req, res) {
     console.log(food_products,medical_products,hygiene_products)
    try { res.render('which_products', {values: req.session.data, food_products, medical_products, hygiene_products});}
