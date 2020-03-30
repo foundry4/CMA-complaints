@@ -127,9 +127,10 @@ router.post('/what_happened',
     }
 );
 
-router.post('/summary', function (req, res) {
+router.get('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     console.log('final data = ',req.session.data);
+    res.render("confirm",{id:'1'});
 });
 
 router.get('/which_products', function (req, res) {
