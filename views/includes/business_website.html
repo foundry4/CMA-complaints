@@ -1,44 +1,32 @@
-<div class="govuk-form-group">
-
-    <fieldset class="govuk-fieldset" aria-describedby="report_reason-hint">
-        <h1 class="govuk-heading-xl">Please share the details of the website where you saw the unfair behaviour.</h1>
-
-        <span id="report_reason-hint" class="govuk-hint">
-            If possible, share the URL of the specific webpage where you saw the unfair behaviour.
-        </span>
-        <span id="nationality-error" class="govuk-error-message">
-          <span class="govuk-visually-hidden">Error:</span> {{ errors["business-location"].text }}
-        </span>
-
-    {{ govukInput({
-        label: {
-        text: "Website link"
-        },
-        classes: "govuk-input--width-20",
-        id: "website",
-        name: "website",
-        value: values["website"],
-        errorMessage: errors["website"]
-    }) }}
-
-    {{ govukInput({
-        label: {
-          text: "Email address"
-        },
-        classes: "govuk-input--width-20",
-        id: "business-email",
-        name: "business-email",
-        pattern: "^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$",
-        value: values["business-email"],
-        errorMessage: errors["business-email"]
-      }) }}
+<h1 class="govuk-heading-xl">
+    Please share the details of the website where you saw the unfair behaviour.
+</h1>
 
 
+<p class="govuk-hint">
 
+    If possible, share the URL of the specific webpage where you saw the unfair behaviour.
 
-    
+</p>
 
+{{ govukInput({
+label: {
+text: "Website link"
+},
+classes: "govuk-input--width-20",
+id: "website",
+name: "website",
+value: values["website"],
+errorMessage: errors["website"]
+}) }}
 
-  </fieldset>
-
-</div>
+{{ govukInput({
+label: {
+text: "Email address"
+},
+classes: "govuk-input--width-20",
+id: "business-email",
+name: "business-email",
+value: values["business-email"],
+errorMessage: errors["business-email"]
+}) }}
