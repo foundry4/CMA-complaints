@@ -37,6 +37,9 @@ const validate_expected_price =(body)=>{
 
 // GET home page
 router.get('/', function (req, res, next) {
+    if (!req.session.data){
+        req.session.data = {};
+    }
   res.render('index', {
     reports
   });
@@ -129,26 +132,7 @@ router.post('/what_happened',
 
 router.get('/summary', function (req, res) {
     var data = req.session.data;
-    console.log(data);
-
-
-
-/*     
-    var data =  { description: ' describe the behaviour you are reporting, such as in what way the business is making misleading claims. Do not include personal or financial information, like your credit card details. ',
-    'expiry-day': '28',
-    'expiry-month': '3',
-    'expiry-year': '2020',
-    'contact-name': 'Mr X',
-    'contact-email': 'x@y.com',
-    'more-info': true,
-    'contact-number': '01743 875656',
-    'business-name': 'organisation x',
-    'street-name': 'street',
-    'town-name': 'emmerdale',
-    'report_reason':'cancellation',
-    county: '',
-    postcode: 'm13 9pl' };
-      */
+    console.log('final data = ', data);
 
     // loop through the business
     var business = Object.keys(business_section).map(function (key) { 
@@ -156,7 +140,7 @@ router.get('/summary', function (req, res) {
         return {name:business_section[key].text, value:data[key], url:business_section[key].url} 
     });
     // loop through the reasons
-    var date = data['expiry-day'] + " "+ data['expiry-month']+ " "+ data['expiry-year'];
+    var date = data['date-day'] + " "+ data['date-month']+ " "+ data['date-year'];
     var reason = Object.keys(business_reason).map(function (key) { 
         console.log(key);
         var val = data[key];
@@ -436,10 +420,35 @@ router.get('/contact_details', function (req, res) {
     console.log('contact',req.session)
     res.render('contact_details', {values: req.session.data});
 });
-router.post('/contact_details', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('summary');
-});
+router.post('/contact_details',
+    [ body('contact-email').if(body('contact-email').notEmpty())
+        .isEmail().withMessage('Enter an email address in the correct format, like name@example.com') ],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/summary');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    response.render('contact_details', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 
 router.get('/where_is_business', function (req, res) {
     console.log('where is business',req.session)
