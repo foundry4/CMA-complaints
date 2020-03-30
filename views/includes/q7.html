@@ -1,16 +1,47 @@
-<div class="govuk-form-group">
-    <fieldset class="govuk-fieldset" aria-describedby="description-hint">
-        {{ govukCharacterCount({
-            maxlength: 200,
-        threshold: 50,
-        label: {
-              text: "7. If you know it, please provide the postal or email address of the business you are reporting below so we can contact them if necessary. (Optional)"
-            },
-            rows: 5,
-            id: "company_address",
-            name: "company_address",
-            value: values["company_address"],
-            errorMessage: errors["company_address"]
-          }) }}
-    </fieldset>
-</div>
+
+{{ govukCheckboxes({
+"name": "with-conditional-items",
+"idPrefix": "how-contacted",
+"fieldset": {
+"legend": {
+"text": "8. What is the product type?"
+}
+},
+"items": [
+{
+"value": "pasta",
+"text": "pasta",
+"conditional": {
+"html": "<label class=\"govuk-label\" for=\"pasta_product_type\">Product type</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_product_type\" type=\"text\" id=\"pasta_product_type\">\n
+<label class=\"govuk-label\" for=\"pasta_product_brand\">Product brand</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_product_brand\" type=\"text\" id=\"pasta_product_brand\">\n
+<label class=\"govuk-label\" for=\"pasta_pack_size\">Pack size</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_pack_size\" type=\"text\" id=\"pasta_pack_size\">\n
+<label class=\"govuk-label\" for=\"pasta_current_price\">Current Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_current_price\" type=\"text\" id=\"pasta_current_price\">\n
+<label class=\"govuk-label\" for=\"pasta_expected_price\">Expected Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"pasta_expected_price\" type=\"text\" id=\"pasta_expected_price\">\n"
+}
+},
+{
+"value": "flour",
+"text": "flour",
+"conditional": {
+"html": "<label class=\"govuk-label\" for=\"current_price\">Current Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"current_price\" type=\"text\" id=\"current_price\">\n
+<label class=\"govuk-label\" for=\"expected_price\">Expected Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"expected_price\" type=\"text\" id=\"expected_price\">\n"
+}
+},{
+"value": "long-life-milk",
+"text": "long life milk",
+"conditional": {
+"html": "<label class=\"govuk-label\" for=\"current_price\">Current Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"current_price\" type=\"text\" id=\"current_price\">\n
+<label class=\"govuk-label\" for=\"expected_price\">Expected Price</label>\n
+<input class=\"govuk-input govuk-!-width-one-third\" name=\"expected_price\" type=\"text\" id=\"expected_price\">\n"
+}
+}
+]
+}) }}

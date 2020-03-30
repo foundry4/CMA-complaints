@@ -1,11 +1,11 @@
 --Table structure for the new table
-CREATE TABLE {{TABLE_NAME}} (
+CREATE TABLE cma_responses (
     id serial PRIMARY KEY,
     reference_number VARCHAR (200),
     info JSON
 );
 --Update to add created_at
-ALTER TABLE {{TABLE_NAME}}
+ALTER TABLE cma_responses
 ADD COLUMN company_location VARCHAR (200),
 ADD COLUMN company_name VARCHAR (200),
 ADD COLUMN company_sector VARCHAR (200),
