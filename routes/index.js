@@ -4,7 +4,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-const {reports,food_products,hygiene_products,medical_products} = require('../lib/constants');
+const {reports,food_products,hygiene_products,medical_products,questions} = require('../lib/constants');
 const products = [...food_products,...hygiene_products,...medical_products];
 
 
@@ -128,9 +128,37 @@ router.post('/what_happened',
 );
 
 router.get('/summary', function (req, res) {
+    var data = req.session.data;
+    console.log(data);
+
+    /*     var data =  { description: 'happened',
+        'expiry-day': '28',
+        'expiry-month': '3',
+        'expiry-year': '2020',
+        'contact-name': 'Mr X',
+        'contact-email': 'x@y.com',
+        'contact-number': '01743 875656',
+        'business-name': 'organisation x',
+        'street-name': 'street',
+        'town-name': 'emmerdale',
+        county: '',
+        postcode: 'm13 9pl' };
+         */
+    // loop through the questions (to set the order) and create a row object
+    var final = Object.keys(questions).map(function (key) {
+        console.log(key);
+
+        return {name:questions[key].text, value:data[key], url:questions[key].url}
+    });
+    console.log(final);
+
+    res.render('summary', {final});
+});
+
+router.post('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     console.log('final data = ',req.session.data);
-    res.render("confirm",{id:'1'});
+    res.redirect('summary');
 });
 
 router.get('/which_products', function (req, res) {
