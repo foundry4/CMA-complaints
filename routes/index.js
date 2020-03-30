@@ -362,14 +362,13 @@ router.post('/when_behaviour',
     }
 );
 
-
-router.post('/contact_details', function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    res.redirect('contact_details');
-});
 router.get('/contact_details', function (req, res) {
     console.log('contact',req.session)
     res.render('contact_details', {values: req.session.data});
+});
+router.post('/contact_details', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('summary');
 });
 
 router.get('/where_is_business', function (req, res) {
