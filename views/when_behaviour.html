@@ -1,10 +1,7 @@
 {% extends "layout.html" %}
 
 
-{% block header %}
-{% endblock %}
-
-{% set pageTitle = "What unfair behaviour are you reporting?" %}
+{% set pageTitle = "When did you see the unfair behaviour?" %}
 {% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
 
 
@@ -28,7 +25,7 @@
         <form id="" action="/" method="post" class="form">
             <div class="govuk-grid-column-two-thirds">
                 <div class="govuk-form-group">
-                    {% include "includes/q1.html" %}
+                    {% include "includes/when.html" %}
                 </div>
             </div>
             <div class="govuk-grid-row">

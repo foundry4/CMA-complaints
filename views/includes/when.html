@@ -1,0 +1,64 @@
+{% set formGroupClass = "govuk-form-group" %}
+
+{% if errors["when"] %}
+{% set formGroupClass = formGroupClass + " govuk-form-group--error" %}
+{% endif %}
+
+    <div class="{{formGroupClass}}">
+        <fieldset class="govuk-fieldset" aria-describedby="when-hint">
+          <h1 class="govuk-heading-xl">When did you see the unfair behaviour?</h1>
+
+          <span id="when-hint" class="govuk-hint">
+            Please provide the date when you saw the business behave unfairly. For example, 28 3 2020.
+          </span>
+          <span id="nationality-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{ errors["when"].text }}
+          </span>
+
+     
+            {% set dateInputDayClass = "govuk-input--width-2" %}
+            {% set dateInputMonthClass = "govuk-input--width-2" %}
+            {% set dateInputYearClass = "govuk-input--width-4" %}
+
+            {% if errors["expiry-day"] %}
+            {% set dateInputDayClass = dateInputDayClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["expiry-month"] %}
+            {% set dateInputMonthClass = dateInputMonthClass + " govuk-input--error" %}
+            {% endif %}
+            {% if errors["expiry-year"] %}
+            {% set dateInputYearClass = dateInputYearClass + " govuk-input--error" %}
+            {% endif %}
+
+            {{ govukDateInput({
+            id: "expiry",
+            namePrefix: "expiry",
+            fieldset: {
+            legend: {
+            text: "Date",
+            classes: "govuk-fieldset__legend--m"
+            }
+            },
+  
+            items: [
+            {
+            classes: dateInputDayClass,
+            name: "day",
+            value: values["expiry-day"]
+            },
+            {
+            classes: dateInputMonthClass,
+            name: "month",
+            value: values["expiry-month"]
+            },
+            {
+            classes: dateInputYearClass,
+            name: "year",
+            value: values["expiry-year"]
+            }
+            ],
+            errorMessage: errors["expiry"]
+            }) }}
+
+ 
+      </div>

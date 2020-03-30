@@ -24,6 +24,9 @@ router.get('/what_behaviour', function (req, res) {
     reports
   });
 });
+router.get('/when_behaviour', function (req, res) {
+  res.render('when_behaviour', {});
+});
 router.get('/contact_details', function (req, res) {
   res.render('contact_details', {
     reports
