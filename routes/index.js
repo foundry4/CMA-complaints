@@ -66,7 +66,9 @@ router.post('/what_happened', function (req, res) {
 });
 
 router.get('/summary', function (req, res) {
-    var data = Object.keys(req.session.data);
+    var data = req.session.data;
+    console.log(data);
+    
 /*     var data =  { description: 'happened',
     'expiry-day': '28',
     'expiry-month': '3',
