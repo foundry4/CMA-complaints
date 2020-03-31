@@ -20,7 +20,7 @@
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.1",
     "pg": "^7.18.2",
-    "redis": "latest"
+    "redis": "^3.0.2"
   },
   "devDependencies": {
     "connect-livereload": "^0.6.1",
