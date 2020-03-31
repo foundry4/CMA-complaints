@@ -451,13 +451,15 @@ router.post('/when_behaviour',
         }),
 
         body(['date']).custom((value,{req}) => {
-            if(isNaN(req.body['date-day'])||isNaN(req.body['date-month'])|| isNaN(req.body['date-year'])){
-                throw new Error('Please enter a valid date');
-            }
+
             moment.tz.setDefault("Europe/London");
             const today = new moment().startOf('day');
             const date_obj = { year : Number(req.body['date-year']), month : Number(req.body['date-month'])-1, day : Number(req.body['date-day']) };
             const date = new moment.tz(date_obj,"Europe/London");
+            if(!date.isValid()){
+                throw new Error('Please enter a valid date');
+            }
+
             if (req.body['date-year']<2020) {
                 throw new Error('Please enter a date since the COVID 19 outbreak');
             }
