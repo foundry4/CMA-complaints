@@ -181,7 +181,15 @@ router.get('/summary', function (req, res) {
     });
 
     // loop through the products ARRAY
-    // NB selected products is an array
+    // NB selected products is string for singel answers otherwise it is an array
+    console.log('is Array', Array.isArray( data['product'] ));
+     
+    if (data['product'] && !Array.isArray( data['product'] ) ){
+        console.log('arrayify');
+        console.log(data['product']);
+        
+        data['product'] = [ data['product'] ];
+      } 
     var product_list = [];
     
     for (index in products){
