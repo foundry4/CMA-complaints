@@ -484,9 +484,19 @@ router.get('/contact_details', function (req, res) {
     res.render('contact_details', {values: req.session.data});
 });
 router.post('/contact_details',
-    [ body('contact-email').if(body('contact-email').notEmpty())
+    [ 
+        body('contact-name')
+        .exists()
+        .not().isEmpty().withMessage('Please provide your full name.'),
+        // check for either email address OR telephone number
+        body('contact-email').if(body('contact-number').isEmpty())
+        .exists()
+        .not().isEmpty()
+        .withMessage('Please provide an email address or telephone number'), 
+        body('contact-email').if(body('contact-email').notEmpty())
         .isEmail().withMessage('Enter an email address in the correct format, like name@example.com') ],
     async (request, response) => {
+        
         try {
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
