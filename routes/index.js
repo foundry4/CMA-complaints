@@ -185,33 +185,16 @@ router.get('/summary', function (req, res) {
     
     for (index in products){
         var label = products[index].name;
-        console.log(label);
-
         var desc = data[label + '_product_description'];
 
-        var old_price = data[label + '_current_price'];
-        var new_price = data[label + '_expected_price'];
-        var pack_size = data[label + '_pack_size'];
-        var copy = desc + ',<br/>';
-        copy += old_price + ',<br/>';
-        copy += new_price + ',<br/>';
-        copy += pack_size;
-        console.log(data[desc]);
         if(desc!=""){
-            //product_list.push({name:products[index].text, value:copy, url:'/which_products'} );
-            product_list.push({name:products[index].text, desc, old_price, new_price, pack_size, url:'/which_products'} );
-            /* var lines = Object.keys(product_section).map(function (key) { 
-                console.log(key);
-                return {name:product_section[key].text, value:data[key], url:''} 
-            }); */
-
+            product_list = Object.keys(product_section).map(function (key) { 
+                var ref = label + '_' + product_section[key].name;
+                var val = data[ref];
+                return {name:product_section[key].text, value:val, url:'/which_products'} 
+            }); 
         }
     }
-
-
-
-    
-    console.log(contacts);
     
     res.render('summary', {
         business,
