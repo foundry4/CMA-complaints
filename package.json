@@ -7,19 +7,20 @@
     "dev": "nodemon --ext js,html --ignore public --verbose ./bin/www"
   },
   "dependencies": {
+    "connect-redis": "latest",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "express-session": "latest",
     "express-validator": "^6.4.0",
     "govuk-frontend": "^3.6.0",
     "http-errors": "~1.6.3",
+    "moment-timezone": "^0.5.28",
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.1",
     "pg": "^7.18.2",
-    "redis": "latest",
-    "express-session": "latest",
-    "connect-redis": "latest"
+    "redis": "latest"
   },
   "devDependencies": {
     "connect-livereload": "^0.6.1",
