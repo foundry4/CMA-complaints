@@ -34,9 +34,6 @@ errorMessage: errors["other_hygiene_product_description"]
 label: {
 text: "Raised Price (£)"
 },
-hint: {
-text: "CDA Currency Format - no pound sign and no comma(s) - pence (.) are optional"
-},
 classes: "govuk-input--width-20",
 id: "other_hygiene_current_price",
 name: "other_hygiene_current_price",
@@ -48,30 +45,11 @@ errorMessage: errors["other_hygiene_current_price"]
 label: {
 text: "Original Price (£)"
 },
-hint: {
-text: " CDA Currency Format - no dollar sign and no comma(s) - pence (.) are optional"
-},
 classes: "govuk-input--width-20",
 id: "other_hygiene_expected_price",
 name: "other_hygiene_expected_price",
 value: values["other_hygiene_expected_price"],
 errorMessage: errors["other_hygiene_expected_price"]
-}) }}
-
-
-
-{{ govukInput({
-label: {
-text: "Pack size"
-},
-hint: {
-text: "Must be a valid integer"
-},
-classes: "govuk-input--width-20",
-id: "other_hygiene_pack_size",
-name: "other_hygiene_pack_size",
-value: values["other_hygiene_pack_size"],
-errorMessage: errors["other_hygiene_pack_size"]
 }) }}
 
 {% endset -%}
