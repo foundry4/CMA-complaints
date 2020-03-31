@@ -44,6 +44,10 @@ router.get('/', function (req, res, next) {
     reports
   });
 });
+router.get('/reset_session', function (req, res) {
+    req.session.data = {};
+    res.redirect('/what_behaviour');
+});
 
 router.get('/what_behaviour', function (req, res) {
     res.render('what_behaviour', {
