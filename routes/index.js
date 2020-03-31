@@ -136,13 +136,25 @@ router.get('/summary', function (req, res) {
 
     // loop through the business
     var business = Object.keys(business_section).map(function (key) { 
-        console.log(key);
-        return {name:business_section[key].text, value:data[key], url:business_section[key].url} 
+        var val = data[key];
+        var url = business_section[key].url;
+        if(key=='location'){
+            if( data['is-online'] ){
+                val = data['website'] +'<br>' + data['business-email'];
+                // update url
+                url ='/what_is_business_url';
+            }else{
+                val = data['street-name'];
+                val += '<br/>' + data['town-name'];
+                val += '<br/>' + data['postcode'];
+            } 
+        } 
+        return {name:business_section[key].text, value:val, url:url} 
     });
+
     // loop through the reasons
     var date = data['date-day'] + " "+ data['date-month']+ " "+ data['date-year'];
     var reason = Object.keys(business_reason).map(function (key) { 
-        console.log(key);
         var val = data[key];
         if (key === 'date'){
             val = date;
@@ -165,17 +177,29 @@ router.get('/summary', function (req, res) {
 
     // loop through the contacts
     var contacts = Object.keys(contact_section).map(function (key) { 
-        console.log(key);
         return {name:contact_section[key].text, value:data[key], url:contact_section[key].url} 
     });
 
-
+    // loop through the products ARRAY
+    var product_list =[];
     
-    console.log(contacts);
+    for (index in products){
+        var label = products[index].name;
+        var desc = data[label + '_product_description'];
+
+        if(desc!=""){
+            product_list = Object.keys(product_section).map(function (key) { 
+                var ref = label + '_' + product_section[key].name;
+                var val = data[ref];
+                return {name:product_section[key].text, value:val, url:'/which_products'} 
+            }); 
+        }
+    }
     
     res.render('summary', {
         business,
         reason,
+        product_list,
         contacts
     });
 });
