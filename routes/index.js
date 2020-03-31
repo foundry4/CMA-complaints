@@ -488,9 +488,21 @@ router.get('/contact_details', function (req, res) {
     res.render('contact_details', {values: req.session.data});
 });
 router.post('/contact_details',
-    [ body('contact-email').if(body('contact-email').notEmpty())
+    [ 
+        body('contact-name')
+        .exists()
+        .not().isEmpty().withMessage('Please provide your full name.'),
+        // check for either email address OR telephone number
+        body(['contact-email','contact-number']).custom((value,{req}) => {
+            if(!req.body['contact-email'] && !req.body['contact-number']) {
+                throw new Error('Please provide an email address or telephone number');
+            }
+            return true;
+        }),
+        body('contact-email').if(body('contact-email').notEmpty())
         .isEmail().withMessage('Enter an email address in the correct format, like name@example.com') ],
     async (request, response) => {
+        
         try {
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
@@ -500,6 +512,8 @@ router.post('/contact_details',
             }
             else {
                 let errorSummary = Object.values(errors);
+                // filter summary to remove duplicate with contact-number id
+                errorSummary = errorSummary.filter((a)=>a.id!=='contact-number');
                 console.log('found errors in validation',errorSummary,errors);
                 try {
                     response.render('contact_details', {
