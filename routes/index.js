@@ -437,10 +437,7 @@ router.post('/when_behaviour',
             .exists()
             .not().isEmpty().withMessage('Enter the year of the report'),
         body(['date']).custom((value,{req}) => {
-            console.log('my value => ',req.body)
-           if (req.body['date-year']<2020) {
-               throw new Error('Please enter a date since the Covid-19 outbreak');
-           }
+            console.log('my value => ',req.body);
            const today = new Date();
            const today_year = today.getFullYear();
            // month is 0-11 in javascript so need to add to make it 1
