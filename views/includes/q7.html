@@ -1,7 +1,14 @@
 <h1 class="govuk-heading-xl">
     Which products is the business unfairly raising prices for?
 </h1>
+{% if errors["product"] %}
+{% set formGroupClass = formGroupClass + " govuk-form-group--error" %}
+{% endif %}
+<div class="{{formGroupClass}}">
 
+<span id="product-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> {{ errors["product"].text }}
+    </span>
 <p class="govuk-hint">
     These are the most commonly reported products. For each product, please provide a description of the product, the current raised price and the original price (before the COVID-19 outbreak).
 </p>
@@ -18,4 +25,24 @@
 <div>
     <p class="govuk-body"><b>Medical products</b></p>
     {% include "includes/medical_products.html" %}
+</div>
+</div>
+<div>
+    <p class="govuk-body"><b>Other product</b></p>
+
+    {{ govukCharacterCount({
+    classes: "govuk-input--width-20",
+    maxlength: 100,
+    label: {
+    text: " Is the business raising prices unfairly for products or services not mentioned above?"
+    },
+    hint: {
+        text: "For each product or service, please provide a description of the product, the current raised price and the original price (before the COVID-19 outbreak)."
+    },
+    rows: 3,
+    id: "other_product",
+    name: "other_product",
+    value: values["other_product"],
+    errorMessage: errors["other_product"]
+    }) }}
 </div>
