@@ -237,7 +237,12 @@ router.get('/which_products', function (req, res) {
     }
 });
 router.post('/which_products',
-    [ ...validate_pack_sizes(body),  ... validate_expected_price(body) ],
+    [ ...validate_pack_sizes(body),  ... validate_expected_price(body),body(['product','other_product']).custom((value,{req}) => {
+        if(!req.body.other_product && !req.body.product) {
+            throw new Error('Please select a product or provide details in the "Other product" category');
+        }
+        return true;
+    })  ],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
@@ -248,7 +253,7 @@ router.post('/which_products',
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log(errors);
+                errorSummary = errorSummary.filter((a)=>a.id!=='product');
 
                 console.log('found errors in validation');
                 try {
@@ -450,7 +455,6 @@ router.post('/when_behaviour',
                 throw new Error('Please enter a date in the past');
             }
             return true;
-
         })],
     async (request, response) => {
         try {
