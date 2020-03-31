@@ -280,7 +280,9 @@ router.post('/what_is_business_url',
         .not().isEmpty().withMessage('Please provide the name of the business.'),
         body('website')
         .exists()
-        .not().isEmpty().withMessage('Please provide the url for the business in question.') ],
+        .not().isEmpty().withMessage('Please provide the url for the business in question.'),
+        body('business-email').if(body('business-email').notEmpty())
+            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
