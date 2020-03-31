@@ -4,6 +4,9 @@
 {% set pageTitle = "Please share the details of the website where you saw the unfair behaviour." %}
 {% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
 
+{% block beforeContent %}
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
 
 {% block content %}
 {% set orgNameClass = "govuk-input--width-20" %}
