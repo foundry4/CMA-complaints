@@ -28,20 +28,5 @@
               ]
               }) }}
     {% endfor %}
-
-    {{ govukCharacterCount({
-            label: {
-                text: "If you answered Other, please provide further details."
-            },
-            maxlength: 200,
-            threshold: 50,
-            rows: 1,
-            id: "report_other",
-            name: "report_other",
-            value: values["report_other"],
-            errorMessage: errors["report_other"]
-          }) }}
-
-
   </fieldset>
 </div>
