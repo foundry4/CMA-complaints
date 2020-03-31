@@ -274,7 +274,11 @@ router.get('/what_is_business_url', function (req, res) {
     res.render('what_is_business_url');
 });
 router.post('/what_is_business_url',
-    [ body('website')
+    [ 
+        body('business-name')
+        .exists()
+        .not().isEmpty().withMessage('Please provide the name of the business.'),
+        body('website')
         .exists()
         .not().isEmpty().withMessage('Please provide the url for the business in question.') ],
     async (request, response) => {

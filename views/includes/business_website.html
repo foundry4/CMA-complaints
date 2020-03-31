@@ -8,6 +8,16 @@
     If possible, share the URL of the specific webpage where you saw the unfair behaviour.
 
 </p>
+{{ govukInput({
+label: {
+text: "Business name"
+},
+classes: "govuk-input--width-20",
+id: "business-name",
+name: "business-name",
+value: values["business-name"],
+errorMessage: errors["business-name"]
+}) }}
 
 {{ govukInput({
 label: {
