@@ -451,7 +451,6 @@ router.post('/when_behaviour',
         }),
 
         body(['date']).custom((value,{req}) => {
-            console.log('my value => ',req.body);
             if(isNaN(req.body['date-day'])||isNaN(req.body['date-month'])|| isNaN(req.body['date-year'])){
                 throw new Error('Please enter a valid date');
             }
@@ -459,14 +458,9 @@ router.post('/when_behaviour',
             const today = new moment().startOf('day');
             const date_obj = { year : Number(req.body['date-year']), month : Number(req.body['date-month'])-1, day : Number(req.body['date-day']) };
             const date = new moment.tz(date_obj,"Europe/London");
-           // console.log('today = ', today_day, req.body['date-day'], today_month,req.body['date-month'], today_year,req.body['date-year'],req.body['date-day']>today_day &&req.body['date-month']>today_month&& req.body['date-year']>today_year,req.body['date-day']>today_day ,req.body['date-month']>today_month, req.body['date-year']>today_year );
             if (req.body['date-year']<2020) {
                 throw new Error('Please enter a date since the COVID 19 outbreak');
             }
-            // const date = new Date(req.body['date-year'],req.body['date-month']-1,req.body['date-day'],0,0);
-            console.log('date', date, 'moment',today);
-
-            console.log('comparison = ', date>today, date.isBefore(today));
             if (date.isAfter(today)) {
                 throw new Error('Please enter a date in the past');
             }
