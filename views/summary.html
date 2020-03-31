@@ -21,96 +21,10 @@ Summary
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl">
       Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak    </h1>
-    <span id="when-hint" class="govuk-hint">
-      Please check your answers.
+    <span id="when-hint" class="govuk-body">
+      <p> By clicking submit, you agree to your answers being sent to the CMA as per the privacy notice.</p>
     </span>
-
-    <h2 class="govuk-heading-m">
-      Business details
-    </h2>
-    <dl class="govuk-summary-list">
-      {% for item in business %}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          {{ item.name }}
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ item.value | safe }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ item.url }}">
-            Change<span class="govuk-visually-hidden"> name </span>
-          </a>
-        </dd>
-      </div>
-      {% endfor %}
-    </dl>
-
-    <div class="govuk-!-padding-bottom-5"></div>
-    <h2 class="govuk-heading-m">
-      Reason for complaint
-    </h2>
-    <dl class="govuk-summary-list">
-      {% for item in reason %}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          {{ item.name }}
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ item.value }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ item.url }}">
-            Change<span class="govuk-visually-hidden"> name </span>
-          </a>
-        </dd>
-      </div>
-      {% endfor %}
-    </dl>
-
-    <div class="govuk-!-padding-bottom-5"></div>
-    <h2 class="govuk-heading-m">
-      Product details
-    </h2>
-    <dl class="govuk-summary-list">
-      {% for item in product_list %}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          {{ item.name }}
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ item.value }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ item.url }}">
-            Change<span class="govuk-visually-hidden"> name </span>
-          </a>
-        </dd>
-      </div>
-      {% endfor %}
-    </dl>
-
-    <div class="govuk-!-padding-bottom-5"></div>
-    <h2 class="govuk-heading-m">
-      Contact details
-    </h2>
-    <dl class="govuk-summary-list">
-      {% for item in contacts %}
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key">
-          {{ item.name }}
-        </dt>
-        <dd class="govuk-summary-list__value">
-          {{ item.value }}
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="{{ item.url }}">
-            Change<span class="govuk-visually-hidden"> name </span>
-          </a>
-        </dd>
-      </div>
-      {% endfor %}
-    </dl>
+<br>
 
     <form id="" action="/submit" method="post" class="form">
       <button class="govuk-button" data-module="govuk-button">
