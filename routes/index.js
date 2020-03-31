@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const moment = require('moment-timezone');
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
@@ -452,14 +452,22 @@ router.post('/when_behaviour',
 
         body(['date']).custom((value,{req}) => {
             console.log('my value => ',req.body);
-           const today = new Date();
-           const today_year = today.getFullYear();
-           // month is 0-11 in javascript so need to add to make it 1
-           const today_month = today.getMonth()+1;
-           const today_day = today.getDate();
-           console.log('today = ', today_day, today_month, today_year);
+            if(isNaN(req.body['date-day'])||isNaN(req.body['date-month'])|| isNaN(req.body['date-year'])){
+                throw new Error('Please enter a valid date');
+            }
+            moment.tz.setDefault("Europe/London");
+            const today = new moment().startOf('day');
+            const date_obj = { year : Number(req.body['date-year']), month : Number(req.body['date-month'])-1, day : Number(req.body['date-day']) };
+            const date = new moment.tz(date_obj,"Europe/London");
+           // console.log('today = ', today_day, req.body['date-day'], today_month,req.body['date-month'], today_year,req.body['date-year'],req.body['date-day']>today_day &&req.body['date-month']>today_month&& req.body['date-year']>today_year,req.body['date-day']>today_day ,req.body['date-month']>today_month, req.body['date-year']>today_year );
+            if (req.body['date-year']<2020) {
+                throw new Error('Please enter a date since the COVID 19 outbreak');
+            }
+            // const date = new Date(req.body['date-year'],req.body['date-month']-1,req.body['date-day'],0,0);
+            console.log('date', date, 'moment',today);
 
-            if (req.body['date-day']>today_day ||req.body['date-month']>today_month|| req.body['date-year']>today_year) {
+            console.log('comparison = ', date>today, date.isBefore(today));
+            if (date.isAfter(today)) {
                 throw new Error('Please enter a date in the past');
             }
             return true;
@@ -476,6 +484,8 @@ router.post('/when_behaviour',
                 let errorSummary = Object.values(errors);
                 console.log('found errors in validation',errorSummary,errors);
                 try {
+
+                    errorSummary = errorSummary.filter((a)=>a.id!=='date');
                     response.render('when_behaviour', {
                         errors,
                         errorSummary,
