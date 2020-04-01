@@ -453,7 +453,10 @@ router.post('/when_behaviour',
             return true;
         }),
         body('date-year').custom((value,{req}) => {
-            if (req.body['date-year']<2020) {
+            if (isNaN(req.body['date-year'])||req.body['date-year']==='') {
+                throw new Error('Enter a valid month of the report');
+            }
+            if (req.body['date-year']<2020 ) {
                 throw new Error('Enter a date since the COVID 19 outbreak');
             }
             if (!req.body['date-year']){
@@ -468,10 +471,10 @@ router.post('/when_behaviour',
             const today = new moment().startOf('day');
             const date_obj = { year : Number(req.body['date-year']), month : Number(req.body['date-month'])-1, day : Number(req.body['date-day']) };
             const date = new moment.tz(date_obj,"Europe/London");
-            if (req.body['date-year']<2020) {
+            if (req.body['date-year']!==''&&req.body['date-year']<2020) {
                 throw new Error('Enter a date since the COVID 19 outbreak');
             }
-            if(!date.isValid()){
+            if(req.body['date-year']!==''&&!date.isValid()){
                 throw new Error('Enter a valid date');
             }
 
