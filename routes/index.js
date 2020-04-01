@@ -142,11 +142,13 @@ router.get('/summary', function (req, res) {
     var business = Object.keys(business_section).map(function (key) {
         var val = data[key];
         var url = business_section[key].url;
+        console.log(key, val);
+        
         if(key === 'is-online'){
             val = (val === 'true') ? "Yes" : "No";
         }
         if(key=='location'){
-            if( data['is-online'] ){
+            if( data['is-online'] === 'true' ){
                 val = data['website'] +'<br>' + data['business-email'];
                 // update url
                 url ='/what_is_business_url';
@@ -185,14 +187,18 @@ router.get('/summary', function (req, res) {
     });
 
     // loop through the contacts
-    var contacts = Object.keys(contact_section).map(function (key) {
-        var val = data[key];
-        if(key === 'more-info'){
-            val = (val === 'true') ? "Yes" : "No";
-        }
+    var contacts = [];
+    if(data['more-info']==='true'){
+        contacts = Object.keys(contact_section).map(function (key) {
+            var val = data[key];
+            if(key === 'more-info'){
+                val = (val === 'true') ? "Yes" : "No";
+            }
             
-        return {name:contact_section[key].text, value:val, url:contact_section[key].url}
-    });
+            return {name:contact_section[key].text, value:val, url:contact_section[key].url}
+        });
+    }
+
 
     
 
@@ -211,6 +217,7 @@ router.get('/summary', function (req, res) {
             });
         }
     }
+console.log(data['more-info']);
 
     res.render('summary', {
         business,
