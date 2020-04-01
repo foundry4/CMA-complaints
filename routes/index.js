@@ -319,7 +319,13 @@ router.get('/where_was_behaviour', function (req, res) {
     res.render('where_was_behaviour', {});
 });
 router.post('/where_was_behaviour',
-    [ body('is-online')
+    [ body('other_location').custom((value,{req}) => {
+        if (req.body['is-online']==='other'&&!req.body['other_location']){
+            throw new Error('Please enter the location of the report');
+        }
+        return true;
+    }),
+        body('is-online')
         .exists()
         .not().isEmpty().withMessage('Please indicate where the behaviour was observed.') ],
     async (request, response) => {
