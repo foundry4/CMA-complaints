@@ -163,6 +163,7 @@ router.get('/summary', function (req, res) {
         return {name:business_section[key].text, value:val, url:url}
     });
 
+/* 
     // loop through the reasons
     var date = data['date-day'] + " "+ data['date-month']+ " "+ data['date-year'];
     var reason = Object.keys(business_reason).map(function (key) {
@@ -185,7 +186,7 @@ router.get('/summary', function (req, res) {
         }
         return {name:business_reason[key].text, value:val, url:business_reason[key].url}
     });
-
+ */
     // loop through the contacts
     var contacts = [];
     if(data['more-info']==='true'){
@@ -200,11 +201,9 @@ router.get('/summary', function (req, res) {
     }
 
 
-    
-
+/* 
     // loop through the products ARRAY
     var product_list =[];
-
     for (index in products){
         var label = products[index].name;
         var desc = data[label + '_product_description'];
@@ -217,12 +216,12 @@ router.get('/summary', function (req, res) {
             });
         }
     }
-console.log(data['more-info']);
+ */
 
     res.render('summary', {
         business,
-        reason,
-        product_list,
+        //reason,
+        //product_list,
         displayContacts: data['more-info'],
         contacts
     });
