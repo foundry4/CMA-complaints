@@ -143,7 +143,7 @@ router.get('/summary', function (req, res) {
         var val = data[key];
         var url = business_section[key].url;
         if(key === 'is-online'){
-            val = (val === true) ? "Yes" : "No";
+            val = (val === 'true') ? "Yes" : "No";
         }
         if(key=='location'){
             if( data['is-online'] ){
@@ -188,7 +188,7 @@ router.get('/summary', function (req, res) {
     var contacts = Object.keys(contact_section).map(function (key) {
         var val = data[key];
         if(key === 'more-info'){
-            val = (val === true) ? "Yes" : "No";
+            val = (val === 'true') ? "Yes" : "No";
         }
             
         return {name:contact_section[key].text, value:val, url:contact_section[key].url}
