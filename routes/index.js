@@ -134,82 +134,93 @@ router.post('/what_happened',
     }
 );
 
-// router.get('/summary', function (req, res) {
-//     var data = req.session.data;
-//     console.log('final data = ', data);
-//
-//     // loop through the business
-//     var business = Object.keys(business_section).map(function (key) {
-//         var val = data[key];
-//         var url = business_section[key].url;
-//         if(key=='location'){
-//             if( data['is-online'] ){
-//                 val = data['website'] +'<br>' + data['business-email'];
-//                 // update url
-//                 url ='/what_is_business_url';
-//             }else{
-//                 val = data['street-name'];
-//                 val += '<br/>' + data['town-name'];
-//                 val += '<br/>' + data['postcode'];
-//             }
-//         }
-//         return {name:business_section[key].text, value:val, url:url}
-//     });
-//
-//     // loop through the reasons
-//     var date = data['date-day'] + " "+ data['date-month']+ " "+ data['date-year'];
-//     var reason = Object.keys(business_reason).map(function (key) {
-//         var val = data[key];
-//         if (key === 'date'){
-//             val = date;
-//         }
-//         if (key === 'report_reason' ){
-//             if(data['reason_other']){
-//                 val = data[key];
-//             }else{
-//
-//                 for (var i = 0; i < reports.length; i++) {
-//                     if (reports[i].name == data[key]) {
-//                         val = reports[i].text;
-//                     }
-//                 }
-//             }
-//
-//         }
-//         return {name:business_reason[key].text, value:val, url:business_reason[key].url}
-//     });
-//
-//     // loop through the contacts
-//     var contacts = Object.keys(contact_section).map(function (key) {
-//         return {name:contact_section[key].text, value:data[key], url:contact_section[key].url}
-//     });
-//
-//     // loop through the products ARRAY
-//     var product_list =[];
-//
-//     for (index in products){
-//         var label = products[index].name;
-//         var desc = data[label + '_product_description'];
-//
-//         if(desc!=""){
-//             product_list = Object.keys(product_section).map(function (key) {
-//                 var ref = label + '_' + product_section[key].name;
-//                 var val = data[ref];
-//                 return {name:product_section[key].text, value:val, url:'/which_products'}
-//             });
-//         }
-//     }
-//
-//     res.render('summary', {
-//         business,
-//         reason,
-//         product_list,
-//         contacts
-//     });
-// });
+router.get('/summary', function (req, res) {
+    var data = req.session.data;
+    console.log('final data = ', data);
+
+    // loop through the business
+    var business = Object.keys(business_section).map(function (key) {
+        var val = data[key];
+        var url = business_section[key].url;
+        if(key=='location'){
+            if( data['is-online'] ){
+                val = data['website'] +'<br>' + data['business-email'];
+                // update url
+                url ='/what_is_business_url';
+            }else{
+                val = data['street-name'];
+                val += '<br/>' + data['town-name'];
+                val += '<br/>' + data['postcode'];
+            }
+        }
+        return {name:business_section[key].text, value:val, url:url}
+    });
+
+    // loop through the reasons
+    var date = data['date-day'] + " "+ data['date-month']+ " "+ data['date-year'];
+    var reason = Object.keys(business_reason).map(function (key) {
+        var val = data[key];
+        if (key === 'date'){
+            val = date;
+        }
+        if (key === 'report_reason' ){
+            if(data['reason_other']){
+                val = data[key];
+            }else{
+
+                for (var i = 0; i < reports.length; i++) {
+                    if (reports[i].name == data[key]) {
+                        val = reports[i].text;
+                    }
+                }
+            }
+
+        }
+        return {name:business_reason[key].text, value:val, url:business_reason[key].url}
+    });
+
+    // loop through the contacts
+    var contacts = Object.keys(contact_section).map(function (key) {
+        var val = data[key];
+        if(key === 'more-info'){
+            val = (val === true) ? "Yes" : "No";
+        }
+            
+        return {name:contact_section[key].text, value:val, url:contact_section[key].url}
+    });
+
+    
+
+    // loop through the products ARRAY
+    var product_list =[];
+
+    for (index in products){
+        var label = products[index].name;
+        var desc = data[label + '_product_description'];
+
+        if(desc!=""){
+            product_list = Object.keys(product_section).map(function (key) {
+                var ref = label + '_' + product_section[key].name;
+                var val = data[ref];
+                return {name:product_section[key].text, value:val, url:'/which_products'}
+            });
+        }
+    }
+
+    res.render('summary', {
+        business,
+        reason,
+        product_list,
+        displayContacts: data['more-info'],
+        contacts
+    });
+});
+
+/* 
 router.get('/summary', function (req, res) {
     res.render('summary');
 });
+ */
 router.post('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     console.log('final data = ',req.session.data);
