@@ -434,15 +434,27 @@ router.get('/when_behaviour', function (req, res) {
     res.render('when_behaviour', {values: req.session.data});
 });
 router.post('/when_behaviour',
-    [ body('date-day')
-        .exists()
-        .not().isEmpty().withMessage('Enter the day of the report'),
-        body('date-month')
-            .exists()
-            .not().isEmpty().withMessage('Enter the month of the report'),
+    [ body('date-day').custom((value,{req}) => {
+        if (isNaN(req.body['date-day'])||req.body['date-day']>31 ||req.body['date-day']<1) {
+            throw new Error('Enter a valid day of the report');
+        }
+        if (!req.body['date-year']){
+            throw new Error('Enter the year of the report');
+        }
+        return true;
+    }),
+        body('date-month').custom((value,{req}) => {
+            if (isNaN(req.body['date-month'])||req.body['date-month']>12 ||req.body['date-month']<1) {
+                throw new Error('Enter a valid month of the report');
+            }
+            if (!req.body['date-year']){
+                throw new Error('Enter the year of the report');
+            }
+            return true;
+        }),
         body('date-year').custom((value,{req}) => {
             if (req.body['date-year']<2020) {
-                throw new Error('Please enter a date since the COVID 19 outbreak');
+                throw new Error('Enter a date since the COVID 19 outbreak');
             }
             if (!req.body['date-year']){
                 throw new Error('Enter the year of the report');
@@ -456,15 +468,15 @@ router.post('/when_behaviour',
             const today = new moment().startOf('day');
             const date_obj = { year : Number(req.body['date-year']), month : Number(req.body['date-month'])-1, day : Number(req.body['date-day']) };
             const date = new moment.tz(date_obj,"Europe/London");
+            if (req.body['date-year']<2020) {
+                throw new Error('Enter a date since the COVID 19 outbreak');
+            }
             if(!date.isValid()){
-                throw new Error('Please enter a valid date');
+                throw new Error('Enter a valid date');
             }
 
-            if (req.body['date-year']<2020) {
-                throw new Error('Please enter a date since the COVID 19 outbreak');
-            }
             if (date.isAfter(today)) {
-                throw new Error('Please enter a date in the past');
+                throw new Error('Enter a date in the past');
             }
             return true;
         })],
@@ -481,7 +493,7 @@ router.post('/when_behaviour',
                 console.log('found errors in validation',errorSummary,errors);
                 try {
                     errorSummary = errorSummary.filter((a)=>{console.log(a.id==='date',a.text==='Please enter a date since the COVID 19 outbreak',!(a.id==='date'&& a.text==='Please enter a date since the COVID 19 outbreak'));
-                    return !(a.id==='date'&& a.text==='Please enter a date since the COVID 19 outbreak')});
+                    return !(a.id==='date'&& a.text==='Enter a date since the COVID 19 outbreak')});
                     response.render('when_behaviour', {
                         errors,
                         errorSummary,
