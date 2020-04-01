@@ -480,8 +480,8 @@ router.post('/when_behaviour',
                 let errorSummary = Object.values(errors);
                 console.log('found errors in validation',errorSummary,errors);
                 try {
-
-                    errorSummary = errorSummary.filter((a)=>a.id!=='date');
+                    errorSummary = errorSummary.filter((a)=>{console.log(a.id==='date',a.text==='Please enter a date since the COVID 19 outbreak',!(a.id==='date'&& a.text==='Please enter a date since the COVID 19 outbreak'));
+                    return !(a.id==='date'&& a.text==='Please enter a date since the COVID 19 outbreak')});
                     response.render('when_behaviour', {
                         errors,
                         errorSummary,
