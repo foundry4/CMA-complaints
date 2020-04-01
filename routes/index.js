@@ -142,16 +142,21 @@ router.get('/summary', function (req, res) {
     var business = Object.keys(business_section).map(function (key) {
         var val = data[key];
         var url = business_section[key].url;
+        if(key === 'is-online'){
+            val = (val === true) ? "Yes" : "No";
+        }
         if(key=='location'){
             if( data['is-online'] ){
                 val = data['website'] +'<br>' + data['business-email'];
                 // update url
                 url ='/what_is_business_url';
             }else{
-                val = data['street-name'];
-                val += '<br/>' + data['town-name'];
-                val += '<br/>' + data['postcode'];
-            }
+                val = "";
+                if (data['street-name']) val += data['street-name'];
+                if (data['town-name']) val += '<br/>' + data['town-name'];
+                if (data['county']) val += '<br/>' + data['county'];
+                if (data['postcode']) val += '<br/>' + data['postcode'];
+              }
         }
         return {name:business_section[key].text, value:val, url:url}
     });
