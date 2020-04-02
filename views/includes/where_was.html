@@ -32,17 +32,17 @@
             {
         value: true,
         text: "Online",
-        checked: values["is-online"] == 'true'
+        checked: values["is-online"] === 'true'
         },
         {
         value: false,
         text: "In store",
-        checked: values["is-online"] == 'false'
+        checked: values["is-online"] === 'false'
         },
         {
         value: 'other',
         text: "Other",
-        checked: values["is-online"] == 'other',
+        checked: values["is-online"] === 'other',
         "conditional": {
         "html": textHtml
         }

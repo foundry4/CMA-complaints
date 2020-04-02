@@ -208,7 +208,7 @@ router.post('/what_happened',
 //     });
 // });
 router.get('/summary', function (req, res) {
-    res.render('summary');
+    res.render('summary', {values: req.session.data});
 });
 router.post('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
@@ -276,7 +276,7 @@ router.post('/which_products',
     }
 );
 router.get('/what_is_business_url', function (req, res) {
-    res.render('what_is_business_url');
+    res.render('what_is_business_url',{values: req.session.data});
 });
 router.post('/what_is_business_url',
     [ 
@@ -316,7 +316,7 @@ router.post('/what_is_business_url',
 );
 router.get('/where_was_behaviour', function (req, res) {
     console.log(req.session.data);
-    res.render('where_was_behaviour', {});
+    res.render('where_was_behaviour', {values: req.session.data});
 });
 router.post('/where_was_behaviour',
     [ body('other_location').custom((value,{req}) => {
@@ -363,7 +363,7 @@ router.post('/where_was_behaviour',
 );
 
 router.get('/more_information', function (req, res) {
-    res.render('more_information', {});
+    res.render('more_information', {values: req.session.data});
 });
 router.post('/more_information',
     [ body('more-info')
