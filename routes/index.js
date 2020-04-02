@@ -547,6 +547,10 @@ router.post('/where_is_business',
     }
 );
 
+router.get('/accessibility', function (req, res) {
+    res.render('accessibility', {values: req.session.data});
+});
+
 router.get('/privacy', function (req, res) {
   res.render('privacy', {values: req.session.data});
 });
