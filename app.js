@@ -53,8 +53,10 @@ let appViews = [
 ]
 let nunjucksConfig = {
   autoescape: true,
-  noCache: true,
-  express: app
+  express: app,
+  web: {
+    useCache:true
+  }
 }
 // set up nunjucjs
 nunjucks.configure(appViews, nunjucksConfig) 
