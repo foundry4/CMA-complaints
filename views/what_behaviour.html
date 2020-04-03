@@ -22,6 +22,28 @@
         }) }}
         {% endif %}
 
+        {% from "components/hmcts-currency-input/macro.njk" import hmctsCurrencyInput %}
+
+        {{ hmctsCurrencyInput({
+            id: 'amount',
+            name: 'amount',
+            classes: 'govuk-input--width-10',
+            label: {
+              text: 'How much do you need to pay?',
+              classes: 'govuk-label--m'
+            }
+          }) }}
+          
+          {{hmctsCurrencyInput({
+              classes: 'hmcts-currency-input__input--right-aligned',
+              id: 'input2',
+              name: 'input2',
+              label: {
+                classes: 'govuk-label--m',
+                html: 'How much do you owe?'
+              }
+            })}}
+
         <form id="" action="/what_behaviour" method="post" class="form">
             {% include "includes/q1.html" %}
             <button class="govuk-button" data-module="govuk-button">

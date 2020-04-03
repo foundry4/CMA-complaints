@@ -22,7 +22,27 @@
         <h1 class="govuk-heading-xl">
             Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
         </h1>
+        {% from "components/hmcts-currency-input/macro.njk" import hmctsCurrencyInput %}
 
+        {{ hmctsCurrencyInput({
+            id: 'amount',
+            name: 'amount',
+            classes: 'govuk-input--width-10',
+            label: {
+              text: 'How much do you need to pay?',
+              classes: 'govuk-label--m'
+            }
+          }) }}
+          
+          {{hmctsCurrencyInput({
+              classes: 'hmcts-currency-input__input--right-aligned',
+              id: 'input2',
+              name: 'input2',
+              label: {
+                classes: 'govuk-label--m',
+                html: 'How much do you owe?'
+              }
+            })}}
         <p class="govuk-body">
             Use this service to report a business you believe is behaving unfairly during the Coronavirus (COVID-19) outbreak.
         </p>
