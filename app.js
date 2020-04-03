@@ -54,13 +54,11 @@ let appViews = [
 let nunjucksConfig = {
   autoescape: true,
   express: app,
-  web: {
-    useCache:true
-  }
+  noCache: true,
 }
 // set up nunjucjs
 nunjucks.configure(appViews, nunjucksConfig) 
-app.set('view engine', 'html');
+app.set('view engine', 'html')
 
 app.use(logger('dev'));
 app.use(express.json());
