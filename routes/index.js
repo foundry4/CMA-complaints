@@ -19,6 +19,21 @@ const validate_pack_sizes =(body)=>{
     return array;
 }
 
+const validate_names =(body)=>{
+    const array = [];
+    for (let index in other_products){
+        const name = other_products[index].name+'_product_name';
+
+        array.push(body(name).custom((value,{req}) => {
+            if(req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
+                throw new Error('Enter a name for the product the report is about');
+            }
+            return true;
+        }));
+    }
+    return array;
+}
+
 const validate_expected_price =(body)=>{
     const array = [];
     for (index in products){
@@ -237,7 +252,7 @@ router.get('/which_products', function (req, res) {
     }
 });
 router.post('/which_products',
-    [ ...validate_pack_sizes(body),  ... validate_expected_price(body),body(['product','other_product']).custom((value,{req}) => {
+    [ ...validate_pack_sizes(body),  ... validate_expected_price(body), ...validate_names(body),body(['product','other_product']).custom((value,{req}) => {
         if(!req.body.other_product && !req.body.product) {
             throw new Error('Please select a product or provide details in the "Other product" category');
         }
