@@ -101,32 +101,43 @@ Summary
     </dl>
     <div class="govuk-!-padding-bottom-5"></div>
     
-    
+    {% if product_list|length %}
     <h2 class="govuk-heading-m">
       Product details
     </h2>
-    <dl class="govuk-summary-list">
+    
       {% for item in product_list %}
-      {{ item.category }}
-        {% if item.value %}
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">
-            {{ item.name }}
-          </dt>
-          <dd class="govuk-summary-list__value">
-            {{ item.value }}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="{{ item.url }}">
-              Change<span class="govuk-visually-hidden"> name </span>
-            </a>
-          </dd>
-        </div>
-        {% endif %}
-      {% endfor %}
-    </dl>
-    <div class="govuk-!-padding-bottom-5"></div>
+      <dl class="govuk-summary-list">
+      
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          {{ item.name }}
+        </dt>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="{{ item.url }}">
+            Change<span class="govuk-visually-hidden"> {{ item.name }} </span>
+          </a>
+        </dd>
+      </div>
+ 
+        {% for row in item.rows %}
+          {% if row.value %}
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+              {{ row.name }}
+            </dt>
+            <dd class="govuk-summary-list__value">
+              {{ row.value }}
+            </dd>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </dl>
 
+      {% endfor %}
+
+    <div class="govuk-!-padding-bottom-5"></div>
+    {% endif %}
 
     <span id="when-hint" class="govuk-body">
       <p> By submitting this report you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
