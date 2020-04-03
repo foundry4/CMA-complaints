@@ -4,8 +4,8 @@ const moment = require('moment-timezone');
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-const {reports,food_products,hygiene_products,medical_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
-const products = [...food_products,...hygiene_products,...medical_products];
+const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
+const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 
 
 const validate_pack_sizes =(body)=>{
