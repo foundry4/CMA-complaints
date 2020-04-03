@@ -265,7 +265,7 @@ router.get('/where_was_behaviour', function (req, res) {
 router.post('/where_was_behaviour',
     [ body('other_location').custom((value,{req}) => {
         if (req.body['is-online']==='other'&&!req.body['other_location']){
-            throw new Error('Please enter the location of the report');
+            throw new Error('Please specify where you saw the unfair behaviour');
         }
         return true;
     }),
