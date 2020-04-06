@@ -6,7 +6,19 @@ const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
 const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
 const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
+var multer = require('multer');
+var multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 
+const ID = 'AKIAIC2TFTJ57HS4IAGQ';
+const SECRET = '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';
+
+const BUCKET_NAME = 'test-upload-liz';
+const s3bucket = new AWS.S3({
+    accessKeyId: ID,
+    secretAccessKey: SECRET,
+    Bucket: BUCKET_NAME
+});
 
 const validate_pack_sizes =(body)=>{
     const array = [];
@@ -233,6 +245,43 @@ router.post('/submit', async function (req, res) {
     console.log('final data = ',req.session.data);
     try {
         const ref = await save_to_cma_db(req.session.data,req);
+        const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].split('.')[1]: Date.now().toString();
+        var get_params = {
+            Bucket: "test-upload-liz",
+            Key: file_name+'.zip'
+        };
+        let transfer_file=(req.session.data.evidence === 'true');
+        try {
+            if(transfer_file){
+                const get_res = await s3bucket.getObject(get_params).promise();
+            }
+        }catch(err){
+            transfer_file=false;
+            throw 'S3 upload Error: '+ err.toString();
+            // res.render('error', {content: {error: {message: "Internal server error"}}});
+        }
+        console.log('transfer?',transfer_file);
+        // console.log(res);
+        //     var copy_params = {
+        //     CopySource: 'test-upload-liz' + '/' + '1586170025391',
+        //     Bucket: 'test-upload-liz/new',
+        //     Key: ref
+        // };
+        // const delete_params = {
+        //     Bucket: 'test-upload-liz',
+        //     Key: '1586170025391'
+        // }
+
+        // const isObject = s3bucket.get
+
+        // s3bucket.copyObject(copy_params, function(err, data) {
+        //     if (err) console.log(err, err.stack); // an error occurred
+        //     else     console.log(data);           // successful response
+        // });
+        // s3bucket.deleteObject(delete_params, function(err, data) {
+        //     if (err) console.log(err, err.stack); // an error occurred
+        //     else     console.log(data);           // successful response
+        // });
         res.redirect('/confirm/'+ref);
     }
     catch (err){
@@ -378,6 +427,7 @@ router.post('/where_was_behaviour',
 );
 
 router.get('/more_information', function (req, res) {
+    console.log(req.session.data)
     res.render('more_information', {values: req.session.data});
 });
 router.post('/more_information',
@@ -616,19 +666,7 @@ router.post('/where_is_business',
     }
 );
 
-var multer = require('multer');
-var multerS3 = require('multer-s3');
-const AWS = require('aws-sdk');
 
-const ID = 'AKIAIC2TFTJ57HS4IAGQ';
-const SECRET = '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';
-
-const BUCKET_NAME = 'test-upload-liz';
-const s3bucket = new AWS.S3({
-    accessKeyId: ID,
-    secretAccessKey: SECRET,
-    Bucket: BUCKET_NAME
-});
 
 router.get('/file_upload', function (req, res) {
     res.render('file_upload', {values: req.session.data});
@@ -650,7 +688,16 @@ var upload = multer({
             cb(null, {fieldName: file.fieldname});
         },
         key: function (req, file, cb) {
+            // const has_session_id = req.cookies['connect.sid'];
             const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].split('.')[1]: Date.now().toString();
+            // req.session.data.filename = file_name;
+            if(req.session.data){
+                req.session.data.filename = file_name;
+            }
+            else {
+                req.session.data = {};
+                req.session.data.filename = file_name;
+            }
             cb(null, file_name)
         }
     })
