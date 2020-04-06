@@ -377,10 +377,10 @@ router.post('/where_was_behaviour',
     }
 );
 
-router.get('/more_information', function (req, res) {
-    res.render('more_information', {values: req.session.data});
+router.get('/happy_to_contact', function (req, res) {
+    res.render('happy_to_contact', {values: req.session.data});
 });
-router.post('/more_information',
+router.post('/happy_to_contact',
     [ body('more-info')
         .exists()
         .not().isEmpty().withMessage('Please indicate whether you are happy to provide your contact details.') ],
@@ -402,7 +402,7 @@ router.post('/more_information',
                 let errorSummary = Object.values(errors);
                 console.log('found errors in validation',errorSummary,errors);
                 try {
-                    response.render('more_information', {
+                    response.render('happy_to_contact', {
                         errors,
                         errorSummary,
                         values: request.body, // In production this should sanitized.
@@ -429,7 +429,7 @@ router.post('/evidence',
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
-                response.redirect('/more_information');
+                response.redirect('/happy_to_contact');
             }
             else {
                 let errorSummary = Object.values(errors);
