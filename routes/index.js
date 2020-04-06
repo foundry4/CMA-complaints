@@ -25,7 +25,8 @@ const validate_names =(body)=>{
         const name = other_products[index].name+'_product_name';
 
         array.push(body(name).custom((value,{req}) => {
-            if(req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
+            console.log(req.body['product']);
+            if(req.body['product']&&req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
                 throw new Error('Enter a name for the product the report is about');
             }
             return true;
