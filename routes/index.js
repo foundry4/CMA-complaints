@@ -472,7 +472,12 @@ router.post('/evidence',
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
-                response.redirect('/more_information');
+                if(request.session.data.evidence==='true'){
+                    response.redirect('/file_upload')
+                }
+                else {
+                    response.redirect('/more_information');
+                }
             }
             else {
                 let errorSummary = Object.values(errors);
