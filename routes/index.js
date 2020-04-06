@@ -616,6 +616,79 @@ router.post('/where_is_business',
     }
 );
 
+var multer = require('multer');
+var multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+
+const ID = 'AKIAIC2TFTJ57HS4IAGQ';
+const SECRET = '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';
+
+const BUCKET_NAME = 'test-upload-liz';
+const s3bucket = new AWS.S3({
+    accessKeyId: ID,
+    secretAccessKey: SECRET,
+    Bucket: BUCKET_NAME
+});
+
+router.get('/file_upload', function (req, res) {
+    res.render('file_upload', {values: req.session.data});
+});
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+})
+
+var upload = multer({
+    storage: multerS3({
+        s3: s3bucket,
+        bucket: 'test-upload-liz',
+        metadata: function (req, file, cb) {
+            cb(null, {fieldName: file.fieldname});
+        },
+        key: function (req, file, cb) {
+            const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].split('.')[1]: Date.now().toString();
+            cb(null, file_name)
+        }
+    })
+});
+router.post('/file_upload',
+    upload.single('file-upload'),
+    async (request, response) => {
+        try {
+            console.log(request.file, request.cookie);
+            // const file = request.body['file-upload'];
+
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/more_information');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation');
+                try {
+
+                    response.render('file_upload', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString())
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
+
+
 router.get('/accessibility', function (req, res) {
     res.render('accessibility', {values: req.session.data});
 });
@@ -632,24 +705,3 @@ router.get('/redirect', function (req, res, next) {
 });
 
 module.exports = router;
-
-//
-// [ { id: 'website',
-//     href: '#website',
-//     value: '',
-//     text: 'Please provide the url of the business in question.' } ] errors= { website:
-//         { id: 'website',
-//             href: '#website',
-//             value: '',
-//             text: 'Please provide the url of the business in question.' } }
-//
-//
-// found errors in validation [ { id: 'description',
-//     href: '#description',
-//     value: '',
-//     text: 'Please give a full description of the issue.' } ] { description:
-// { id: 'description',
-//     href: '#description',
-//     value: '',
-//     text: 'Please give a full description of the issue.' } }
-

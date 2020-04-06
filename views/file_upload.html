@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+
+{% set pageTitle = "Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak" %}
+{% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
+
+{% block beforeContent %}
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% block content %}
+{% set orgNameClass = "govuk-input--width-20" %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        {% if errorSummary.length > 0 %}
+        {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorSummary
+        }) }}
+        {% endif %}
+    </div>
+
+    <div class="govuk-grid-column-full">
+        <form id="" action="/file_upload" method="post" enctype="multipart/form-data" class="form">
+            <div class="govuk-grid-column-two-thirds">
+                {% include "includes/upload.html" %}
+                <button class="govuk-button" data-module="govuk-button">
+                    Continue
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

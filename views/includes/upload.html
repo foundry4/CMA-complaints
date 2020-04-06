@@ -1,0 +1,11 @@
+<h1 class="govuk-heading-xl">
+    Please upload the supporting evidence for the report
+</h1>
+
+{{ govukFileUpload({
+id: "file-upload",
+name: "file-upload",
+label: {
+text: "The file must be in a JPG, PDF, PNG or SVG format and no larger than 1Gb."
+}
+}) }}
