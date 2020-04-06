@@ -4352,5 +4352,31 @@
 
 .hide {
   display: none; }
+.hmcts-currency-input {
+  position: relative;
+}
 
+.hmcts-currency-input__symbol {
+  font-family: "GDS Transport", Arial, sans-serif;
+  font-size: 19px;
+  font-size: 1.1875rem;
+  line-height: 1.31579;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: bold;
+  padding: 8px 10px;
+  height: 40px;
+  box-sizing: border-box;
+  background-color: #f3f2f1;
+  border: 2px solid #0b0c0c;
+}
+
+.hmcts-currency-input input {
+  padding-left:  40px;
+}
+
+.hmcts-currency-input__input--right-aligned {
+  text-align: right;
+}
 /*# sourceMappingURL=application.css.map */
