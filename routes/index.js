@@ -4,8 +4,8 @@ const moment = require('moment-timezone');
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
-const {reports,food_products,hygiene_products,medical_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
-const products = [...food_products,...hygiene_products,...medical_products];
+const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
+const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 
 
 const validate_pack_sizes =(body)=>{
@@ -15,6 +15,21 @@ const validate_pack_sizes =(body)=>{
         array.push(body(name)
             .if(body(name).notEmpty())
             .isInt().withMessage('Enter a valid pack size for '+products[index].text));
+    }
+    return array;
+}
+
+const validate_names =(body)=>{
+    const array = [];
+    for (let index in other_products){
+        const name = other_products[index].name+'_product_name';
+
+        array.push(body(name).custom((value,{req}) => {
+            if(req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
+                throw new Error('Enter a name for the product the report is about');
+            }
+            return true;
+        }));
     }
     return array;
 }
@@ -237,7 +252,7 @@ router.get('/which_products', function (req, res) {
     }
 });
 router.post('/which_products',
-    [ ...validate_pack_sizes(body),  ... validate_expected_price(body),body(['product','other_product']).custom((value,{req}) => {
+    [ ...validate_pack_sizes(body),  ... validate_expected_price(body), ...validate_names(body),body(['product','other_product']).custom((value,{req}) => {
         if(!req.body.other_product && !req.body.product) {
             throw new Error('Please select a product or provide details in the "Other product" category');
         }
