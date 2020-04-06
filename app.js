@@ -24,9 +24,10 @@ var redisStore = require('connect-redis')(session);
 var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
 client.auth(redisURL.auth.split(":")[1]);
 
-const redis_config = { host: redisURL.hostname?redisURL.hostname:'localhost', port: redisURL.port?redisURL.port:6379, client: client,ttl :  260};
+const redis_config = { host: redisURL.hostname?redisURL.hostname:'localhost', port: redisURL.port?redisURL.port:6379, client: client,ttl :  86400};
 app.use(session({
   secret: 'keyboard cat',
+  ttl :  86400,
   // create new redis store.
   store: new redisStore(redis_config),
   saveUninitialized: true,
