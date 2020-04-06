@@ -3,23 +3,27 @@ const router = express.Router();
 const moment = require('moment-timezone');
 const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
-const save_to_cma_db = require('../lib/save_to_cma_db');
+const save_to_cma_db = require('../lib/save_to_cma_db').save_initial;
+const update_s3_url = require('../lib/save_to_cma_db').update_s3_url;
 const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
 const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 var multer = require('multer');
 var multerS3 = require('multer-s3');
 const AWS = require('aws-sdk');
+const path = require('path');
 
-const ID = 'AKIAIC2TFTJ57HS4IAGQ';
-const SECRET = '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';
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+const ID = process.env.ACCESS_ID;
+const SECRET = process.env.ACCESS_SECRET;
 
-const BUCKET_NAME = 'test-upload-liz';
+const BUCKET_NAME = process.env.BUCKET_NAME;
 const s3bucket = new AWS.S3({
     accessKeyId: ID,
     secretAccessKey: SECRET,
     Bucket: BUCKET_NAME
 });
-
 const validate_pack_sizes =(body)=>{
     const array = [];
     for (index in products){
@@ -102,7 +106,7 @@ router.post('/what_behaviour',
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation');
+                console.log('found errors in validation',errors,errorSummary);
                 try {
                     response.render('what_behaviour', {
                         reports,
@@ -244,33 +248,22 @@ router.post('/submit', async function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     console.log('final data = ',req.session.data);
     try {
-        const ref = await save_to_cma_db(req.session.data,req);
-        const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].split('.')[1]: Date.now().toString();
-        var get_params = {
-            Bucket: "test-upload-liz",
-            Key: file_name+'.zip'
-        };
-        let transfer_file=(req.session.data.evidence === 'true');
-        try {
-            if(transfer_file){
-                const get_res = await s3bucket.getObject(get_params).promise();
-            }
-        }catch(err){
-            transfer_file=false;
-            throw 'S3 upload Error: '+ err.toString();
+        const {id,ref} = await save_to_cma_db(req.session.data,req);
+        // const file_name = req.session.data.filename;
+
+
+
+        // }catch(err){
+        //     throw 'S3 upload Error: '+ err.toString()+req.session.data.evidence_url;
             // res.render('error', {content: {error: {message: "Internal server error"}}});
-        }
-        console.log('transfer?',transfer_file);
+        // }
+        // console.log('transfer?',transfer_file, file_name);
         // console.log(res);
         //     var copy_params = {
         //     CopySource: 'test-upload-liz' + '/' + '1586170025391',
         //     Bucket: 'test-upload-liz/new',
         //     Key: ref
         // };
-        // const delete_params = {
-        //     Bucket: 'test-upload-liz',
-        //     Key: '1586170025391'
-        // }
 
         // const isObject = s3bucket.get
 
@@ -671,14 +664,7 @@ router.post('/where_is_business',
 router.get('/file_upload', function (req, res) {
     res.render('file_upload', {values: req.session.data});
 });
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
-    }
-})
+var zipFolder = require('zip-folder');
 
 var upload = multer({
     storage: multerS3({
@@ -688,9 +674,16 @@ var upload = multer({
             cb(null, {fieldName: file.fieldname});
         },
         key: function (req, file, cb) {
+
+            console.log('old name =',file.originalname);
             // const has_session_id = req.cookies['connect.sid'];
-            const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].split('.')[1]: Date.now().toString();
+            const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].replace(/[^a-zA-Z0-9]/g, "")+'-'+file.originalname: Date.now().toString()+'-'+file.originalname;
             // req.session.data.filename = file_name;
+            console.log('d',file_name.split('.')[1]);
+            // if(file_name.split('.')[1]!=='jpg'||file_name.split('.')[1]!=='png'||file_name.split('.')[1]!=='pdf'){
+            //     console.log('fail');
+            //     res.
+            // }
             if(req.session.data){
                 req.session.data.filename = file_name;
             }
@@ -700,20 +693,77 @@ var upload = multer({
             }
             cb(null, file_name)
         }
-    })
+    }),
+    errorHandling: 'manual',
+    fileFilter: function(req, file, cb) {
+        const file_name = req.cookies['connect.sid']?req.cookies['connect.sid'].replace(/[^a-zA-Z0-9]/g, "")+'-'+file.originalname: Date.now().toString()+'-'+file.originalname;
+        checkFileType(req,file, cb,file_name);
+    }
 });
+
+const checkFileType = (req,file, cb,file_name) => {
+    console.log(file_name);
+    const filetypes = /jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+    console.log(extname&& mimetype)
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        req.fileValidationError='error liz'
+        cb(null, false, new Error('goes wrong on the mimetype'));
+    }
+};
 router.post('/file_upload',
-    upload.single('file-upload'),
+    [upload.single('file-upload')],
     async (request, response) => {
         try {
-            console.log(request.file, request.cookie);
-            // const file = request.body['file-upload'];
-
+            // console.log(request.body, request.file.location,request.files, request.cookie, request.fileValidationError);
+            // // const file = request.body['file-upload'];
+            // await upload.single('file-upload');
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
-                response.redirect('/more_information');
+
+                if(request.fileValidationError){
+                    let errors = { 'file-upload':
+                            { id: 'file-upload',
+                                href: '#file-upload',
+                                value: undefined,
+                                text: 'Please upload a JPG, PDF, PNG or SVG file' } } ;
+                    let errorSummary =  [ { id: 'file-upload',
+                        href: '#file-upload',
+                        value: undefined,
+                        text: 'Please upload a JPG, PDF, PNG or SVG file' } ]
+                    ;
+                    response.render('file_upload', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                }
+                else if (!request.file) {
+                    let errors = { 'file-upload':
+                            { id: 'file-upload',
+                                href: '#file-upload',
+                                value: undefined,
+                                text: 'Please upload a valid file' } } ;
+                    let errorSummary =  [ { id: 'file-upload',
+                        href: '#file-upload',
+                        value: undefined,
+                        text: 'Please upload a valid file' } ]
+                    ;
+                    response.render('file_upload', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                }
+                else {
+                    request.session.data.evidence_url = request.file.location;
+                    response.redirect('/more_information');}
             }
             else {
                 let errorSummary = Object.values(errors);
@@ -730,6 +780,7 @@ router.post('/file_upload',
                 }
             }
         } catch (err) {
+            console.log('ser')
             throw err.toString();
         }
     }

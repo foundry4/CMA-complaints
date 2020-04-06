@@ -96,4 +96,5 @@ date_month INTEGER,
 date_year INTEGER,
 is_online BOOLEAN DEFAULT FALSE,
 other_location VARCHAR (200),
+evidence_url VARCHAR (300),
 created_at TIMESTAMP DEFAULT now());

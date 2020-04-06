@@ -24,7 +24,8 @@
     "multer-s3": "^2.9.0",
     "nunjucks": "^3.2.1",
     "pg": "^7.18.2",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "zip-folder": "^1.0.0"
   },
   "devDependencies": {
     "connect-livereload": "^0.6.1",
