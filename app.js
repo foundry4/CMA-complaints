@@ -8,12 +8,7 @@ var livereload;
 const nunjucks = require('nunjucks');
 
 const env = (process.env.NODE_ENV || 'development').toLowerCase();
-
-console.log('NODE_ENV', process.env.NODE_ENV);
-console.log('env', env);
-
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
 
 var app = express();
 if (process.env.NODE_ENV !== 'production') {
@@ -41,7 +36,7 @@ app.use(session({
 
 // only load refresh libs in devt
 if (process.env.NODE_ENV === 'development') {
-  connectLivereload = require("connect-livereload");
+  connectLivereload = require('connect-livereload');
   livereload = require('livereload');
   app.use(connectLivereload());
 }
@@ -93,9 +88,9 @@ if (process.env.NODE_ENV === 'development') {
   liveReloadServer.watch(path.join(__dirname, 'public'));
 
   // wait for high port to re-establish...
-  liveReloadServer.server.once("connection", () => {
+  liveReloadServer.server.once('connection', () => {
     setTimeout(() => {
-      liveReloadServer.refresh("/");
+      liveReloadServer.refresh('/');
     }, 100);
   });
 }
