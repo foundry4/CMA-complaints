@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block pageTitle %}
+Summary
+{% endblock %}
+
+{% block header %}
+{{ govukHeader() }}
+{% endblock %}
+
+{% block beforeContent %}
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+{% endblock %}
+
+{% set mainClasses = "govuk-main-wrapper--l" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Submit your report    </h1>
+    <span id="when-hint" class="govuk-body">
+      <p> By submitting this report you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+    </span>
+<br>
+
+    <form id="" action="/submit" method="post" class="form">
+      <button class="govuk-button" data-module="govuk-button">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
