@@ -26,7 +26,7 @@ if(process.env.REDISTOGO_URL){
   var redisURL = url.parse(process.env.REDISTOGO_URL);
   console.log(redisURL)
   port = redisURL.port;
-  jost = redisURL.hostname;
+  host = redisURL.hostname;
 }
 
 var client = redis.createClient(port, host, {no_ready_check: true});
