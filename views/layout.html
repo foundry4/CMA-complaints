@@ -13,7 +13,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>GOV.UK - Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak</title>
+  <title>GOV.UK - {% block pageTitle %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0c">
 
@@ -116,8 +116,11 @@
           <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
         </div>
       </div>
+
     </div>
-    {% include "includes/fathom_analytics.html" %}
+{% if FATHOM_ID %}
+{% include "includes/fathom_analytics.html" %}
+{% endif %}
   </footer>
 
   <script src="/javascripts/all.js"></script>
