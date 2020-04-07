@@ -151,12 +151,17 @@ router.post('/what_happened',
 router.get('/summary', function (req, res) {
     var data = req.session.data;
     console.log('final data = ', data);
-       
     const { business, reason, product_list, contacts } = formatSummaryData(data);
+    var missingProducts = false;
+
+    if(data['report_reason'].indexOf('pricing')>-1 && data['product']===''){
+        missingProducts = true;
+    } 
 
     res.render('summary', {
         business,
         reason,
+        missingProducts,
         product_list,
         displayContacts: data['more-info'],
         contacts

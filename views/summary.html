@@ -51,6 +51,17 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <div class="govuk-!-padding-bottom-5"></div>
 
 
+    {% if missingProducts %}
+    <h2 class="govuk-heading-m">
+      Product details
+    </h2>
+    <p class="govuk-body govuk-error-message">
+      There are no product details. 
+    </p>
+      <a class="govuk-link" href="/which_products">
+      Add new product
+    </a>
+    {% else %}
     {% if product_list|length %}
     <h2 class="govuk-heading-m">
       Product details
@@ -60,7 +71,8 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     {% endfor %}
     <div class="govuk-!-padding-bottom-5"></div>
     {% endif %}
-
+    {% endif %}
+    
     
     <span id="when-hint" class="govuk-body">
       <p> By submitting this report you are confirming that, to the best of your knowledge, the details you are
