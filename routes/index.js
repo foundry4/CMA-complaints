@@ -5,8 +5,8 @@ const { body, validationResult } = require('express-validator');
 const { formatValidationErrors } = require('../lib/utils');
 const save_to_cma_db = require('../lib/save_to_cma_db');
 const formatSummaryData = require('../lib/formatSummaryData');
-const {reports,food_products,hygiene_products,medical_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
-const products = [...food_products,...hygiene_products,...medical_products];
+const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
+const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 
 const validate_pack_sizes =(body)=>{
     const array = [];
@@ -15,6 +15,22 @@ const validate_pack_sizes =(body)=>{
         array.push(body(name)
             .if(body(name).notEmpty())
             .isInt().withMessage('Enter a valid pack size for '+products[index].text));
+    }
+    return array;
+}
+
+const validate_names =(body)=>{
+    const array = [];
+    for (let index in other_products){
+        const name = other_products[index].name+'_product_name';
+
+        array.push(body(name).custom((value,{req}) => {
+            console.log(req.body['product']);
+            if(req.body['product']&&req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
+                throw new Error('Enter a name for the product the report is about');
+            }
+            return true;
+        }));
     }
     return array;
 }
@@ -66,7 +82,6 @@ router.post('/what_behaviour',
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
                 const reason = request.session.data.report_reason;
-               console.log(request.session.data.report_reason);
                if(reason === 'consumer_pricing'|| reason==='business_pricing'){
                    response.redirect('/which_products');
                }
@@ -97,7 +112,6 @@ router.post('/what_behaviour',
 
 
 router.get('/what_happened', function (req, res) {
-    console.log('what happened')
     res.render('what_happened', {
         reports,
         values: req.session.data
@@ -156,7 +170,6 @@ router.get('/summary', function (req, res) {
  */
 router.post('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
-    console.log('final data = ',req.session.data);
     res.redirect('summary');
 });
 
@@ -174,14 +187,18 @@ router.post('/submit', async function (req, res) {
 });
 
 router.get('/which_products', function (req, res) {
-    console.log(food_products,medical_products,hygiene_products)
-   try { res.render('which_products', {values: req.session.data, food_products, medical_products, hygiene_products});}
-   catch(err){
-        console.log('liz',err.toString());
-    }
+   res.render(
+       'which_products',
+       {
+           values: req.session.data,
+           food_products,
+           medical_products,
+           hygiene_products
+       });
+
 });
 router.post('/which_products',
-    [ ...validate_pack_sizes(body),  ... validate_expected_price(body),body(['product','other_product']).custom((value,{req}) => {
+    [ ...validate_pack_sizes(body),  ... validate_expected_price(body), ...validate_names(body),body(['product','other_product']).custom((value,{req}) => {
         if(!req.body.other_product && !req.body.product) {
             throw new Error('Please select a product or provide details in the "Other product" category');
         }
@@ -259,13 +276,12 @@ router.post('/what_is_business_url',
     }
 );
 router.get('/where_was_behaviour', function (req, res) {
-    console.log(req.session.data);
     res.render('where_was_behaviour', {values: req.session.data});
 });
 router.post('/where_was_behaviour',
     [ body('other_location').custom((value,{req}) => {
         if (req.body['is-online']==='other'&&!req.body['other_location']){
-            throw new Error('Please specify where you saw the unfair behaviour');
+            throw new Error('Please specify where you saw the behaviour');
         }
         return true;
     }),
@@ -380,7 +396,6 @@ router.post('/evidence',
 );
 
 router.get('/when_behaviour', function (req, res) {
-    console.log('when',req.session)
     res.render('when_behaviour', {values: req.session.data});
 });
 router.post('/when_behaviour',
@@ -463,7 +478,6 @@ router.post('/when_behaviour',
 );
 
 router.get('/contact_details', function (req, res) {
-    console.log('contact',req.session)
     res.render('contact_details', {values: req.session.data});
 });
 router.post('/contact_details',
@@ -511,7 +525,6 @@ router.post('/contact_details',
 );
 
 router.get('/where_is_business', function (req, res) {
-    console.log('where is business',req.session)
     res.render('where_is_business', {values: req.session.data});
 });
 router.post('/where_is_business',

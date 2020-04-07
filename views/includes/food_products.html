@@ -1,7 +1,6 @@
 {% for item in food_products %}
 {% include "includes/hidden_item.html" %}
 {% endfor %}
-
 <!--Prepare the hidden boxes-->
 {% set textHtml %}
 {{ govukCharacterCount({
@@ -30,20 +29,26 @@ value: values["other_food_product_description"],
 errorMessage: errors["other_food_product_description"]
 }) }}
 
-{{ govukInput({
+{{ hmctsCurrencyInput({
 label: {
-text: "Raised Price £ (optional)"
+text: "Raised Price (optional)"
 },
 classes: "govuk-input--width-20",
 id: "other_food_current_price",
 name: "other_food_current_price",
+hint: {
+    text: 'For example, £1.20'
+},
 value: values["other_food_current_price"],
 errorMessage: errors["other_food_current_price"]
 }) }}
 
-{{ govukInput({
+{{ hmctsCurrencyInput({
 label: {
-text: "Original Price £ (optional)"
+text: "Original Price (optional)"
+},
+hint: {
+text: 'For example, £0.80'
 },
 classes: "govuk-input--width-20",
 id: "other_food_expected_price",
@@ -52,12 +57,11 @@ value: values["other_food_expected_price"],
 errorMessage: errors["other_food_expected_price"]
 }) }}
 
-
 {% endset -%}
 
 <!--Render the main checkbox-->
 {{ govukCheckboxes({
-idPrefix: 'other-food',
+idPrefix: 'other_food',
 name: "product",
 items: [
 {

@@ -1,19 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template ">
-{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
-{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
-{% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
-{% from "govuk/components/select/macro.njk" import govukSelect %}
-{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
-{% from "govuk/components/character-count/macro.njk" import govukCharacterCount %}
-{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
-{% from "components/hmcts-currency-input/macro.njk" import hmctsCurrencyInput %}
 
 <head>
   <meta charset="utf-8">
-  <title>GOV.UK - {% block pageTitle %}{% endblock %}</title>
+  <title>GOV.UK - Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b0c0c">
 
@@ -67,22 +57,35 @@
     </div>
   </header>
 
-  <div class="govuk-phase-banner govuk-header__container govuk-width-container">
-    <p class="govuk-phase-banner__content">
-      <strong class="govuk-tag govuk-phase-banner__content__tag">
-        beta
-      </strong>
-      <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="mailto:webteam@cma.gov.uk?Subject=Feedback%20for%20the%20'Report%20a%20business%20behaving%20unfairly%20during%20the%20Coronavirus%20(COVID-19)%20outbreak'%20form">feedback</a> will help us to improve it.
-    </span>
-    </p>
-  </div>
-
   <div class="govuk-width-container ">
-    {% block beforeContent %}{% endblock %}
+    
+
+<a href="javascript:window.history.go(-1)" class="govuk-back-link">Back</a>
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
       <div id="content">
-        {% block content %}{% endblock %}
+        
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+
+    <p class="govuk-body">Try again later.</p>
+    <p class="govuk-body">We have not saved your answers. When the service is available, you will have to start again.</p>
+    <p class="govuk-body">Contact the CMA if you have any questions.</p>
+    <p class="govuk-body"><b>Telephone:</b><br>020 3738 6000</p>
+    <p class="govuk-body"><b>Email:</b><br><a href="mailto:general.enquiries@cma.gov.uk?Subject=Coronavirus%20/%20COVID-19%20outbreak%20-%20unfair%20business">general.enquiries@cma.gov.uk</a></p>
+    <p class="govuk-body"><b>Postal address:</b><br>
+      Complaints Manager<br>
+      Contacts Team<br>
+      Competition and Markets Authority<br>
+      The Cabot,<br>
+      25 Cabot Square,<br>
+      London<br>
+      E14 4QZ
+    </p>
+  </div>
+</div>
+
       </div>
     </main>
   </div>
@@ -91,19 +94,7 @@
     <div class="govuk-width-container ">
       <div class="govuk-footer__meta">
         <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-          <h2 class="govuk-visually-hidden">Support links</h2>
-          <ul class="govuk-footer__inline-list">
-            <li class="govuk-footer__inline-list-item">
-              <a class="govuk-footer__link" href="/privacy">
-                Privacy
-              </a>
-            </li>
-            <li class="govuk-footer__inline-list-item">
-              <a class="govuk-footer__link" href="/accessibility">
-                Accessibility statement
-              </a>
-            </li>
-          </ul>
+
           <svg aria-hidden="true" focusable="false" class="govuk-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 483.2 195.7" height="17" width="41">
             <path fill="currentColor" d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145" />
           </svg>
@@ -116,11 +107,22 @@
           <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
         </div>
       </div>
-
     </div>
-{% if FATHOM_ID %}
-{% include "includes/fathom_analytics.html" %}
-{% endif %}
+        <!-- Fathom - simple website analytics - https://usefathom.com -->
+    <script>
+        (function(f, a, t, h, o, m){
+        a[h]=a[h]||function(){
+        (a[h].q=a[h].q||[]).push(arguments)
+        };
+        o=f.createElement('script'),
+        m=f.getElementsByTagName('script')[0];
+        o.async=1; o.src=t; o.id='fathom-script';
+        m.parentNode.insertBefore(o,m)
+        })(document, window, 'https://cdn.usefathom.com/tracker.js', 'fathom');
+        fathom('set', 'siteId', 'VDJAIYIU');
+        fathom('trackPageview');
+    </script>
+    <!-- / Fathom -->
   </footer>
 
   <script src="/javascripts/all.js"></script>

@@ -30,9 +30,12 @@ value: values["other_medical_product_description"],
 errorMessage: errors["other_medical_product_description"]
 }) }}
 
-{{ govukInput({
+{{ hmctsCurrencyInput({
 label: {
-text: "Raised Price £ (optional)"
+text: "Raised Price (optional)"
+},
+hint: {
+text: 'For example, £1.20'
 },
 classes: "govuk-input--width-20",
 id: "other_medical_current_price",
@@ -41,9 +44,12 @@ value: values["other_medical_current_price"],
 errorMessage: errors["other_medical_current_price"]
 }) }}
 
-{{ govukInput({
+{{ hmctsCurrencyInput({
 label: {
-text: "Original Price £ (optional)"
+text: "Original Price (optional)"
+},
+hint: {
+text: 'For example, £0.80'
 },
 classes: "govuk-input--width-20",
 id: "other_medical_expected_price",
@@ -56,7 +62,7 @@ errorMessage: errors["other_medical_expected_price"]
 
 <!--Render the main checkbox-->
 {{ govukCheckboxes({
-idPrefix: 'other-medical',
+idPrefix: 'other_medical',
 name: "product",
 items: [
 {

@@ -8,12 +8,7 @@ var livereload;
 const nunjucks = require('nunjucks');
 
 const env = (process.env.NODE_ENV || 'development').toLowerCase();
-
-console.log('NODE_ENV', process.env.NODE_ENV);
-console.log('env', env);
-
 var indexRouter = require('./routes/index');
-//var usersRouter = require('./routes/users');
 
 var app = express();
 if (process.env.NODE_ENV !== 'production') {
@@ -29,9 +24,10 @@ var redisStore = require('connect-redis')(session);
 var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
 client.auth(redisURL.auth.split(":")[1]);
 
-const redis_config = { host: redisURL.hostname?redisURL.hostname:'localhost', port: redisURL.port?redisURL.port:6379, client: client,ttl :  260};
+const redis_config = { host: redisURL.hostname?redisURL.hostname:'localhost', port: redisURL.port?redisURL.port:6379, client: client,ttl :  86400};
 app.use(session({
   secret: 'keyboard cat',
+  ttl :  86400,
   // create new redis store.
   store: new redisStore(redis_config),
   saveUninitialized: true,
@@ -41,7 +37,7 @@ app.use(session({
 
 // only load refresh libs in devt
 if (process.env.NODE_ENV === 'development') {
-  connectLivereload = require("connect-livereload");
+  connectLivereload = require('connect-livereload');
   livereload = require('livereload');
   app.use(connectLivereload());
 }
@@ -54,7 +50,9 @@ let appViews = [
 let nunjucksConfig = {
   autoescape: true,
   express: app,
-  noCache: true,
+  web: {
+    useCache:true
+  }
 }
 // set up nunjucjs
 nunjucks.configure(appViews, nunjucksConfig) 
@@ -73,6 +71,8 @@ app.use('/', indexRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+// Set Fathom id and use to include analytics script
+app.locals.FATHOM_ID = process.env.FATHOM_ID;
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -91,9 +91,9 @@ if (process.env.NODE_ENV === 'development') {
   liveReloadServer.watch(path.join(__dirname, 'public'));
 
   // wait for high port to re-establish...
-  liveReloadServer.server.once("connection", () => {
+  liveReloadServer.server.once('connection', () => {
     setTimeout(() => {
-      liveReloadServer.refresh("/");
+      liveReloadServer.refresh('/');
     }, 100);
   });
 }
