@@ -21,16 +21,30 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
 
     <h1 class="govuk-heading-xl">Submit your report</h1>
 
-
     <h2 class="govuk-heading-m">
-      Contact details
+      Reason for complaint
     </h2>
+    {% if reason %}
     {{ govukSummaryList({
-      rows: contacts
+    rows: reason
     }) }}
+    {% else %}
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-error-message">
+          Missing data
+        </dt>
+        <dd class="govuk-summary-list__value">
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/what_behaviour">
+            Change<span class="govuk-visually-hidden"> report reason</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+    {% endif %}
     <div class="govuk-!-padding-bottom-5"></div>
-
-
 
     <h2 class="govuk-heading-m">
       Business details
@@ -49,32 +63,6 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
         </dd>
         <dd class="govuk-summary-list__actions">
           <a class="govuk-link" href="/where_was_behaviour">
-            Change<span class="govuk-visually-hidden"> business details</span>
-          </a>
-        </dd>
-      </div>
-    </dl>
-    {% endif %}
-    <div class="govuk-!-padding-bottom-5"></div>
-
-
-    <h2 class="govuk-heading-m">
-      Reason for complaint
-    </h2>
-    {% if reason %}
-    {{ govukSummaryList({
-      rows: reason
-    }) }}
-    {% else %}
-    <dl class="govuk-summary-list">
-      <div class="govuk-summary-list__row">
-        <dt class="govuk-summary-list__key govuk-error-message">
-          Missing data
-        </dt>
-        <dd class="govuk-summary-list__value">
-        </dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="/what_behaviour">
             Change<span class="govuk-visually-hidden"> business details</span>
           </a>
         </dd>
@@ -106,6 +94,13 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     {% endif %}
     {% endif %}
 
+    <h2 class="govuk-heading-m">
+      Contact details
+    </h2>
+    {{ govukSummaryList({
+    rows: contacts
+    }) }}
+    <div class="govuk-!-padding-bottom-5"></div>
 
     <span id="when-hint" class="govuk-body">
       <p> By submitting this report you are confirming that, to the best of your knowledge, the details you are
