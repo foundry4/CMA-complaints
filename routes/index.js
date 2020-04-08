@@ -217,19 +217,40 @@ router.post('/which_products',
     })  ],
     async (request, response) => {
         try {
+            if(!request.session.data){
+                request.session.data = {};
+            }
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
                 console.log('no errors in validation');
-                Object.keys(request.body).map((item)=>{
-                    const value = request.body[item]!==''?request.body[item]:undefined
-                    request.session.data[item] = value;
+                //oveerride all with undefined and then replace only valid ones
+                Object.keys(request.body).map((entry)=>{
+                    request.session.data[entry]=undefined;
                 });
-                if (!request.body.product){
-                    request.session.data.product = undefined;
+                    //Save hidden values only for selected products
+                if (Array.isArray(request.body.product)){
+                    Object.keys(request.body.product).map((item) => {
+                        const product_name = request.body.product[item];
+                        request.session.data[product_name+'_product_description'] = request.body[product_name+'_product_description'];
+                        request.session.data[product_name+'_current_price'] = request.body[product_name+'_current_price'];
+                        request.session.data[product_name+'_expected_price'] = request.body[product_name+'_expected_price'];
+                        if(product_name.indexOf('other_')>-1){
+                            request.session.data[product_name+'_product_name'] = request.body[product_name+'_product_name'];
+                        }
+
+                    });
                 }
-                if (!request.body.other_product){
-                    request.session.data.other_product = undefined;
-                }
+                else {
+                    const product_name = request.body.product;
+                    request.session.data[product_name+'_product_description'] = request.body[product_name+'_product_description'];
+                    request.session.data[product_name+'_current_price'] = request.body[product_name+'_current_price'];
+                    request.session.data[product_name+'_expected_price'] = request.body[product_name+'_expected_price'];
+                    if(product_name.indexOf('other_')>-1){
+                        request.session.data[product_name+'_product_name'] = request.body[product_name+'_product_name'];
+                    }                }
+
+                request.session.data.product = request.body.product?request.body.product:undefined;
+                request.session.data.other_product = request.body.other_product?request.body.other_product:undefined;
                 response.redirect('/where_was_behaviour');
             }
             else {
@@ -239,7 +260,6 @@ router.post('/which_products',
                 console.log('found errors in validation');
                 try {
                     response.render('which_products', {
-                        // reports,
                         food_products,
                         hygiene_products,
                         medical_products,
