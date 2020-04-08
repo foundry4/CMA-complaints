@@ -149,15 +149,15 @@ router.post('/what_happened',
 );
 
 router.get('/summary', function (req, res) {
+    try {
     var data = req.session.data;
     console.log('final data = ', data);
-    const { business, reason, product_list, contacts } = formatSummaryData(data);
+    const {business, reason, product_list, contacts} = formatSummaryData(data);
     var missingProducts = false;
 
-    if(data['report_reason'].indexOf('pricing')>-1 && data['product']===''){
+    if (data['report_reason']&&data['report_reason'].indexOf('pricing') > -1 && (data['product'] === undefined && data['other_product'] === undefined)) {
         missingProducts = true;
-    } 
-
+    }
     res.render('summary', {
         business,
         reason,
@@ -166,6 +166,10 @@ router.get('/summary', function (req, res) {
         displayContacts: data['more-info'],
         contacts
     });
+}
+    catch(err){
+        console.log('Summary render error',err.toString())
+    }
 });
 
 /* 

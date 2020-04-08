@@ -25,8 +25,8 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <h2 class="govuk-heading-m">
       Contact details
     </h2>
-    {{ govukSummaryList({ 
-      rows: contacts 
+    {{ govukSummaryList({
+      rows: contacts
     }) }}
     <div class="govuk-!-padding-bottom-5"></div>
 
@@ -35,18 +35,52 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <h2 class="govuk-heading-m">
       Business details
     </h2>
-    {{ govukSummaryList({ 
-      rows: business 
+    {% if business %}
+    {{ govukSummaryList({
+      rows: business
     }) }}
+    {% else %}
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-error-message">
+          Missing data
+        </dt>
+        <dd class="govuk-summary-list__value">
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/where_was_behaviour">
+            Change<span class="govuk-visually-hidden"> business details</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+    {% endif %}
     <div class="govuk-!-padding-bottom-5"></div>
 
 
     <h2 class="govuk-heading-m">
       Reason for complaint
     </h2>
-    {{ govukSummaryList({ 
-      rows: reason 
+    {% if reason %}
+    {{ govukSummaryList({
+      rows: reason
     }) }}
+    {% else %}
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key govuk-error-message">
+          Missing data
+        </dt>
+        <dd class="govuk-summary-list__value">
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="/what_behaviour">
+            Change<span class="govuk-visually-hidden"> business details</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+    {% endif %}
     <div class="govuk-!-padding-bottom-5"></div>
 
 
@@ -55,7 +89,7 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
       Product details
     </h2>
     <p class="govuk-body govuk-error-message">
-      There are no product details. 
+      There are no product details.
     </p>
       <a class="govuk-link" href="/which_products">
       Add new product
@@ -71,8 +105,8 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <div class="govuk-!-padding-bottom-5"></div>
     {% endif %}
     {% endif %}
-    
-    
+
+
     <span id="when-hint" class="govuk-body">
       <p> By submitting this report you are confirming that, to the best of your knowledge, the details you are
         providing are correct.</p>
