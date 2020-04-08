@@ -219,11 +219,8 @@ router.post('/which_products',
         try {
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
-                console.log('no errors in validation', request.body);
+                console.log('no errors in validation');
                 Object.keys(request.body).map((item)=>{
-                    console.log(item, 'data', request.session.data[item]);
-                    console.log('body',request.body[item])
-
                     const value = request.body[item]!==''?request.body[item]:undefined
                     request.session.data[item] = value;
                 });
@@ -233,8 +230,6 @@ router.post('/which_products',
                 if (!request.body.other_product){
                     request.session.data.other_product = undefined;
                 }
-                // request.session.data = {...request.session.data,...request.body};
-                // request.session.data.product = request.body.product;
                 response.redirect('/where_was_behaviour');
             }
             else {
@@ -319,6 +314,9 @@ router.post('/where_was_behaviour',
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
+                if(!request.body.other_location){
+                    request.session.data.other_location = undefined;
+                }
                 const location = request.session.data['is-online'];
                 if(location==='true') {
                     response.redirect('/what_is_business_url');
