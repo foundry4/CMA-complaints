@@ -235,7 +235,7 @@ router.post('/which_products',
                         request.session.data[product_name+'_product_description'] = request.body[product_name+'_product_description'];
                         request.session.data[product_name+'_current_price'] = request.body[product_name+'_current_price'];
                         request.session.data[product_name+'_expected_price'] = request.body[product_name+'_expected_price'];
-                        if(product_name.indexOf('other_')>-1){
+                        if(product_name&&product_name.indexOf('other_')>-1){
                             request.session.data[product_name+'_product_name'] = request.body[product_name+'_product_name'];
                         }
 
@@ -246,7 +246,7 @@ router.post('/which_products',
                     request.session.data[product_name+'_product_description'] = request.body[product_name+'_product_description'];
                     request.session.data[product_name+'_current_price'] = request.body[product_name+'_current_price'];
                     request.session.data[product_name+'_expected_price'] = request.body[product_name+'_expected_price'];
-                    if(product_name.indexOf('other_')>-1){
+                    if(product_name&&product_name.indexOf('other_')>-1){
                         request.session.data[product_name+'_product_name'] = request.body[product_name+'_product_name'];
                     }                }
 
