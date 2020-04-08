@@ -182,15 +182,30 @@ router.post('/summary', function (req, res) {
 });
 
 router.post('/submit', async function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    console.log('final data = ',req.session.data);
-    try {
-        const ref = await save_to_cma_db(req.session.data,req);
-        res.redirect('/confirm/'+ref);
-    }
-    catch (err){
-        console.log('Failed to save to database',err.toString());
-        res.render('error', { content : {error: {message: "Internal server error"}}});
+    // req.session.data = {...req.session.data,...req.body};
+    var data = req.session.data;
+    let{business, reason, product_list, contacts, other_product, errors, missingProducts,} = formatSummaryData(data);
+    const displayContacts = data&&data['more-info']?data['more-info']:undefined;
+    console.log('session', req.body);
+    if (req.body.total_errors >0){
+        res.render('summary', {
+            business,
+            reason,
+            missingProducts,
+            product_list,
+            displayContacts,
+            other_product,
+            contacts,
+            errors // In production this should sanitized.
+        });
+    }else {
+        try {
+            const ref = await save_to_cma_db(req.session.data, req);
+            res.redirect('/confirm/' + ref);
+        } catch (err) {
+            console.log('Failed to save to database', err.toString());
+            res.render('error', {content: {error: {message: "Internal server error"}}});
+        }
     }
 });
 

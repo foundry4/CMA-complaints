@@ -27,9 +27,6 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     {% endif %}
 
     <h1 class="govuk-heading-xl">Submit your report</h1>
-    <div class="govuk-form-group">
-      <input class="govuk-input" id="total_errors" name="total_errors" type="text" aria-label="total_errors" hidden value="">
-    </div>
     <h2 class="govuk-heading-m" id="reason_title">
       Reason for complaint
     </h2>
@@ -154,6 +151,9 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <br>
 
     <form id="" action="/submit" method="post" class="form">
+      <div class="govuk-form-group">
+        <input class="govuk-input" id="total_errors" name="total_errors" type="text" aria-label="total_errors" value="{{errors.length}}" aria-label="Total number of errors" hidden>
+      </div>
       <button class="govuk-button" data-module="govuk-button">
         Submit
       </button>
