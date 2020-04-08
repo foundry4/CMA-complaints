@@ -18,9 +18,22 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
 {% block content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    {% if total_errors>0 %}
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <li>
+            <a href="summary">There are {{total_errors}} errors. Please address all fields highlighted in red</a>
+          </li>
 
+        </ul>
+      </div>
+    </div>
+    {% endif %}
     <h1 class="govuk-heading-xl">Submit your report</h1>
-    <h2 class="govuk-heading-m">There are {{total_errors}} errors. Please address all fields highlighted in <span class=" govuk-heading-m" style="display:inline; color:#d4351c" >red</span></h2>
     <div class="govuk-form-group">
       <input class="govuk-input" id="total_errors" name="total_errors" type="text" aria-label="total_errors" hidden value="">
     </div>
