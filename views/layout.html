@@ -11,6 +11,7 @@
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "components/hmcts-currency-input/macro.njk" import hmctsCurrencyInput %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
 <head>
   <meta charset="utf-8">
@@ -49,8 +50,9 @@
   </script>
 
   <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
-
-  <header class="govuk-header " role="banner" data-module="govuk-header">
+<!--<div role="banner" >-->
+  <header >
+    <div class="govuk-header " data-module="govuk-header">
     <div class="govuk-header__container govuk-width-container">
       <div class="govuk-header__logo">
         <a href="https://www.gov.uk/" class="govuk-header__link govuk-header__link--homepage">
@@ -66,21 +68,32 @@
         </a>
       </div>
     </div>
-  </header>
+    </div>
 
-  <div class="govuk-phase-banner govuk-header__container govuk-width-container">
-    <p class="govuk-phase-banner__content">
-      <strong class="govuk-tag govuk-phase-banner__content__tag">
-        beta
-      </strong>
-      <span class="govuk-phase-banner__text">
+    <div class="govuk-phase-banner govuk-header__container govuk-width-container" >
+      <p class="govuk-phase-banner__content">
+        <strong class="govuk-tag govuk-phase-banner__content__tag">
+          beta
+        </strong>
+        <span class="govuk-phase-banner__text">
       This is a new service – your <a class="govuk-link" href="mailto:webteam@cma.gov.uk?Subject=Feedback%20for%20the%20'Report%20a%20business%20behaving%20unfairly%20during%20the%20Coronavirus%20(COVID-19)%20outbreak'%20form">feedback</a> will help us to improve it.
     </span>
-    </p>
-  </div>
+      </p>
+    </div>
+  </header>
 
+
+<!--</div>-->
   <div class="govuk-width-container ">
-    {% block beforeContent %}{% endblock %}
+    {% block beforeContent %}
+    <div role="navigation">
+
+    {{ govukBackLink({
+    text: "Back",
+    href: "javascript:window.history.go(-1)"
+    }) }}
+    </div>
+    {% endblock %}
     <main class="govuk-main-wrapper " id="main-content" role="main">
       <div id="content">
         {% block content %}{% endblock %}

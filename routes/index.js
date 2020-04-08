@@ -584,6 +584,7 @@ router.post('/contact_details',
 );
 
 router.get('/where_is_business', function (req, res) {
+    console.log(req.session.data);
     res.render('where_is_business', {values: req.session.data});
 });
 router.post('/where_is_business',
