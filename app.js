@@ -16,18 +16,29 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 var url = require('url');
-
-var redisURL = url.parse(process.env.REDISTOGO_URL);
 const redis = require('redis');
+
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
-var client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
-client.auth(redisURL.auth.split(":")[1]);
+let host = 'localhost';
+let port = 6379;
+if(process.env.REDISTOGO_URL){
+  var redisURL = url.parse(process.env.REDISTOGO_URL);
+  console.log(redisURL)
+  port = redisURL.port;
+  host = redisURL.hostname;
+}
 
-const redis_config = { host: redisURL.hostname?redisURL.hostname:'localhost', port: redisURL.port?redisURL.port:6379, client: client,ttl :  86400};
+var client = redis.createClient(port, host, {no_ready_check: true});
+if (process.env.REDISTOGO_URL){
+  client.auth(redisURL.auth.split(":")[1]);
+}
+
+const redis_config = { host, port, client: client,ttl :  86400000};
 app.use(session({
   secret: 'keyboard cat',
-  ttl :  86400,
+  ttl :  86400000,
+  cookie: {maxAge: 86400000 },
   // create new redis store.
   store: new redisStore(redis_config),
   saveUninitialized: true,

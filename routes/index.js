@@ -222,6 +222,9 @@ router.post('/what_happened',
 //     });
 // });
 router.get('/summary', function (req, res) {
+    console.log(req.session.cookie.maxAge);
+    console.log(req.session.cookie);
+    console.log(req.session);
     res.render('summary', {values: req.session.data});
 });
 router.post('/summary', function (req, res) {
