@@ -12,7 +12,9 @@
     </div>
 
     {% for row in item.rows %}
+    {% if row %}
     {% include "includes/summary_list_product_row.html" %}
+    {% endif %}
     {% endfor %}
 
 </dl>

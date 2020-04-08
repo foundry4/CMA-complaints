@@ -98,8 +98,13 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     {% for item in product_list %}
     {% include "includes/summary_list_product.html" %}
     {% endfor %}
-    <div class="govuk-!-padding-bottom-5"></div>
     {% endif %}
+    {% if other_product %}
+    {{ govukSummaryList({
+    rows: other_product
+    }) }}
+    {% endif %}
+    <div class="govuk-!-padding-bottom-5"></div>
     {% endif %}
 
     <h2 class="govuk-heading-m">

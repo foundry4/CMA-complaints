@@ -125,7 +125,7 @@ router.post('/what_happened',
         try {
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
-                console.log('no errors in validation');
+                console.log('no errors in validation', request.body.product);
                 request.session.data = {...request.session.data,...request.body};
                 response.redirect('/where_was_behaviour');
             }
@@ -152,9 +152,9 @@ router.get('/summary', function (req, res) {
     try {
     var data = req.session.data;
     console.log('final data = ', data);
-    const {business, reason, product_list, contacts} = formatSummaryData(data);
+    const {business, reason, product_list, contacts, other_product} = formatSummaryData(data);
     var missingProducts = false;
-
+    console.log(other_product)
     if (data&&data['report_reason']&&data['report_reason'].indexOf('pricing') > -1 && (data['product'] === undefined && data['other_product'] === undefined)) {
         missingProducts = true;
     }
@@ -165,6 +165,7 @@ router.get('/summary', function (req, res) {
         missingProducts,
         product_list,
         displayContacts,
+        other_product,
         contacts
     });
 }
@@ -218,8 +219,22 @@ router.post('/which_products',
         try {
             const errors = formatValidationErrors(validationResult(request))
             if (!errors) {
-                console.log('no errors in validation');
-                request.session.data = {...request.session.data,...request.body};
+                console.log('no errors in validation', request.body);
+                Object.keys(request.body).map((item)=>{
+                    console.log(item, 'data', request.session.data[item]);
+                    console.log('body',request.body[item])
+
+                    const value = request.body[item]!==''?request.body[item]:undefined
+                    request.session.data[item] = value;
+                });
+                if (!request.body.product){
+                    request.session.data.product = undefined;
+                }
+                if (!request.body.other_product){
+                    request.session.data.other_product = undefined;
+                }
+                // request.session.data = {...request.session.data,...request.body};
+                // request.session.data.product = request.body.product;
                 response.redirect('/where_was_behaviour');
             }
             else {
