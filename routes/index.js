@@ -152,9 +152,8 @@ router.get('/summary', function (req, res) {
     try {
     var data = req.session.data;
     console.log('final data = ', data);
-    const {business, reason, product_list, contacts, other_product} = formatSummaryData(data);
+    const {business, reason, product_list, contacts, other_product, total_errors} = formatSummaryData(data);
     var missingProducts = false;
-    console.log(other_product)
     if (data&&data['report_reason']&&data['report_reason'].indexOf('pricing') > -1 && (data['product'] === undefined && data['other_product'] === undefined)) {
         missingProducts = true;
     }
@@ -166,7 +165,8 @@ router.get('/summary', function (req, res) {
         product_list,
         displayContacts,
         other_product,
-        contacts
+        contacts,
+        total_errors
     });
 }
     catch(err){

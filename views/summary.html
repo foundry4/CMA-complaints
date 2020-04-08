@@ -20,7 +20,10 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
   <div class="govuk-grid-column-two-thirds">
 
     <h1 class="govuk-heading-xl">Submit your report</h1>
-    <h2 class="govuk-heading-m">Please address all fields highlighed in <span class=" govuk-heading-m" style="display:inline; color:#d4351c" >red</span></h2>
+    <h2 class="govuk-heading-m">There are {{total_errors}} errors. Please address all fields highlighted in <span class=" govuk-heading-m" style="display:inline; color:#d4351c" >red</span></h2>
+    <div class="govuk-form-group">
+      <input class="govuk-input" id="total_errors" name="total_errors" type="text" aria-label="total_errors" hidden value="">
+    </div>
     <h2 class="govuk-heading-m">
       Reason for complaint
     </h2>
