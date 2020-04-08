@@ -152,10 +152,11 @@ router.get('/summary', function (req, res) {
     try {
     var data = req.session.data;
     console.log('final data = ', data);
-    const {business, reason, product_list, contacts, other_product, total_errors} = formatSummaryData(data);
+    let{business, reason, product_list, contacts, other_product, total_errors} = formatSummaryData(data);
     var missingProducts = false;
     if (data&&data['report_reason']&&data['report_reason'].indexOf('pricing') > -1 && (data['product'] === undefined && data['other_product'] === undefined)) {
         missingProducts = true;
+        total_errors++;
     }
     const displayContacts = data&&data['more-info']?data['more-info']:undefined;
     res.render('summary', {
