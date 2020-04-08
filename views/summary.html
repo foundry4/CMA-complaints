@@ -76,12 +76,20 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <h2 class="govuk-heading-m">
       Product details
     </h2>
-    <p class="govuk-body govuk-error-message">
-      There are no product details.
-    </p>
-      <a class="govuk-link" href="/which_products">
-      Add new product
-    </a>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key govuk-error-message">
+            Missing data
+          </dt>
+          <dd class="govuk-summary-list__value">
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="/which_products">
+              Change<span class="govuk-visually-hidden"> report reason</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
     {% else %}
     {% if product_list|length %}
     <h2 class="govuk-heading-m">
