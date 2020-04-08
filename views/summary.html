@@ -21,7 +21,7 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
 
     {% if errors.length > 0 %}
     {{ govukErrorSummary({
-    titleText: "There are "+errors.length+" errors",
+    titleText: "There "+error_start+errors.length+error_end,
     errorList: errors
     }) }}
     {% endif %}
@@ -145,14 +145,15 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <div class="govuk-!-padding-bottom-5"></div>
 
     <span id="when-hint" class="govuk-body">
-      <p> By submitting this report you are confirming that, to the best of your knowledge, the details you are
+      <p>By submitting this report you are confirming that, to the best of your knowledge, the details you are
         providing are correct.</p>
     </span>
     <br>
 
     <form id="" action="/submit" method="post" class="form">
       <div class="govuk-form-group">
-        <input class="govuk-input" id="total_errors" name="total_errors" type="text" aria-label="total_errors" value="{{errors.length}}" aria-label="Total number of errors" hidden>
+        <input class="govuk-input" id="total_errors" name="total_errors" type="text" aria-label="total_errors"
+               value="{{errors.length}}" aria-label="Total number of errors" hidden>
       </div>
       <button class="govuk-button" data-module="govuk-button">
         Submit

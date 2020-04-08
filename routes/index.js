@@ -151,8 +151,8 @@ router.post('/what_happened',
 router.get('/summary', function (req, res) {
     try {
     var data = req.session.data;
-    console.log('final data = ', data);
-    let{business, reason, product_list, contacts, other_product, errors, missingProducts} = formatSummaryData(data);
+    let{business, reason, product_list, contacts, other_product, errors, missingProducts, error_end, error_start} = formatSummaryData(data);
+        console.log('final data123 = ', data, error_end, error_start);
 
     const displayContacts = data&&data['more-info']?data['more-info']:undefined;
     res.render('summary', {
@@ -163,7 +163,9 @@ router.get('/summary', function (req, res) {
         displayContacts,
         other_product,
         contacts,
-        errors
+        errors,
+        error_end,
+        error_start
     });
 }
     catch(err){
@@ -184,7 +186,7 @@ router.post('/summary', function (req, res) {
 router.post('/submit', async function (req, res) {
     // req.session.data = {...req.session.data,...req.body};
     var data = req.session.data;
-    let{business, reason, product_list, contacts, other_product, errors, missingProducts,} = formatSummaryData(data);
+    let{business, reason, product_list, contacts, other_product, errors, missingProducts,error_end,error_start} = formatSummaryData(data);
     const displayContacts = data&&data['more-info']?data['more-info']:undefined;
     console.log('session', req.body);
     if (req.body.total_errors >0){
@@ -196,6 +198,8 @@ router.post('/submit', async function (req, res) {
             displayContacts,
             other_product,
             contacts,
+            error_end,
+            error_start,
             errors // In production this should sanitized.
         });
     }else {
