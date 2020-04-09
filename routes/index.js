@@ -355,6 +355,9 @@ router.post('/where_was_behaviour',
                 if(!request.body.other_location){
                     request.session.data.other_location = undefined;
                 }
+                if(request.body['is-online']!=='other'){
+                    request.session.data.other_location = undefined;
+                }
                 const location = request.session.data['is-online'];
                 if(location==='true') {
                     response.redirect('/what_is_business_url');
