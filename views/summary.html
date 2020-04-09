@@ -70,6 +70,7 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     <div class="govuk-!-padding-bottom-5"></div>
 
     {% else %}
+    {% if show_products %}
     {% if product_list|length %}
       <h2 class="govuk-heading-m" id="product_title">
         Product details
@@ -115,6 +116,7 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     </dl>
     {% endif %}
     <div class="govuk-!-padding-bottom-5"></div>
+    {% endif %}
 
     <h2 class="govuk-heading-m"id="contact_title">
       Contact details
