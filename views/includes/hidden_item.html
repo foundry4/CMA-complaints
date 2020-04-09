@@ -49,6 +49,7 @@ idPrefix: 'product-'+loop.index,
 name: "product",
 items: [
 {
+id: item.name,
 value: item.name,
 checked: values["product"]|length and item.name in values["product"],
 text: item.text,

@@ -151,13 +151,9 @@ router.post('/what_happened',
 router.get('/summary', function (req, res) {
     try {
     var data = req.session.data;
-    console.log('final data = ', data);
-    let{business, reason, product_list, contacts, other_product, total_errors} = formatSummaryData(data);
-    var missingProducts = false;
-    if (data&&data['report_reason']&&data['report_reason'].indexOf('pricing') > -1 && (data['product'] === undefined && data['other_product'] === undefined)) {
-        missingProducts = true;
-        total_errors++;
-    }
+    let{business, reason, product_list, contacts, other_product, errors, missingProducts, error_end, error_start, show_products} = formatSummaryData(data);
+        console.log('final data123 = ', data, error_end, error_start);
+
     const displayContacts = data&&data['more-info']?data['more-info']:undefined;
     res.render('summary', {
         business,
@@ -167,7 +163,10 @@ router.get('/summary', function (req, res) {
         displayContacts,
         other_product,
         contacts,
-        total_errors
+        errors,
+        error_end,
+        error_start,
+        show_products
     });
 }
     catch(err){
@@ -186,15 +185,33 @@ router.post('/summary', function (req, res) {
 });
 
 router.post('/submit', async function (req, res) {
-    req.session.data = {...req.session.data,...req.body};
-    console.log('final data = ',req.session.data);
-    try {
-        const ref = await save_to_cma_db(req.session.data,req);
-        res.redirect('/confirm/'+ref);
-    }
-    catch (err){
-        console.log('Failed to save to database',err.toString());
-        res.render('error', { content : {error: {message: "Internal server error"}}});
+    // req.session.data = {...req.session.data,...req.body};
+    var data = req.session.data;
+    let{business, reason, product_list, contacts, other_product, errors, missingProducts,error_end,error_start, show_products} = formatSummaryData(data);
+    const displayContacts = data&&data['more-info']?data['more-info']:undefined;
+    console.log('session', req.body);
+    if (req.body.total_errors >0){
+        res.render('summary', {
+            business,
+            reason,
+            missingProducts,
+            product_list,
+            displayContacts,
+            other_product,
+            contacts,
+            error_end,
+            error_start,
+            show_products,
+            errors // In production this should sanitized.
+        });
+    }else {
+        try {
+            const ref = await save_to_cma_db(req.session.data, req);
+            res.redirect('/confirm/' + ref);
+        } catch (err) {
+            console.log('Failed to save to database', err.toString());
+            res.render('error', {content: {error: {message: "Internal server error"}}});
+        }
     }
 });
 
@@ -336,6 +353,9 @@ router.post('/where_was_behaviour',
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
                 if(!request.body.other_location){
+                    request.session.data.other_location = undefined;
+                }
+                if(request.body['is-online']!=='other'){
                     request.session.data.other_location = undefined;
                 }
                 const location = request.session.data['is-online'];
@@ -569,6 +589,7 @@ router.post('/contact_details',
 );
 
 router.get('/where_is_business', function (req, res) {
+    console.log(req.session.data);
     res.render('where_is_business', {values: req.session.data});
 });
 router.post('/where_is_business',
