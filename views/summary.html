@@ -68,7 +68,6 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
         </div>
       </dl>
     <div class="govuk-!-padding-bottom-5"></div>
-
     {% else %}
     {% if show_products %}
     {% if product_list|length %}
@@ -81,9 +80,9 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     {% endif %}
     {% if other_product %}
       {% if not product_list | length %}
-      <h2 class="govuk-heading-m" id="product_title">
-        Product details
-      </h2>
+        <h2 class="govuk-heading-m" id="product_title">
+          Product details
+        </h2>
       {% endif %}
       {{ govukSummaryList({
       rows: other_product
@@ -91,6 +90,7 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     {% endif %}
     <div class="govuk-!-padding-bottom-5"></div>
     {% endif %}
+{% endif %}
 
     <h2 class="govuk-heading-m" id="business_title">
       Business details
@@ -116,7 +116,6 @@ Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak
     </dl>
     {% endif %}
     <div class="govuk-!-padding-bottom-5"></div>
-    {% endif %}
 
     <h2 class="govuk-heading-m"id="contact_title">
       Contact details
