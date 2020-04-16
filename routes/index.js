@@ -25,12 +25,10 @@ const validate_names =(body)=>{
         const name = other_products[index].name+'_product_name';
 
         array.push(body(name).custom((value,{req}) => {
-            console.log(req.body['product']);
             if(req.body['product']&&req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
                 throw new Error('Enter a name for the product the report is about');
             }
             if(req.body[name]&&req.body[name].length>50) {
-                console.log(other_products[index].text);
                 throw new Error('Please limit '+other_products[index].text+"'s name to 50 characters");
             }
             return true;
