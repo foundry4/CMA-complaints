@@ -131,7 +131,7 @@ router.post('/what_happened',
         .exists()
         .not().isEmpty().withMessage('Please give a full description of the issue.'),body('description')
         .exists()
-        .isLength({ min: 0, max:1249 }).withMessage('Please limit your description to 1250 characters') ],
+        .isLength({ min: 0, max:1250 }).withMessage('Please limit your description to 1250 characters') ],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request));
@@ -318,14 +318,14 @@ router.post('/what_is_business_url',
         body('business-name')
             .exists()
             .not().isEmpty().withMessage('Please provide the name of the business.')
-            .isLength({ min: 0, max:199 }).withMessage('Please limit the business name to 200 characters'),
+            .isLength({ min: 0, max:200 }).withMessage('Please limit the business name to 200 characters'),
         body('website')
             .exists()
             .not().isEmpty().withMessage('Please provide the url for the business in question.')
-            .isLength({ min: 0, max:199 }).withMessage('Please limit the business url to 200 characters'),
+            .isLength({ min: 0, max:200 }).withMessage('Please limit the business url to 200 characters'),
         body('business-email').if(body('business-email').notEmpty())
             .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
-            .isLength({ min: 0, max:199 }).withMessage('Please limit the business email to 200 characters')],
+            .isLength({ min: 0, max:200 }).withMessage('Please limit the business email to 200 characters')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
@@ -571,7 +571,7 @@ router.post('/contact_details',
         body('contact-name')
             .exists()
             .not().isEmpty().withMessage('Please provide your full name.')
-            .isLength({ min: 0, max:199 }).withMessage('Please limit your full name to 200 characters'),
+            .isLength({ min: 0, max:200 }).withMessage('Please limit your full name to 200 characters'),
         // check for either email address OR telephone number
         body(['contact-email','contact-number']).custom((value,{req}) => {
             if(!req.body['contact-email'] && !req.body['contact-number']) {
@@ -580,10 +580,10 @@ router.post('/contact_details',
             return true;
         }),
         body('contact-number').if(body('contact-number').notEmpty())
-            .isLength({ min: 0, max:199 }).withMessage('Please limit your contact number to 200 characters'),
+            .isLength({ min: 0, max:200 }).withMessage('Please limit your contact number to 200 characters'),
         body('contact-email').if(body('contact-email').notEmpty())
         .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
-            .isLength({ min: 0, max:199 }).withMessage('Please limit your contact email to 200 characters')],
+            .isLength({ min: 0, max:200 }).withMessage('Please limit your contact email to 200 characters')],
     async (request, response) => {
         
         try {
@@ -625,17 +625,17 @@ router.post('/where_is_business',
     [ body('business-name')
         .exists()
         .not().isEmpty().withMessage('Please provide the name of the business.')
-        .isLength({ min: 0, max:199 }).withMessage('Please limit the business name to 200 characters'),
+        .isLength({ min: 0, max:200 }).withMessage('Please limit the business name to 200 characters'),
     body('town-name')
         .exists()
         .not().isEmpty().withMessage('Please provide the town/city of the business.')
-        .isLength({ min: 0, max:199 }).withMessage('Please limit the town/city to 200 characters'),
+        .isLength({ min: 0, max:200 }).withMessage('Please limit the town/city to 200 characters'),
     body('street-name').if(body('street-name').notEmpty())
-        .isLength({ min: 0, max:199 }).withMessage('Please limit the street name to 200 characters'),
+        .isLength({ min: 0, max:200 }).withMessage('Please limit the street name to 200 characters'),
     body('county').if(body('county').notEmpty())
-        .isLength({ min: 0, max:199 }).withMessage('Please limit the county to 200 characters'),
+        .isLength({ min: 0, max:200 }).withMessage('Please limit the county to 200 characters'),
     body('postcode').if(body('postcode').notEmpty())
-        .isLength({ min: 0, max:199 }).withMessage('Please limit the postcode to 200 characters')],
+        .isLength({ min: 0, max:200 }).withMessage('Please limit the postcode to 200 characters')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
