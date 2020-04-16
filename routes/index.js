@@ -316,13 +316,16 @@ router.get('/what_is_business_url', function (req, res) {
 router.post('/what_is_business_url',
     [ 
         body('business-name')
-        .exists()
-        .not().isEmpty().withMessage('Please provide the name of the business.'),
+            .exists()
+            .not().isEmpty().withMessage('Please provide the name of the business.')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         body('website')
-        .exists()
-        .not().isEmpty().withMessage('Please provide the url for the business in question.'),
+            .exists()
+            .not().isEmpty().withMessage('Please provide the url for the business in question.')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         body('business-email').if(body('business-email').notEmpty())
-            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')],
+            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
@@ -356,6 +359,9 @@ router.post('/where_was_behaviour',
     [ body('other_location').custom((value,{req}) => {
         if (req.body['is-online']==='other'&&!req.body['other_location']){
             throw new Error('Please specify where you saw the behaviour');
+        }
+        if (req.body['is-online']==='other'&&req.body['other_location']&& req.body['other_location'].length>199){
+            throw new Error('Please limit the response to 200 characters');
         }
         return true;
     }),
@@ -563,8 +569,9 @@ router.get('/contact_details', function (req, res) {
 router.post('/contact_details',
     [ 
         body('contact-name')
-        .exists()
-        .not().isEmpty().withMessage('Please provide your full name.'),
+            .exists()
+            .not().isEmpty().withMessage('Please provide your full name.')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         // check for either email address OR telephone number
         body(['contact-email','contact-number']).custom((value,{req}) => {
             if(!req.body['contact-email'] && !req.body['contact-number']) {
@@ -572,8 +579,11 @@ router.post('/contact_details',
             }
             return true;
         }),
+        body('contact-number').if(body('contact-number').notEmpty())
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         body('contact-email').if(body('contact-email').notEmpty())
-        .isEmail().withMessage('Enter an email address in the correct format, like name@example.com') ],
+        .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters')],
     async (request, response) => {
         
         try {
@@ -586,8 +596,11 @@ router.post('/contact_details',
             else {
                 let errorSummary = Object.values(errors);
                 // filter summary to remove duplicate with contact-number id
-                errorSummary = errorSummary.filter((a)=>a.id!=='contact-number');
-                console.log('found errors in validation',errorSummary,errors);
+                errorSummary = errorSummary.filter((a)=>{
+                    console.log(a.id, a.text);
+                    return !(a.id==='contact-number'&&a.text==='Please provide an email address or telephone number');
+                });
+                // console.log('found errors in validation',errorSummary,errors);
                 try {
                     response.render('contact_details', {
                         errors,
@@ -611,10 +624,18 @@ router.get('/where_is_business', function (req, res) {
 router.post('/where_is_business',
     [ body('business-name')
         .exists()
-        .not().isEmpty().withMessage('Please provide the name of the business.'),
-        body('town-name')
+        .not().isEmpty().withMessage('Please provide the name of the business.')
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('town-name')
         .exists()
-        .not().isEmpty().withMessage('Please provide the town/city of the business.')  ],
+        .not().isEmpty().withMessage('Please provide the town/city of the business.')
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('street-name').if(body('street-name').notEmpty())
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('county').if(body('county').notEmpty())
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('postcode').if(body('postcode').notEmpty())
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
