@@ -222,7 +222,7 @@ router.post('/submit', async function (req, res) {
             res.redirect('/confirm/' + ref);
         } catch (err) {
             console.log('Failed to save to database', err.toString());
-            res.redirect('error', {content: {error: {message: "Internal server error"}}});
+            res.redirect('/error');
         }
     }
 });
