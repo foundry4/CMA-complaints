@@ -29,6 +29,10 @@ const validate_names =(body)=>{
             if(req.body['product']&&req.body['product'].includes(other_products[index].name)&&!req.body[name]) {
                 throw new Error('Enter a name for the product the report is about');
             }
+            if(req.body[name]&&req.body[name].length>50) {
+                // console.log(req.body[name],req.body);
+                throw new Error('Please limit your response to 50 characters');
+            }
             return true;
         }));
     }
@@ -41,11 +45,16 @@ const validate_expected_price =(body)=>{
         const current_name = products[index].name+'_current_price';
         array.push(body(current_name)
             .if(body(current_name).notEmpty())
-            .isNumeric().withMessage('Enter a valid curent price for '+products[index].text));
+            .isNumeric().withMessage('Enter a valid current price for '+products[index].text)
+            .isLength({ min: 0, max:50 }).withMessage('Please limit your response to 50 characters'));
         const expected_name = products[index].name+'_expected_price';
         array.push(body(expected_name)
             .if(body(expected_name).notEmpty())
-            .isNumeric().withMessage('Enter a valid expected price for '+products[index].text));
+            .isNumeric().withMessage('Enter a valid expected price for '+products[index].text)
+            .isLength({ min: 0, max:50 }).withMessage('Please limit your response to 50 characters'));
+        const description = products[index].name+'_product_description';
+        array.push(body(description)
+            .isLength({ min: 0, max:50 }).withMessage('Please limit your response to 50 characters'));
     }
     return array;
 }
@@ -120,10 +129,12 @@ router.get('/what_happened', function (req, res) {
 router.post('/what_happened',
     [ body('description')
         .exists()
-        .not().isEmpty().withMessage('Please give a full description of the issue.') ],
+        .not().isEmpty().withMessage('Please give a full description of the issue.'),body('description')
+        .exists()
+        .isLength({ min: 0, max:1249 }).withMessage('Please limit your response to 1250 characters') ],
     async (request, response) => {
         try {
-            const errors = formatValidationErrors(validationResult(request))
+            const errors = formatValidationErrors(validationResult(request));
             if (!errors) {
                 console.log('no errors in validation', request.body.product);
                 request.session.data = {...request.session.data,...request.body};
@@ -213,7 +224,7 @@ router.post('/submit', async function (req, res) {
             res.redirect('/confirm/' + ref);
         } catch (err) {
             console.log('Failed to save to database', err.toString());
-            res.render('error', {content: {error: {message: "Internal server error"}}});
+            res.redirect('error', {content: {error: {message: "Internal server error"}}});
         }
     }
 });
@@ -235,7 +246,9 @@ router.post('/which_products',
             throw new Error('Please select a product or provide details in the "Other product" category');
         }
         return true;
-    })  ],
+    }),
+        body('other_product').isLength({ min: 0, max:100 }).withMessage('Please limit your response to 100 characters')
+    ],
     async (request, response) => {
         try {
             if(!request.session.data){
@@ -303,13 +316,16 @@ router.get('/what_is_business_url', function (req, res) {
 router.post('/what_is_business_url',
     [ 
         body('business-name')
-        .exists()
-        .not().isEmpty().withMessage('Please provide the name of the business.'),
+            .exists()
+            .not().isEmpty().withMessage('Please provide the name of the business.')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         body('website')
-        .exists()
-        .not().isEmpty().withMessage('Please provide the url for the business in question.'),
+            .exists()
+            .not().isEmpty().withMessage('Please provide the url for the business in question.')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         body('business-email').if(body('business-email').notEmpty())
-            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')],
+            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
@@ -343,6 +359,9 @@ router.post('/where_was_behaviour',
     [ body('other_location').custom((value,{req}) => {
         if (req.body['is-online']==='other'&&!req.body['other_location']){
             throw new Error('Please specify where you saw the behaviour');
+        }
+        if (req.body['is-online']==='other'&&req.body['other_location']&& req.body['other_location'].length>199){
+            throw new Error('Please limit the response to 200 characters');
         }
         return true;
     }),
@@ -550,8 +569,9 @@ router.get('/contact_details', function (req, res) {
 router.post('/contact_details',
     [ 
         body('contact-name')
-        .exists()
-        .not().isEmpty().withMessage('Please provide your full name.'),
+            .exists()
+            .not().isEmpty().withMessage('Please provide your full name.')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         // check for either email address OR telephone number
         body(['contact-email','contact-number']).custom((value,{req}) => {
             if(!req.body['contact-email'] && !req.body['contact-number']) {
@@ -559,8 +579,11 @@ router.post('/contact_details',
             }
             return true;
         }),
+        body('contact-number').if(body('contact-number').notEmpty())
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
         body('contact-email').if(body('contact-email').notEmpty())
-        .isEmail().withMessage('Enter an email address in the correct format, like name@example.com') ],
+        .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
+            .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters')],
     async (request, response) => {
         
         try {
@@ -573,8 +596,11 @@ router.post('/contact_details',
             else {
                 let errorSummary = Object.values(errors);
                 // filter summary to remove duplicate with contact-number id
-                errorSummary = errorSummary.filter((a)=>a.id!=='contact-number');
-                console.log('found errors in validation',errorSummary,errors);
+                errorSummary = errorSummary.filter((a)=>{
+                    console.log(a.id, a.text);
+                    return !(a.id==='contact-number'&&a.text==='Please provide an email address or telephone number');
+                });
+                // console.log('found errors in validation',errorSummary,errors);
                 try {
                     response.render('contact_details', {
                         errors,
@@ -598,10 +624,18 @@ router.get('/where_is_business', function (req, res) {
 router.post('/where_is_business',
     [ body('business-name')
         .exists()
-        .not().isEmpty().withMessage('Please provide the name of the business.'),
-        body('town-name')
+        .not().isEmpty().withMessage('Please provide the name of the business.')
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('town-name')
         .exists()
-        .not().isEmpty().withMessage('Please provide the town/city of the business.')  ],
+        .not().isEmpty().withMessage('Please provide the town/city of the business.')
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('street-name').if(body('street-name').notEmpty())
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('county').if(body('county').notEmpty())
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters'),
+    body('postcode').if(body('postcode').notEmpty())
+        .isLength({ min: 0, max:199 }).withMessage('Please limit your response to 200 characters')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
