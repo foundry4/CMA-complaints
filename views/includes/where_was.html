@@ -2,7 +2,9 @@
     <fieldset class="govuk-fieldset" aria-describedby="is-online-hint">
         {% set textHtml %}
 
-        {{ govukInput({
+        {{ govukCharacterCount({
+        maxlength: 200,
+        rows:1,
         label: {
         text: "Where did you see the behaviour?"
         },

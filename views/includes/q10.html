@@ -8,7 +8,9 @@
     }
   }) %}
 
-  {{ govukInput({
+  {{ govukCharacterCount({
+  maxlength: 200,
+  rows:1,
     fieldset: {
       legend: {
         text: "What are your contact details?",
@@ -25,8 +27,10 @@
     value: values["contact-name"],
     errorMessage: errors["contact-name"]
   }) }}
-  
-  {{ govukInput({
+
+  {{ govukCharacterCount({
+  maxlength: 200,
+  rows:1,
     label: {
       text: "Email address (optional)"
     },
@@ -37,8 +41,10 @@
     value: values["contact-email"],
     errorMessage: errors["contact-email"]
   }) }}
-  
-  {{ govukInput({
+
+  {{ govukCharacterCount({
+  maxlength: 200,
+  rows:1,
     label: {
     text: "Telephone number (optional)"
     },

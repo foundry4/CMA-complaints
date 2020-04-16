@@ -8,7 +8,9 @@
     If possible, share the specific webpage link where you saw the product or service.
 
 </p>
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "Business name"
 },
@@ -19,7 +21,9 @@ value: values["business-name"],
 errorMessage: errors["business-name"]
 }) }}
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "Webpage link"
 },
@@ -30,7 +34,9 @@ value: values["website"],
 errorMessage: errors["website"]
 }) }}
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "Email address (optional)"
 },

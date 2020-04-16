@@ -8,8 +8,11 @@
     The address of the store where you saw the behaviour.
 
 </p>
+<div class="govuk-form-group">
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "Business name"
 },
@@ -20,7 +23,9 @@ value: values["business-name"],
 errorMessage: errors["business-name"]
 }) }}
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows: 1,
 label: {
 text: "Street name (optional)"
 },
@@ -31,7 +36,9 @@ value: values["street-name"],
 errorMessage: errors["street-name"]
 }) }}
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "Town or city"
 },
@@ -42,24 +49,31 @@ value: values["town-name"],
 errorMessage: errors["town-name"]
 }) }}
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "County (optional)"
 },
-classes: "govuk-input--width-20",
+    hint:'',
+    classes: "govuk-input--width-20",
 id: "county",
 name: "county",
 value: values["county"],
 errorMessage: errors["county"]
 }) }}
 
-{{ govukInput({
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
 label: {
 text: "Postcode (optional)"
 },
+    hint:'',
 classes: "govuk-input--width-20",
 id: "postcode",
 name: "postcode",
 value: values["postcode"],
 errorMessage: errors["postcode"]
 }) }}
+</div>
