@@ -358,7 +358,7 @@ router.post('/where_was_behaviour',
         if (req.body['is-online']==='other'&&!req.body['other_location']){
             throw new Error('Please specify where you saw the behaviour');
         }
-        if (req.body['is-online']==='other'&&req.body['other_location']&& req.body['other_location'].length>199){
+        if (req.body['is-online']==='other'&&req.body['other_location']&& req.body['other_location'].length>200){
             throw new Error('Please limit the location to 200 characters');
         }
         return true;
