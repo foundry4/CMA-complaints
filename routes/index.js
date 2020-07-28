@@ -321,7 +321,7 @@ router.post('/what_is_business_url',
             .exists()
             .not().isEmpty().withMessage('Please provide the url for the business in question.')
             .isLength({ min: 0, max:200 }).withMessage('Please limit the business url to 200 characters'),
-        body('business-email').if(body('business-email').notEmpty())
+        body('business-email').if(body('business-email').notEmpty()).trim()
             .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
             .isLength({ min: 0, max:200 }).withMessage('Please limit the business email to 200 characters')],
     async (request, response) => {
@@ -579,7 +579,7 @@ router.post('/contact_details',
         }),
         body('contact-number').if(body('contact-number').notEmpty())
             .isLength({ min: 0, max:200 }).withMessage('Please limit your contact number to 200 characters'),
-        body('contact-email').if(body('contact-email').notEmpty())
+        body('contact-email').if(body('contact-email').notEmpty()).trim()
         .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
             .isLength({ min: 0, max:200 }).withMessage('Please limit your contact email to 200 characters')],
     async (request, response) => {
