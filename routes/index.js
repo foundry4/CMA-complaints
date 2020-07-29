@@ -633,7 +633,8 @@ router.post('/where_is_business',
     body('county').if(body('county').notEmpty())
         .isLength({ min: 0, max:200 }).withMessage('Please limit the county to 200 characters'),
     body('postcode').if(body('postcode').notEmpty())
-        .isLength({ min: 0, max:200 }).withMessage('Please limit the postcode to 200 characters')],
+        .isLength({ min: 0, max:20 }).matches(/^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/, 'g')
+        .withMessage('Please enter a valid postcode or leave the box empty')],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request))
