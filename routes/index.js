@@ -107,7 +107,7 @@ router.post('/what_behaviour',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page');
                 }
             }
         } catch (err) {
@@ -134,13 +134,13 @@ router.post('/what_happened',
         try {
             const errors = formatValidationErrors(validationResult(request));
             if (!errors) {
-                console.log('no errors in validation', request.body.product);
+                console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
                 response.redirect('/where_was_behaviour');
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation',errorSummary,errors);
+                console.log('found errors in validation');
                 try {
                     response.render('what_happened', {
                         errors,
@@ -148,7 +148,7 @@ router.post('/what_happened',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page');
                 }
             }
         } catch (err) {
@@ -161,6 +161,7 @@ router.get('/summary', function (req, res) {
     try {
     var data = req.session.data;
     let{business, reason, product_list, contacts, other_product, errors, missingProducts, error_end, error_start, show_products} = formatSummaryData(data);
+    if (process.env.NODE_ENV !== 'production')   
         console.log('final data123 = ', data, error_end, error_start);
 
     const displayContacts = data&&data['more-info']?data['more-info']:undefined;
@@ -179,7 +180,7 @@ router.get('/summary', function (req, res) {
     });
 }
     catch(err){
-        console.log('Summary render error',err.toString())
+        console.log('Summary render error');
     }
 });
 
@@ -201,7 +202,8 @@ router.post('/submit', async function (req, res) {
     var data = req.session.data;
     let{business, reason, product_list, contacts, other_product, errors, missingProducts,error_end,error_start, show_products} = formatSummaryData(data);
     const displayContacts = data&&data['more-info']?data['more-info']:undefined;
-    console.log('session', req.body);
+    if (process.env.NODE_ENV !== 'production')
+        console.log('session', req.body);
     if (req.body.total_errors >0){
         res.render('summary', {
             business,
@@ -300,7 +302,7 @@ router.post('/which_products',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page')
                 }
             }
         } catch (err) {
@@ -334,7 +336,7 @@ router.post('/what_is_business_url',
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation',errorSummary,errors);
+                console.log('found errors in validation');
                 try {
                     response.render('what_is_business_url', {
                         errors,
@@ -342,7 +344,7 @@ router.post('/what_is_business_url',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page')
                 }
             }
         } catch (err) {
@@ -397,7 +399,7 @@ router.post('/where_was_behaviour',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page');
                 }
             }
         } catch (err) {
@@ -429,7 +431,7 @@ router.post('/more_information',
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation',errorSummary,errors);
+                console.log('found errors in validation');
                 try {
                     response.render('more_information', {
                         errors,
@@ -437,7 +439,7 @@ router.post('/more_information',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page')
                 }
             }
         } catch (err) {
@@ -462,7 +464,7 @@ router.post('/evidence',
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation',errorSummary,errors);
+                console.log('found errors in validation');
                 try {
                     response.render('evidence', {
                         errors,
@@ -470,7 +472,7 @@ router.post('/evidence',
                         values: request.body, // In production this should sanitized.
                     });
                 } catch (err) {
-                    console.log('failed to render page', err.toString())
+                    console.log('failed to render page')
                 }
             }
         } catch (err) {
@@ -542,7 +544,7 @@ router.post('/when_behaviour',
             }
             else {
                 let errorSummary = Object.values(errors);
-                console.log('found errors in validation',errorSummary,errors);
+                console.log('found errors in validation');
                 try {
                     errorSummary = errorSummary.filter((a)=>{console.log(a.id==='date',a.text==='Please enter a date since the COVID 19 outbreak',!(a.id==='date'&& a.text==='Please enter a date since the COVID 19 outbreak'));
                     return !(a.id==='date'&& a.text==='Enter a date since the COVID 19 outbreak')});
@@ -595,7 +597,8 @@ router.post('/contact_details',
                 let errorSummary = Object.values(errors);
                 // filter summary to remove duplicate with contact-number id
                 errorSummary = errorSummary.filter((a)=>{
-                    console.log(a.id, a.text);
+                    if (process.env.NODE_ENV !== 'production')
+                        console.log(a.id, a.text);
                     return !(a.id==='contact-number'&&a.text==='Please provide an email address or telephone number');
                 });
                 // console.log('found errors in validation',errorSummary,errors);
@@ -616,7 +619,8 @@ router.post('/contact_details',
 );
 
 router.get('/where_is_business', function (req, res) {
-    console.log(req.session.data);
+    if (process.env.NODE_ENV !== 'production')
+        console.log(req.session.data);
     res.render('where_is_business', {values: req.session.data});
 });
 router.post('/where_is_business',
