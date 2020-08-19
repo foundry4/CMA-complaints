@@ -408,45 +408,6 @@ router.post('/where_was_behaviour',
     }
 );
 
-router.get('/more_information', function (req, res) {
-    res.render('more_information', {values: req.session.data});
-});
-router.post('/more_information',
-    [ body('more-info')
-        .exists()
-        .not().isEmpty().withMessage('Please indicate whether you are happy to provide your contact details.') ],
-    async (request, response) => {
-        try {
-            const errors = formatValidationErrors(validationResult(request))
-            if (!errors) {
-                console.log('no errors in validation');
-                request.session.data = {...request.session.data,...request.body};
-                const more_info = request.session.data['more-info'];
-                if(more_info === 'true'){
-                    response.redirect('/contact_details');
-                }
-                else {
-                    response.redirect('/summary');
-                }
-            }
-            else {
-                let errorSummary = Object.values(errors);
-                console.log('found errors in validation');
-                try {
-                    response.render('more_information', {
-                        errors,
-                        errorSummary,
-                        values: request.body, // In production this should sanitized.
-                    });
-                } catch (err) {
-                    console.log('failed to render page')
-                }
-            }
-        } catch (err) {
-            throw err.toString();
-        }
-    }
-);
 router.get('/evidence', function (req, res) {
     res.render('evidence', {values: req.session.data});
 });
@@ -460,7 +421,7 @@ router.post('/evidence',
             if (!errors) {
                 console.log('no errors in validation');
                 request.session.data = {...request.session.data,...request.body};
-                response.redirect('/more_information');
+                response.redirect('/contact_details');
             }
             else {
                 let errorSummary = Object.values(errors);
