@@ -170,7 +170,6 @@ router.get('/summary', function (req, res) {
         reason,
         missingProducts,
         product_list,
-        displayContacts,
         other_product,
         contacts,
         errors,
