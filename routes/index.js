@@ -183,14 +183,6 @@ router.get('/summary', function (req, res) {
     }
 });
 
-/* 
-router.get('/summary', function (req, res) {
-    console.log(req.session.cookie.maxAge);
-    console.log(req.session.cookie);
-    console.log(req.session);
-    res.render('summary', {values: req.session.data});
-});
- */
 router.post('/summary', function (req, res) {
     req.session.data = {...req.session.data,...req.body};
     res.redirect('summary');
@@ -529,16 +521,8 @@ router.get('/contact_details', function (req, res) {
 router.post('/contact_details',
     [ 
         body('contact-name')
-            .exists()
-            .not().isEmpty().withMessage('Please provide your full name.')
             .isLength({ min: 0, max:200 }).withMessage('Please limit your full name to 200 characters'),
-        // check for either email address OR telephone number
-        body(['contact-email','contact-number']).custom((value,{req}) => {
-            if(!req.body['contact-email'] && !req.body['contact-number']) {
-                throw new Error('Please provide an email address or telephone number');
-            }
-            return true;
-        }),
+        // check for either email address OR telephone numberreturn true;
         body('contact-number').if(body('contact-number').notEmpty())
             .isLength({ min: 0, max:200 }).withMessage('Please limit your contact number to 200 characters'),
         body('contact-email').if(body('contact-email').notEmpty()).trim()

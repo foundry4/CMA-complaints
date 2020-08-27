@@ -1,3 +1,4 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 <div class="govuk-form-group">
 
   {% call govukFieldset({
@@ -7,6 +8,12 @@
       isPageHeading: true
     }
   }) %}
+
+  {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+  {{ govukInsetText({
+    text: "If you are happy to do so, you can provide us with your contact details."
+  }) }}
 
   {{ govukCharacterCount({
   maxlength: 200,
@@ -19,7 +26,7 @@
       }
     },
     label: {
-    text: "Full name"
+    text: "Full name (optional)"
     },
     classes: "govuk-input--width-20",
     id: "contact-name",
