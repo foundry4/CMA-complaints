@@ -129,7 +129,7 @@ router.post('/what_happened',
         .exists()
         .not().isEmpty().withMessage('Please give a full description of the issue.'),body('description')
         .exists()
-        .isLength({ min: 0, max:1250 }).withMessage('Please limit your description to 1250 characters') ],
+        .isLength({ min: 0, max:3500 }).withMessage('Please limit your description to 3500 characters') ],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request));
@@ -238,7 +238,7 @@ router.post('/which_products',
         }
         return true;
     }),
-        body('other_product').isLength({ min: 0, max:100 }).withMessage("Please limit Other product's response to 100 characters")
+        body('other_product').isLength({ min: 0, max:2000 }).withMessage("Please limit Other product's response to 2000 characters")
     ],
     async (request, response) => {
         try {
