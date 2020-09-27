@@ -1,5 +1,5 @@
 <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset" aria-describedby="is-online-hint">
+    <fieldset class="govuk-fieldset" aria-describedby="medium-hint">
         {% set textHtml %}
 
         {{ govukCharacterCount({
@@ -18,8 +18,8 @@
         {% endset -%}
 
         {{ govukRadios({
-        idPrefix: "is-online",
-        name: "is-online",
+        idPrefix: "medium",
+        name: "medium",
         fieldset: {
             legend: {
                 text: "Where did you buy, or try to buy a product or service from the business?",
@@ -34,28 +34,28 @@
             {
         value: true,
         text: "Online",
-        checked: values["is-online"] === 'true'
+        checked: values["medium"] === 'online'
         },
         {
         value: false,
         text: "In store",
-        checked: values["is-online"] === 'false'
+        checked: values["medium"] === 'store'
         },
         {
             value: "telephone",
             text: "On the telephone",
-            checked: values["is-online"] === 'telephone'
+            checked: values["medium"] === 'telephone'
         },
         {
         value: 'other',
         text: "Other",
-        checked: values["is-online"] === 'other',
+        checked: values["medium"] === 'other',
         "conditional": {
         "html": textHtml
         }
         }
         ],
-        errorMessage: errors["is-online"]
+        errorMessage: errors["medium"]
 
         }) }}
 

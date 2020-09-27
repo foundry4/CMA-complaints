@@ -1,0 +1,52 @@
+<h1 class="govuk-heading-xl">
+    Please share the telephone number connected to the behaviour
+</h1>
+
+
+<p class="govuk-hint">
+
+    If possible, share the specific number that called you, or that you called yourself, for the product or service.
+
+</p>
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
+label: {
+text: "Business name"
+},
+classes: "govuk-input--width-20",
+id: "business-name",
+name: "business-name",
+value: values["business-name"],
+errorMessage: errors["business-name"]
+}) }}
+
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
+label: {
+text: "Telephone number"
+},
+classes: "govuk-input--width-20",
+id: "telephone",
+name: "telephone",
+value: values["telephone"],
+errorMessage: errors["telephone"]
+}) }}
+
+{{ govukCharacterCount({
+maxlength: 200,
+rows:1,
+label: {
+text: "Email address (optional)"
+},
+classes: "govuk-input--width-20",
+id: "business-email",
+name: "business-email",
+value: values["business-email"],
+autocomplete: "email",
+attributes: {
+    spellcheck: "false"
+  },
+errorMessage: errors["business-email"]
+}) }}
