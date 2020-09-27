@@ -129,7 +129,7 @@ router.post('/what_happened',
         .exists()
         .not().isEmpty().withMessage('Please give a full description of the issue.'),body('description')
         .exists()
-        .isLength({ min: 0, max:1250 }).withMessage('Please limit your description to 1250 characters') ],
+        .isLength({ min: 0, max:3500 }).withMessage('Please limit your description to 3500 characters') ],
     async (request, response) => {
         try {
             const errors = formatValidationErrors(validationResult(request));
@@ -238,7 +238,7 @@ router.post('/which_products',
         }
         return true;
     }),
-        body('other_product').isLength({ min: 0, max:100 }).withMessage("Please limit Other product's response to 100 characters")
+        body('other_product').isLength({ min: 0, max:2000 }).withMessage("Please limit Other product's response to 2000 characters")
     ],
     async (request, response) => {
         try {
@@ -343,20 +343,60 @@ router.post('/what_is_business_url',
         }
     }
 );
+router.get('/what_is_business_phone', function (req, res) {
+    res.render('what_is_business_phone',{values: req.session.data});
+});
+router.post('/what_is_business_phone',
+    [ 
+        body('business-name')
+            .exists()
+            .not().isEmpty().withMessage('Please provide the name of the business.')
+            .isLength({ min: 0, max:200 }).withMessage('Please limit the business name to 200 characters'),
+            body('telephone').if(body('telephone').notEmpty()).trim()
+            .isLength({ min: 0, max:15 }).withMessage('Please limit the telephone number to 15 characters'),
+        body('business-email').if(body('business-email').notEmpty()).trim()
+            .isEmail().withMessage('Enter an email address in the correct format, like name@example.com')
+            .isLength({ min: 0, max:200 }).withMessage('Please limit the business email to 200 characters')],
+    async (request, response) => {
+        try {
+            const errors = formatValidationErrors(validationResult(request))
+            if (!errors) {
+                console.log('no errors in validation');
+                request.session.data = {...request.session.data,...request.body};
+                response.redirect('/when_behaviour');
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation');
+                try {
+                    response.render('what_is_business_phone', {
+                        errors,
+                        errorSummary,
+                        values: request.body, // In production this should sanitized.
+                    });
+                } catch (err) {
+                    console.log('failed to render page')
+                }
+            }
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
 router.get('/where_was_behaviour', function (req, res) {
     res.render('where_was_behaviour', {values: req.session.data});
 });
 router.post('/where_was_behaviour',
     [ body('other_location').custom((value,{req}) => {
-        if (req.body['is-online']==='other'&&!req.body['other_location']){
+        if (req.body['medium']==='other'&&!req.body['other_location']){
             throw new Error('Please specify where you saw the behaviour');
         }
-        if (req.body['is-online']==='other'&&req.body['other_location']&& req.body['other_location'].length>200){
+        if (req.body['medium']==='other'&&req.body['other_location']&& req.body['other_location'].length>200){
             throw new Error('Please limit the location to 200 characters');
         }
         return true;
     }),
-        body('is-online')
+        body('medium')
         .exists()
         .not().isEmpty().withMessage('Please indicate where the behaviour was observed.') ],
     async (request, response) => {
@@ -368,12 +408,15 @@ router.post('/where_was_behaviour',
                 if(!request.body.other_location){
                     request.session.data.other_location = undefined;
                 }
-                if(request.body['is-online']!=='other'){
+                if(request.body['medium']!=='other'){
                     request.session.data.other_location = undefined;
                 }
-                const location = request.session.data['is-online'];
-                if(location==='true') {
+                const medium = request.session.data['medium'];
+                if(medium==='online') {
                     response.redirect('/what_is_business_url');
+                }
+                if(medium==='telephone') {
+                    response.redirect('/what_is_business_phone');
                 }
                 else {
                     response.redirect('/where_is_business');
