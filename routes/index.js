@@ -653,6 +653,47 @@ router.post('/where_is_business',
     }
 );
 
+router.get('/cookies', function (req, res) {
+    res.render('cookies', {values: req.session.data});
+});
+router.post('/cookies',
+    [ body('cookieAccept')
+        .exists()
+        .not().isEmpty().withMessage('Please choose the cookie settings you prefer.')
+    ],
+    async (req, res) => {
+        try {
+            const errors = formatValidationErrors(validationResult(req));
+            const cookieAccept = req.body["cookieAccept"];
+            if (!errors) {
+                if(cookieAccept === '1'){
+                    req.app.locals.FATHOM_ID = process.env.FATHOM_ID;
+                } else {
+                    req.app.locals.FATHOM_ID = null;
+                }
+            }
+            else {
+                let errorSummary = Object.values(errors);
+                console.log('found errors in validation',errorSummary,errors);
+                try {
+                    res.render('cookies', {
+                        errors,
+                        errorSummary,
+                        values: req.body,
+                    });
+                } catch (err) {
+                    console.log('failed to render page', err.toString());
+                }
+            }
+            req.session["cookieAccept"] = cookieAccept;
+            res.redirect('/');
+        } catch (err) {
+            throw err.toString();
+        }
+    }
+);
+
+
 router.get('/accessibility', function (req, res) {
     res.render('accessibility', {values: req.session.data});
 });
