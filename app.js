@@ -20,7 +20,7 @@ const redis = require('redis');
 
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
-let host = 'localhost';
+let host = 'redis';
 let port = 6379;
 if(process.env.REDISTOGO_URL){
   var redisURL = url.parse(process.env.REDISTOGO_URL);
@@ -75,6 +75,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+  res.locals.cookieAccept = req.session["cookieAccept"];
+  next();
+});
+
 app.use('/', indexRouter);
 //app.use('/users', usersRouter);
 
@@ -83,7 +88,8 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 // Set Fathom id and use to include analytics script
-app.locals.FATHOM_ID = process.env.FATHOM_ID;
+//app.locals.FATHOM_ID = process.env.FATHOM_ID;
+
 
 // error handler
 app.use(function(err, req, res, next) {
