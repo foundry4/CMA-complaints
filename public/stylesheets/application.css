@@ -4379,4 +4379,24 @@
 .hmcts-currency-input__input--right-aligned {
   text-align: right;
 }
+
+#global-cookie-message {
+  margin-top:20px;
+  background-color: #f3f2f1;
+  padding: 20px 20px 10px 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 900;
+}
+.buttons--flex{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+.button--inline{
+  flex-grow: 1;
+  flex-basis: 10rem;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
 /*# sourceMappingURL=application.css.map */

@@ -80,6 +80,11 @@
     </span>
       </p>
     </div>
+  {% if not cookieAccept %}
+    <div class="govuk-width-container">
+      {% include "includes/cookie_message.html" %}
+    </div>
+  {% endif %}
   </header>
 
 
@@ -138,6 +143,7 @@
   </footer>
 
   <script src="/javascripts/all.js"></script>
+  <script src="/javascripts/start.js"></script>
   <script>
     window.GOVUKFrontend.initAll()
 
