@@ -87,9 +87,11 @@ app.use('/', indexRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-// Set Fathom id and use to include analytics script
-//app.locals.FATHOM_ID = process.env.FATHOM_ID;
 
+// Set Fathom id and use to include analytics script
+app.locals.FATHOM_ID = process.env.FATHOM_ID;
+// Set Fathom id and use to include analytics script
+app.locals.GOOGLE_ID = process.env.GOOGLE_ID;
 
 // error handler
 app.use(function(err, req, res, next) {

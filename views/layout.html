@@ -81,9 +81,9 @@
       </p>
     </div>
   {% if not cookieAccept %}
-    <!-- <div class="govuk-width-container">
+   <div class="govuk-width-container">
       {% include "includes/cookie_message.html" %}
-    </div> -->
+    </div>
   {% endif %}
   </header>
 
@@ -137,9 +137,16 @@
       </div>
 
     </div>
-{% if FATHOM_ID %}
-{% include "includes/fathom_analytics.html" %}
+
+{% if cookieAccept %}
+  {% if FATHOM_ID %}
+    {% include "includes/fathom_analytics.html" %}
+  {% endif %}
+  {% if GOOGLE_ID %}
+    {% include "includes/google_analytics.html" %}
+  {% endif %}
 {% endif %}
+
   </footer>
 
   <script src="/javascripts/all.js"></script>
