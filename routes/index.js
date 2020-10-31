@@ -8,6 +8,20 @@ const formatSummaryData = require('../lib/formatSummaryData');
 const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
 const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 
+const { NotifyClient, NotifyConfigError } = require('../lib/notify-client')
+let notify;
+try {
+    notify = new NotifyClient();
+} catch (error) {
+    console.log('HERE', typeof error)
+    if (error instanceof NotifyConfigError) {
+        console.error(`Could not initialise app, Notify Settings were not in place`);
+        process.exit(1);
+    }
+
+    throw error;
+}
+
 const validate_pack_sizes =(body)=>{
     const array = [];
     for (index in products){
