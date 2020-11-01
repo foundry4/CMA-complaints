@@ -686,7 +686,8 @@ router.post('/cookies',
                 }
             }
             req.session["cookieAccept"] = cookieAccept;
-            res.redirect('/');
+            const referer = req.headers["referer"];
+            res.redirect(referer);
         } catch (err) {
             throw err.toString();
         }
