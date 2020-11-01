@@ -212,7 +212,8 @@ router.post('/submit', async function (req, res) {
     }else {
         try {
             const ref = await save_to_cma_db(req.session.data, req);
-            res.redirect('/confirm/' + ref);
+            req.session["ref"] = ref;
+            res.redirect('/confirm');
         } catch (err) {
             console.log('Failed to save to database', err.toString());
             res.redirect('/error');
@@ -703,8 +704,9 @@ router.get('/privacy', function (req, res) {
   res.render('privacy', {values: req.session.data});
 });
 
-router.get('/confirm/:id',function (req, res) {
-  res.render("confirm",{id:req.params.id});
+router.get('/confirm',function (req, res) {
+  const ref=req.session["ref"];
+  res.render("confirm",{id:ref});
 })
 router.get('/redirect', function (req, res, next) {
     res.render('redirect', {});
