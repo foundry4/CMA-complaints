@@ -721,7 +721,7 @@ router.get('/privacy', function (req, res) {
 router.get('/confirm', async function (req, res) {
   const ref=req.session["ref"];
   const email = req.session["contact_email"];
-  const personalisation = req.session["contact_name"] ?? "Sir/Madam";
+  const personalisation = req.session["contact_name"] ? req.session["contact_name"]  : "Sir/Madam";
   
   if (ref && email){
         try {
