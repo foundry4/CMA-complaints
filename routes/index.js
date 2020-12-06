@@ -725,8 +725,7 @@ router.get('/confirm', async function (req, res) {
   
   if (ref && email){
         try {
-            const client = new NotifyClient();
-            const response = await client.sendEmail(email, ref, personalisation);
+            const response = await notify.sendEmail(email, ref, personalisation);
         }
         catch (error) {
             console.log(error);
