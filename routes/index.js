@@ -720,8 +720,8 @@ router.get('/privacy', function (req, res) {
 
 router.get('/confirm', async function (req, res) {
   const ref=req.session["ref"];
-  const email = req.session["contact_email"];
-  const personalisation = req.session["contact_name"] ? req.session["contact_name"]  : "Sir/Madam";
+  const email = req.session["data"]["contact-email"];
+  const personalisation = req.session["data"]["contact-name"] ? req.session["data"]["contact-name"]  : "Sir/Madam";
   
   if (ref && email){
         try {
@@ -730,7 +730,6 @@ router.get('/confirm', async function (req, res) {
         }
         catch (error) {
             console.log(error);
-            throw error.toString();
         }
   }
   res.render("confirm",{id:ref});
