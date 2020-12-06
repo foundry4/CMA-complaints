@@ -7,7 +7,6 @@ const save_to_cma_db = require('../lib/save_to_cma_db');
 const formatSummaryData = require('../lib/formatSummaryData');
 const {reports,food_products,hygiene_products,medical_products, other_products, business_section, business_reason, contact_section, product_section} = require('../lib/constants');
 const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
-
 // Gov notify settings
 const { NotifyClient, NotifyConfigError } = require('../lib/notify-client')
 let notify;
@@ -719,8 +718,21 @@ router.get('/privacy', function (req, res) {
   res.render('privacy', {values: req.session.data});
 });
 
-router.get('/confirm',function (req, res) {
+router.get('/confirm', async function (req, res) {
   const ref=req.session["ref"];
+  const email = req.session["contact_email"];
+  const personalisation = req.session["contact_name"] ?? "Sir/Madam";
+  
+  if (ref && email){
+        try {
+            const client = new NotifyClient();
+            const response = await client.sendEmail(email, ref, personalisation);
+        }
+        catch (error) {
+            console.log(error);
+            throw error.toString();
+        }
+  }
   res.render("confirm",{id:ref});
 })
 router.get('/redirect', function (req, res, next) {
