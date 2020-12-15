@@ -7,14 +7,21 @@
         }
       }) %}
 
+      <h4 class="govuk-heading-s">Please provide a description of the issue</h4>
+
+      <p class="govuk-body">Describe the behaviour you are reporting. Do not include personal or financial information, like your credit card details, medical history or information about children or vulnerable people.</p>
+      
+      <div class="govuk-inset-text">
+        <p class="govuk-body">If your complaint is about an issue with a refund of a flight during lockdown, please include:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>The date your flight was scheduled to leave</li>
+            <li>Your departure airport</li>
+            <li>Any compensation offered by the airline (for example, a partial refund, rebooking, voucher, etc.)</li>
+        </ul>
+      </div>
+
         {{ govukCharacterCount({
-        maxlength: 3500,
-        label: {
-              text: "Please provide a description of the issue."
-            },
-        hint: {
-              text: "Describe the behaviour you are reporting. Do not include personal or financial information, like your credit card details, medical history or information about children or vulnerable people."
-            },
+            maxlength: 3500,
             rows: 5,
             id: "description",
             name: "description",
