@@ -720,19 +720,21 @@ router.get('/privacy', function (req, res) {
 
 router.get('/confirm', async function (req, res) {
   const ref=req.session["ref"];
-  const email = req.session["data"]["contact-email"];
-  const personalisation = req.session["data"]["contact-name"] ? req.session["data"]["contact-name"]  : "Sir/Madam";
-  
-  if (ref && email){
-        try {
-            const response = await notify.sendEmail(email, ref, personalisation);
-        }
-        catch (error) {
-            console.log(error);
+  if (process.env.ENABLE_MAILING == 'true') { 
+        const email = req.session["data"]["contact-email"];
+        const personalisation = req.session["data"]["contact-name"] ? req.session["data"]["contact-name"]  : "Sir/Madam"; 
+        if (ref && email){
+                try {
+                    const response = await notify.sendEmail(email, ref, personalisation);
+                }
+                catch (error) {
+                    console.log(error);
+                }
         }
   }
   res.render("confirm",{id:ref});
-})
+});
+
 router.get('/redirect', function (req, res, next) {
     res.render('redirect', {});
 });
