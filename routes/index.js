@@ -13,9 +13,7 @@ const use_notify = (process.env['ENABLE_MAILING'].trim().toLowerCase()) === 'tru
 
 let notify;
 if (use_notify) {
-    
     try {
-    
         notify = new NotifyClient();
     } catch (error) {
         if (error instanceof NotifyConfigError) {
@@ -728,7 +726,11 @@ router.get('/confirm', async function (req, res) {
   const ref = req.session["ref"];
   if (use_notify) { 
         const email = req.session["data"]["contact-email"];
-        const personalisation = req.session["data"]["contact-name"] ? req.session["data"]["contact-name"]  : "Sir/Madam"; 
+        const personalisation = {
+            name: req.session["data"]["contact-name"] || "",
+            ref
+        };
+
         if (ref && email){
                 try {
                     const response = await notify.sendEmail(email, ref, personalisation);
