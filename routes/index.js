@@ -9,17 +9,23 @@ const {reports,food_products,hygiene_products,medical_products, other_products, 
 const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 // Gov notify settings
 const { NotifyClient, NotifyConfigError } = require('../lib/notify-client')
-let notify;
-try {
-    notify = new NotifyClient();
-} catch (error) {
-    if (error instanceof NotifyConfigError) {
-        console.error(`Could not initialise app, Notify Settings were not in place`);
-        process.exit(1);
-    }
+const use_notify = (process.env['ENABLE_MAILING'].trim().toLowerCase()) === 'true';
 
-    console.error(`Notify initialisation failed, could not start`, error)
-    process.exit(2)
+if (use_notify) {
+    let notify;
+    
+    try {
+    
+        notify = new NotifyClient();
+    } catch (error) {
+        if (error instanceof NotifyConfigError) {
+            console.error(`Could not initialise app, Notify Settings were not in place`);
+            process.exit(1);
+        }
+    
+        console.error(`Notify initialisation failed, could not start`, error)
+        process.exit(2)
+    }
 }
 
 const validate_pack_sizes =(body)=>{
@@ -719,8 +725,8 @@ router.get('/privacy', function (req, res) {
 });
 
 router.get('/confirm', async function (req, res) {
-  const ref=req.session["ref"];
-  if (process.env.ENABLE_MAILING == 'true') { 
+  const ref = req.session["ref"];
+  if (use_notify) { 
         const email = req.session["data"]["contact-email"];
         const personalisation = req.session["data"]["contact-name"] ? req.session["data"]["contact-name"]  : "Sir/Madam"; 
         if (ref && email){
