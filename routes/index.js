@@ -11,8 +11,8 @@ const products = [...food_products,...hygiene_products,...medical_products, ...o
 const { NotifyClient, NotifyConfigError } = require('../lib/notify-client')
 const use_notify = (process.env['ENABLE_MAILING'].trim().toLowerCase()) === 'true';
 
+let notify;
 if (use_notify) {
-    let notify;
     
     try {
     
