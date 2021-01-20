@@ -724,6 +724,8 @@ router.get('/privacy', function (req, res) {
 
 router.get('/confirm', async function (req, res) {
   const ref = req.session["ref"];
+  res.render("confirm",{id:ref});
+  
   if (use_notify) { 
         const email = req.session["data"]["contact-email"];
         const personalisation = {
@@ -731,16 +733,18 @@ router.get('/confirm', async function (req, res) {
             ref
         };
 
-        if (ref && email){
+        if (ref && email) {
+                let response;
                 try {
-                    const response = await notify.sendEmail(email, ref, personalisation);
+                    response = await notify.sendEmail(email, ref, personalisation);
                 }
                 catch (error) {
                     console.log(error);
                 }
+
+                if (!response) console.error('Notify failed for sending ref', email, personalistion, response);
         }
   }
-  res.render("confirm",{id:ref});
 });
 
 router.get('/redirect', function (req, res, next) {
