@@ -18,7 +18,7 @@
     "http-errors": "~1.6.3",
     "moment-timezone": "^0.5.28",
     "morgan": "~1.9.1",
-    "notifications-node-client": "^5.0.0",
+    "notifications-node-client": "^5.1.0",
     "nunjucks": "^3.2.1",
     "pg": "^7.18.2",
     "redis": "^3.0.2"
