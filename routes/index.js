@@ -9,7 +9,7 @@ const {reports,food_products,hygiene_products,medical_products, other_products, 
 const products = [...food_products,...hygiene_products,...medical_products, ...other_products];
 // Gov notify settings
 const { NotifyClient, NotifyConfigError } = require('../lib/notify-client')
-const use_notify = (process.env['ENABLE_MAILING'].trim().toLowerCase()) === 'true';
+const use_notify = (process.env['ENABLE_MAILING'] != undefined) && (process.env['ENABLE_MAILING'].trim().toLowerCase()) === 'true';
 
 let notify;
 if (use_notify) {
@@ -746,6 +746,20 @@ router.get('/confirm', async function (req, res) {
         }
   }
 });
+
+router.get('/furlough_misuse', function (req, res) {
+    res.render('furlough_misuse', {
+        values: req.session.data
+    });
+});
+
+router.get('/not_following_advice', function (req, res) {
+    res.render('not_following_advice', {
+        values: req.session.data
+    });
+});
+
+
 
 router.get('/redirect', function (req, res, next) {
     res.render('redirect', {});

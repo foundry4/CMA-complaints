@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% set pageTitle = "Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak" %}
+{% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
+
+{% block content %}
+    {% set orgNameClass = "govuk-input--width-20" %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errorSummary.length > 0 %}
+                {{ govukErrorSummary({
+                            titleText: "There is a problem",
+                            errorList: errorSummary
+                            }) }}
+            {% endif %}
+        </div>
+
+        <div class="govuk-grid-column-full">
+            <form id="" action="/not_following_advice" method="post" class="form">
+                <div class="govuk-heading-xl">A business or person not following government guidance or laws on coronavirus, putting people at risk.</div>
+                            <p class="govuk-body">
+                                If you have seen something that you think goes against government guidance or the law and is likely to cause serious harm, you can report it.
+                                This could include businesses remaining open when they should be closed, or concerns about how employers are managing the risk of coronavirus with their staff or customers.
+                                Find out more about the latest government guidance and restrictions.<br/><br/>
+
+                                To report these issues, you should contact one or more of the following organisations:
+                            </p>
+                            
+                            <p class="govuk-heading-s">Contact your local council</p>
+                            <p class="govuk-body">You should contact your local authority environmental health department about health and safety issues relating to some workplaces, including:</p>
+                            <ul class="govuk-list govuk-list--bullet">
+                                <li>offices</li>
+                                <li>shops</li>
+                                <li>restaurants</li>
+                                <li>pubs and clubs</li>
+                                <li>leisure premises.</li>
+                            </ul>
+                            <p class="govuk-body">Find contact details for <a href="https://www.gov.uk/find-local-council">your local council</a></p>
+                            
+                            <p class="govuk-heading-s">Health and Safety Executive</p>
+                            <p class="govuk-body">The Health and Safety Executive (HSE) is responsible for enforcing health and safety at workplaces, including:</p>
+                            <ul class="govuk-list govuk-list--bullet">
+                                <li>factories</li>
+                                <li>farms</li>
+                                <li>building sites</li>
+                                <li>mines</li>
+                                <li>schools and colleges</li>
+                                <li>fairgrounds</li>
+                                <li>gas, electricity and water systems</li>
+                                <li>hospitals and nursing homes</li>
+                                <li>central and local government premises</li>
+                                <li>offshore installations</li>
+                            </ul>
+                            <p class="govuk-body">Find out more and <a href="https://www.hse.gov.uk/contact/concerns.htm">contact the Health and Safety Executive (HSE)</a></p>
+                        
+                        
+                                <p class="govuk-heading-s">The Police</p>
+                                <p class="govuk-body">If you are reporting a person or business who has breached coronavirus measures, including:</p>
+                                <ul class="govuk-list govuk-list--bullet">
+                                    <li>not staying at home or self-isolating when required to do so</li>
+                                    <li>travelling in and out of different tiers or alert levels</li>
+                                    <li>not following restrictions on gatherings</li>
+                                    <li>a fraud or scam</li>
+                                    <li>an issue with face coverings not being worn</li>
+                                </ul>
+                                <p class="govuk-body">
+                                    You should report this to the police.<br/>
+                                    <a href="https://www.police.uk/tua/tell-us-about/c19/v7/tell-us-about-a-possible-breach-of-coronavirus-covid-19-measures/">Contact your local police force</a>
+                                </p>
+                                <p class="govuk-body">If the behaviour you’d like to report has led to a business treating you unfairly (for example, in cancelling a product or service) it’s important you also report it to the CMA.</p>
+                            </p>
+                        </div>
+                        <button class="govuk-button" data-module="govuk-button">
+                             Continue with this form and report an issue to the CMA.
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        {% endblock %}

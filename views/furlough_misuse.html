@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% set pageTitle = "Report a business behaving unfairly during the Coronavirus (COVID-19) outbreak" %}
+{% block pageTitle %}{{ "Error: " if errors }}{{ pageTitle }} - GOV.UK{% endblock %}
+
+{% block content %}
+    {% set orgNameClass = "govuk-input--width-20" %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errorSummary.length > 0 %}
+                {{ govukErrorSummary({
+                            titleText: "There is a problem",
+                            errorList: errorSummary
+                            }) }}
+            {% endif %}
+        </div>
+
+        <div class="govuk-grid-column-full">
+            <form id="" action="/not_following_advice" method="post" class="form">
+                    <div class="govuk-heading-xl">A business or person misusing the coronavirus job retention (furlough) scheme.</div>
+                    <div class="govuk-heading-m">You will need to report this to HMRC</div>
+                    <div class="govuk-body">More information about how to do this, including the HMRC reporting form, can be found on the <a href="https://www.gov.uk/government/organisations/hm-revenue-customs/contact/report-fraud-to-hmrc">Report fraud to HMRC page</a>.</div> 
+                    <a class="govuk-body" href="https://www.gov.uk/government/organisations/competition-and-markets-authority">
+                        Back to CMA
+                    </a>
+            </form>
+        </div>
+
+    </div>
+
+{% endblock %}
