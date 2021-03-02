@@ -110,6 +110,12 @@ router.post('/what_behaviour',
                if(reason === 'consumer_pricing'|| reason==='business_pricing'){
                    response.redirect('/which_products');
                }
+               else if(reason === 'furlough_misuse'){
+                   response.redirect('/furlough_misuse');
+               }
+               else if(reason === 'not_following_advice'){
+                response.redirect('/not_following_advice');
+               }
                else {
                    response.redirect('/what_happened');
                }
@@ -752,6 +758,7 @@ router.get('/furlough_misuse', function (req, res) {
         values: req.session.data
     });
 });
+
 
 router.get('/not_following_advice', function (req, res) {
     res.render('not_following_advice', {
