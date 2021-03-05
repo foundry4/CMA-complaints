@@ -767,6 +767,10 @@ router.get('/not_following_advice', function (req, res) {
 });
 
 
+router.post('/not_following_advice', function (req, res) {
+    req.session.data = {...req.session.data,...req.body};
+    res.redirect('what_happened');
+});
 
 router.get('/redirect', function (req, res, next) {
     res.render('redirect', {});
