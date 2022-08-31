@@ -16,7 +16,7 @@
     "express-validator": "^6.4.0",
     "govuk-frontend": "^3.6.0",
     "http-errors": "~1.6.3",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.35",
     "morgan": "~1.9.1",
     "notifications-node-client": "^5.1.0",
     "nunjucks": "^3.2.1",
